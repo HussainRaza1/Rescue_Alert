@@ -1,0 +1,152 @@
+package com.example.RescueAlert;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class Signup extends AppCompatActivity {
+    TextInputLayout regNo, regPin, regEmail;
+
+    private Button signButton;
+    private Button reg_btn;
+    private Button logButton;
+    private String number;
+
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+            startActivity(intent);
+        } else {
+            setContentView(R.layout.activity_signup);
+
+
+            regNo = findViewById(R.id.MobileNo);
+            regPin = findViewById(R.id.pin);
+            regEmail = findViewById(R.id.Email);
+            reg_btn = (Button) findViewById(R.id.register);
+            logButton = (Button) findViewById(R.id.Login1);
+
+            logButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    openLogin();
+                }
+            });
+
+
+            reg_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rootNode = FirebaseDatabase.getInstance();
+                    reference = rootNode.getReference("users");
+
+                    String PIN = regPin.getEditText().getText().toString();
+                    String email = regEmail.getEditText().getText().toString();
+
+                    UserHelperClass helperClass = new UserHelperClass(number, PIN, email);
+                    reference.child(number).setValue(helperClass);
+                    openAuthentication();
+
+                }
+            });
+        }
+    }
+
+    /*private boolean validNumber() {
+
+        String val = regNo.getEditText().getText().toString();
+        if (val.isEmpty()) {
+
+            regNo.setError("Field cannot be empty");
+            return false;
+
+        } else if (val.length() > 13) {
+
+            regNo.setError("Number too long");
+            return false;
+
+        } else {
+
+            regNo.setError(null);
+            regNo.setErrorEnabled(false);
+            return true;
+        }
+
+    }
+
+    private boolean validPIN() {
+
+        String val = regPin.getEditText().getText().toString();
+        if (val.isEmpty()) {
+
+            regPin.setError("Field cannot be empty");
+            return false;
+
+        } else if (val.length() > 4) {
+
+            regPin.setError("PIN too long");
+            return false;
+
+        } else {
+
+            regPin.setError(null);
+            regPin.setErrorEnabled(false);
+            return true;
+        }
+
+    }
+
+
+    private boolean validEmail() {
+
+        String val = regEmail.getEditText().getText().toString();
+        if (val.isEmpty()) {
+
+            regEmail.setError("Field cannot be empty");
+            return false;
+
+        } else {
+
+            regEmail.setError(null);
+            regEmail.setErrorEnabled(false);
+            return true;
+        }
+
+    }
+
+    public void SignUser(View view) {
+
+        if (!validNumber() | !validPIN() | !validEmail()) {
+
+            return;
+        }
+    }
+*/
+
+    public void openAuthentication() {
+        Intent intent = new Intent(this, PhoneAuthentication.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+    public void openLogin() {
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+        //finish();
+    }
+}

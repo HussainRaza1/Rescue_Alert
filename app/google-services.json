@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "810549226095",
+    "firebase_url": "https://rescue-alert-2e1b7.firebaseio.com",
+    "project_id": "rescue-alert-2e1b7",
+    "storage_bucket": "rescue-alert-2e1b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810549226095:android:70e5168a510a2ea12cbb9a",
+        "android_client_info": {
+          "package_name": "com.example.RescueAlert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810549226095-ul1i4hj98jnii8iapuc15t0o1ugmm8m6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn5fQ9rtmftOj7z0TgKo6LEN1YVJS-xpA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "810549226095-ul1i4hj98jnii8iapuc15t0o1ugmm8m6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

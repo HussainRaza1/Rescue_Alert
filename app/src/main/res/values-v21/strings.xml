@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="your_circle">Your Circle</string>
+    <string name="rescue_alerts">RESCUE ALERT</string>
+    <string name="add_family">Add Family</string>
+    <string name="your_circles">\'\'your circle\'</string>
+    <string name="track">Track</string>
+    <string name="alert">!</string>
+</resources>
