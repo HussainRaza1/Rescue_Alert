@@ -18,6 +18,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -67,7 +74,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
@@ -76,18 +82,18 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     mMap.addMarker(new MarkerOptions().position(latLng).title("My Position"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-
-                    String phoneNumber = "+923444030330";
                     String myLatitude = String.valueOf(location.getAltitude());
                     String myLongitude = String.valueOf(location.getLongitude());
-                    String message = "Hey, can you pick me up here RIGHT NOW? Latitude = " + myLatitude + "Longitude =" + myLongitude;
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+
+                    send_message(myLatitude, myLongitude);
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         try {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DIST, locationListener);
@@ -97,8 +103,8 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             e.printStackTrace();
         }
     }
-}
-  /*  private void send_message(final String myLatitude, final String myLongitude) {
+
+    private void send_message(final String myLatitude, final String myLongitude) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
         Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
@@ -113,7 +119,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     SmsManager smsManager = SmsManager.getDefault();
                     phoneNumber.add(num);
                     for (String number : phoneNumber) {
-                        smsManager.sendTextMessage("+923444030330", null, message, null, null);
+                        smsManager.sendTextMessage("+9234440303303", null, message, null, null);
                     }
                 }
             }
@@ -123,4 +129,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });*/
+        });
+    }
+}
