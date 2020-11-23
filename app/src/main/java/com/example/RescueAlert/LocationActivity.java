@@ -3,21 +3,23 @@ package com.example.RescueAlert;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,14 +32,16 @@ import java.util.ArrayList;
 
 public class LocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    public GoogleMap mMap;
-    public LocationManager locationManager;
-    public LocationListener locationListener;
-
-    public final long MIN_TIME = 1000;
-    private final long MIN_DIST = 5;
+    private GoogleMap mMap;
+    String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    Boolean mLocationPermissionGranted = false;
+    private final int LocationPermissionRequestCode = 1234;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private final float defaultZoom = 15f;
     ArrayList<String> phoneNumber = new ArrayList();
-    private LatLng latLng;
+    double longitude1;
+    double latitude1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,63 +52,96 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, PackageManager.PERMISSION_GRANTED);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, PackageManager.PERMISSION_GRANTED);
+        getLocationPermission();
+
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if (mLocationPermissionGranted) {
+            getDeviceLocation();
+            mMap.setMyLocationEnabled(true);
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                try {
-                    latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(latLng).title("My Position"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-                    String myLatitude = String.valueOf(location.getAltitude());
-                    String myLongitude = String.valueOf(location.getLongitude());
-
-                    send_message(myLatitude, myLongitude);
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+            mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+                @Override
+                public void onCameraIdle() {
+                    double lat = mMap.getCameraPosition().target.latitude;
+                    double lng = mMap.getCameraPosition().target.longitude;
+                    longitude1 = lng;
+                    latitude1 = lat;
+                    send_message(longitude1, longitude1);
                 }
-            }
-        };
+            });
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DIST, locationListener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, locationListener);
-        } catch (SecurityException e) {
-
-            e.printStackTrace();
         }
     }
 
-    private void send_message(final String myLatitude, final String myLongitude) {
+    private void getDeviceLocation() {
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        try {
+            if (mLocationPermissionGranted) {
+                Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            Location currentLocation = (Location) task.getResult();
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), defaultZoom);
+                        } else {
+
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+
+        }
+
+    }
+
+    private void moveCamera(LatLng latLng, Float zoom) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+    }
+
+    private void getLocationPermission() {
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if (ContextCompat.checkSelfPermission(
+                this.getApplicationContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this.getApplicationContext(), ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionGranted = true;
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, LocationPermissionRequestCode);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, LocationPermissionRequestCode);
+        }
+
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mLocationPermissionGranted = false;
+
+        switch (requestCode) {
+            case LocationPermissionRequestCode: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                            mLocationPermissionGranted = false;
+                            return;
+                        }
+                    }
+                    mLocationPermissionGranted = true;
+                }
+            }
+        }
+    }
+
+
+    private void send_message(final double myLatitude, final double myLongitude) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
         Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
@@ -113,16 +150,16 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String num= snapshot.child("number").getValue().toString();
+                    String num = snapshot.child("number").getValue().toString();
                     phoneNumber.add(num);
                 }
-                String message = myLatitude + myLongitude;
+                String message = String.valueOf(myLatitude) + String.valueOf(myLongitude);
                 SmsManager smsManager = SmsManager.getDefault();
-                for(int i = 0; i<phoneNumber.size(); i++) {
+                for (int i = 0; i < phoneNumber.size(); i++) {
                     smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
                 }
             }
-            
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
