@@ -113,18 +113,16 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    String num = snapshot.child("number").getValue().toString();
-                    String message = "Hey, can you pick me up here RIGHT NOW? https://www.google.co.id/maps/@" + myLatitude + "," + myLongitude;
-                    SmsManager smsManager = SmsManager.getDefault();
+                    String num= snapshot.child("number").getValue().toString();
                     phoneNumber.add(num);
-                    for (String number : phoneNumber) {
-                        smsManager.sendTextMessage("+9234440303303", null, message, null, null);
-                    }
+                }
+                String message = myLatitude + myLongitude;
+                SmsManager smsManager = SmsManager.getDefault();
+                for(int i = 0; i<phoneNumber.size(); i++) {
+                    smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
                 }
             }
-
-//int variable bna k pass int function use kr k string men dalna ha number firebase
+            
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
