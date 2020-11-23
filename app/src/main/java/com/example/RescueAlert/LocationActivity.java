@@ -153,7 +153,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     String num = snapshot.child("number").getValue().toString();
                     phoneNumber.add(num);
                 }
-                String message = String.valueOf(myLatitude) + String.valueOf(myLongitude);
+                String message = "Can you pick me from " + "http://maps.google.com/maps?q=" + String.valueOf(myLatitude) + "," + String.valueOf(myLongitude);
                 SmsManager smsManager = SmsManager.getDefault();
                 for (int i = 0; i < phoneNumber.size(); i++) {
                     smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
