@@ -34,12 +34,13 @@ public class Signup extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_signup);
 
-
+            /*Hooks*/
             regNo = findViewById(R.id.MobileNo);
             regPin = findViewById(R.id.pin);
             regEmail = findViewById(R.id.Email);
             reg_btn = (Button) findViewById(R.id.register);
             logButton = (Button) findViewById(R.id.Login1);
+
 
             logButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

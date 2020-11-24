@@ -107,12 +107,12 @@ public class Login extends AppCompatActivity {
     }
 
     @Override
-    public void onStart () {
+    public void onStart() {
         super.onStart();
     }
 
     @Override
-    public void onStop () {
+    public void onStop() {
         super.onStop();
     }
 }
