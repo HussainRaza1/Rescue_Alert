@@ -23,20 +23,22 @@ import com.google.firebase.database.Query;
 
 public class Circle extends AppCompatActivity {
 
-    final static String Tag ="Circle";
+    final static String Tag = "Circle";
     private Button save;
     private Button add1;
   /*  private Button add2;
     private Button add3;*/
 
-  FirebaseListAdapter<CircleContact> adapter;
-  ListView circle_view;
-  TextView circle_number, text1, text2;
+    FirebaseListAdapter<CircleContact> adapter;
+    ListView circle_view;
+    TextView circle_number, text1, text2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_circle);
+
+        /*Hooks*/
         save = findViewById(R.id.add_save);
         add1 = findViewById(R.id.adding_circle);
         circle_view = findViewById(R.id.circle_list);
@@ -54,6 +56,7 @@ public class Circle extends AppCompatActivity {
             }
         });
         display();
+
       /*  add2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 openContacts();
@@ -74,7 +77,7 @@ public class Circle extends AppCompatActivity {
         });
     }
 
-    public void display(){
+    public void display() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
         Query query = FirebaseDatabase.getInstance().getReference("circle").orderByChild("user_number").equalTo(current_user);
@@ -86,7 +89,7 @@ public class Circle extends AppCompatActivity {
                 View rowView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.circle_list_layout, viewGroup, false);
                 CircleContact model = (CircleContact) getItem(position);
 
-                populateView(rowView,model,position);
+                populateView(rowView, model, position);
 
                 return rowView;
             }
@@ -107,6 +110,7 @@ public class Circle extends AppCompatActivity {
     public void saveDashboard() {
         Intent intent = new Intent(this, Dashboard.class);
         startActivity(intent);
+        finish();
     }
 
     public void openContacts() {

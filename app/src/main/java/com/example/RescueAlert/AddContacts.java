@@ -19,15 +19,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public class AddContacts extends AppCompatActivity {
 
-    final static String Tag="AddContacts";
+    final static String Tag = "AddContacts";
 
     private Button save;
     private Button add1;
-   // private Button add2;
-   // private Button add3;
+    // private Button add2;
+    // private Button add3;
     private Button message;
 
     TextView number_text, family_number;
@@ -40,16 +42,18 @@ public class AddContacts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contacts);
+
+
         /* Hooks*/
         save = findViewById(R.id.add_save);
         add1 = findViewById(R.id.adding);
-      //  add2 = findViewById(R.id.adding1);
-      //  add3 = findViewById(R.id.adding2);
+        //  add2 = findViewById(R.id.adding1);
+        //  add3 = findViewById(R.id.adding2);
         number_text = findViewById(R.id.user_family_number);
-        family_view= findViewById(R.id.family_list);
+        family_view = findViewById(R.id.family_list);
         message = findViewById(R.id.add_custom);
 
-       // number = getIntent().getStringExtra("user_phone");
+        // number = getIntent().getStringExtra("user_phone");
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,14 +92,14 @@ public class AddContacts extends AppCompatActivity {
         display();
     }
 
-    public void display(){
+    public void display() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
         Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
         FirebaseListOptions<FamilyContact> options = new FirebaseListOptions.Builder<FamilyContact>().setQuery(query, FamilyContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<FamilyContact>(options) {
             @Override
-            protected void populateView(View v, final FamilyContact model, int position) {
+            protected void populateView(@NotNull View v, @NotNull final FamilyContact model, int position) {
                 family_number = (TextView) v.findViewById(R.id.family_user);
                 family_number.setText(model.getNumber());
                 Log.d(Tag, "number " + model.getNumber());
@@ -106,7 +110,7 @@ public class AddContacts extends AppCompatActivity {
                 View rowView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.family_contact_list, viewGroup, false);
                 FamilyContact model = (FamilyContact) getItem(position);
 
-                populateView(rowView,model,position);
+                populateView(rowView, model, position);
 
                 return rowView;
             }
@@ -137,30 +141,29 @@ public class AddContacts extends AppCompatActivity {
     }*/
 
 
+    /* public void add_family(final String numbr){
+         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+         final String num = firebaseUser.getPhoneNumber(); //tera yeh hai, maine apne variables use kiye, oh it doesnt matter yahan konse likho
 
-   /* public void add_family(final String numbr){
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final String num = firebaseUser.getPhoneNumber(); //tera yeh hai, maine apne variables use kiye, oh it doesnt matter yahan konse likho
+         Log.d("AddContacts", num);
 
-        Log.d("AddContacts", num);
+         FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 final String user = dataSnapshot.child(num).getRef().getKey();
+                 String no = numbr;
+                 Log.d("AddContacts", user);
+                 contact = new FamilyContact(no, user);
+                 FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
+                 Toast.makeText(AddContacts.this, "Contact added!", Toast.LENGTH_LONG).show();
+             }
 
-        FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final String user = dataSnapshot.child(num).getRef().getKey();
-                String no = numbr;
-                Log.d("AddContacts", user);
-                contact = new FamilyContact(no, user);
-                FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
-                Toast.makeText(AddContacts.this, "Contact added!", Toast.LENGTH_LONG).show();
-            }
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
+             }
+         });
+     }*/
     public void openContacts() {
         Intent intent = new Intent(this, ContactActivity.class);
         startActivity(intent);
@@ -171,6 +174,7 @@ public class AddContacts extends AppCompatActivity {
         Intent intent = new Intent(this, Dashboard.class);
         startActivity(intent);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -191,9 +195,9 @@ public class AddContacts extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void sendLocation(){
+    public void sendLocation() {
 
-        Intent i = new Intent (this, LocationActivity.class);
+        Intent i = new Intent(this, LocationActivity.class);
         startActivity(i);
 
     }
