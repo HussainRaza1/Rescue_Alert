@@ -43,6 +43,7 @@
         <activity android:name=".popup"
             android:exported="true"/>
         <activity android:name=".Circle" />
+        <activity android:name=".Authenticate" />
         <activity android:name=".AddContacts" />
         <activity
             android:name=".Dashboard"
