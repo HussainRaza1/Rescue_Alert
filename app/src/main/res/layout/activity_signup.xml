@@ -59,17 +59,7 @@
                 android:hint="Mobile Number (+92-XXXXXXX)"
                 android:inputType="phone"
                 android:paddingTop="20dp"
-                android:textAlignment="center"
                 tools:ignore="HardcodedText" />
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Mobile Number"
-                android:inputType="numberSigned"
-                android:textColor="#FFFFFF"
-                android:textColorHighlight="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:textColorLink="#FFFFFF"
-                android:textCursorDrawable="@color/White" />
 
 
         </com.google.android.material.textfield.TextInputLayout>

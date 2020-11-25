@@ -8,7 +8,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,10 +27,10 @@ public class Signup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+      /*  if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             Intent intent = new Intent(getApplicationContext(), Dashboard.class);
             startActivity(intent);
-        } else {
+        } else {*/
             setContentView(R.layout.activity_signup);
 
             /*Hooks*/
@@ -55,17 +54,19 @@ public class Signup extends AppCompatActivity {
                     rootNode = FirebaseDatabase.getInstance();
                     reference = rootNode.getReference("users");
 
+
+                    ///number = getIntent().getStringExtra("phonenumber");
                     String PIN = regPin.getEditText().getText().toString();
+                    String mobileNumber = regNo.getEditText().getText().toString();
                     String email = regEmail.getEditText().getText().toString();
 
-                    UserHelperClass helperClass = new UserHelperClass(number, PIN, email);
-                    reference.child(number).setValue(helperClass);
+                    UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, email);
+                    reference.child(mobileNumber).setValue(helperClass);
                     openAuthentication();
 
                 }
             });
         }
-    }
 
     /*private boolean validNumber() {
 
@@ -139,7 +140,7 @@ public class Signup extends AppCompatActivity {
 */
 
     public void openAuthentication() {
-        Intent intent = new Intent(this, PhoneAuthentication.class);
+        Intent intent = new Intent(this, Dashboard.class);
         startActivity(intent);
         finish();
     }

@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final int SPLASH_SCREEN = 5000;
@@ -47,15 +45,12 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    Intent intent = new Intent(getApplicationContext(), Login.class);
-                    startActivity(intent);
-                } else {
-                    Intent i = (new Intent(MainActivity.this, Signup.class));
-                    startActivity(i);
-                    finish();
-                }
+
+                Intent i = (new Intent(MainActivity.this, Authenticate.class));
+                startActivity(i);
+                finish();
             }
+
         }, SPLASH_SCREEN);
 
     }

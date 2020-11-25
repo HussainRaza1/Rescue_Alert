@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Login extends AppCompatActivity {
+public class Authenticate extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 1;
 
@@ -88,7 +88,7 @@ public class Login extends AppCompatActivity {
                 // Successfully signed in
 
 
-                Intent i = new Intent(Login.this, Dashboard.class);
+                Intent i = new Intent(Authenticate.this, Signup.class);
                 startActivity(i);
                 //finish();
                 // ...
@@ -98,9 +98,9 @@ public class Login extends AppCompatActivity {
                 // response.getError().getErrorCode() and handle the error.
                 // ...
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Toast.makeText(Login.this, "User is not registered", Toast.LENGTH_LONG).show();
+                Toast.makeText(Authenticate.this, "User is not registered", Toast.LENGTH_LONG).show();
                 if (user == null) {
-                    Intent intent = new Intent(Login.this, Signup.class);
+                    Intent intent = new Intent(Authenticate.this, Signup.class);
                     startActivity(intent);
                 }
             }

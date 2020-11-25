@@ -62,7 +62,7 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 Intent myIntent = new Intent(Intent.ACTION_CALL);
-                String phNum = "tel:" + "+923004005053";
+                String phNum = "tel:" + "1122";
                 myIntent.setData(Uri.parse(phNum));
                 if (ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(Dashboard.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
@@ -102,7 +102,7 @@ public class Dashboard extends AppCompatActivity {
 
     public void makeCall() {
         Intent myIntent = new Intent(Intent.ACTION_CALL);
-        String phNum = "tel:" + "+923004005053";
+        String phNum = "tel:" + "1122";
         myIntent.setData(Uri.parse(phNum));
         startActivity(myIntent);
     }
