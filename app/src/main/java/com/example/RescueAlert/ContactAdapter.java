@@ -63,7 +63,7 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
             public void onClick(View v) {
                 add_circle(user.getNumber());
                 Intent i = new Intent(mContext, Circle.class);
-               // i.putExtra("user_phone", user.getNumber());
+                // i.putExtra("user_phone", user.getNumber());
                 mContext.startActivity(i);
             }
         });
@@ -94,41 +94,40 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
         final String num = firebaseUser.getPhoneNumber();
 
         FirebaseDatabase.getInstance().getReference().child("family").child(num).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    count = (int) dataSnapshot.getChildrenCount();
-                    Log.d("ContactAdapter", String.valueOf(count));
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                count = (int) dataSnapshot.getChildrenCount();
+                Log.d("ContactAdapter", String.valueOf(count));
 
-                    FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
 
 
-                        ///*count*///
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            final String user = dataSnapshot.child(num).getRef().getKey();
-                            Log.d("AddContacts", user);
-                            if(count < 3){
-                                contact = new FamilyContact(numbr, user);
-                                FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
-                                Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                Toast.makeText(mContext, "Can not add more than three contacts!", Toast.LENGTH_LONG).show();
-                            }
+                    ///*count*///
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        final String user = dataSnapshot.child(num).getRef().getKey();
+                        Log.d("AddContacts", user);
+                        if (count < 3) {
+                            contact = new FamilyContact(numbr, user);
+                            FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
+                            Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(mContext, "Can not add more than three contacts!", Toast.LENGTH_LONG).show();
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
-                }
+                    }
+                });
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
     }
 
     public void add_circle(final String numbr) {
@@ -138,7 +137,7 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
         FirebaseDatabase.getInstance().getReference("circle").child("circle_number").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                count = (int)dataSnapshot.getChildrenCount();
+                count = (int) dataSnapshot.getChildrenCount();
                 Log.d("ContactAdapter", String.valueOf(count));
 
                 FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {

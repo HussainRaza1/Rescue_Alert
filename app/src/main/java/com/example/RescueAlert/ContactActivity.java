@@ -29,7 +29,7 @@ public class ContactActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Cursor contacts;
     Contacts mContact;
-   /// private ArrayList<UserHelperClass> mUsers = new ArrayList<UserHelperClass>();
+    /// private ArrayList<UserHelperClass> mUsers = new ArrayList<UserHelperClass>();
 
 
     @Override
