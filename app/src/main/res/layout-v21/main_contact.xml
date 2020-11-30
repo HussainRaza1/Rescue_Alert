@@ -14,12 +14,13 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/bungee"
             android:textSize="24sp"
-            android:text="ADD CONTACTS"></TextView>
+            android:text="ADD CONTACTS"
+            android:paddingLeft="7dp"></TextView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contact_view"
             android:layout_width="match_parent"
-            android:layout_height="597dp"
+            android:layout_height="match_parent"
             android:background="@color/LightCoral"
             android:padding="5dp" />
          </LinearLayout>

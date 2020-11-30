@@ -27,6 +27,12 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="Authentication">Authentication</string>
     <string name="title_activity_location">Map</string>
+    <string name="title_activity_nav_bar">NavBar</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="title_activity_drawer">Drawer</string>
+    <string name="title_activity_drawer1">DrawerActivity</string>
 
 
 </resources>

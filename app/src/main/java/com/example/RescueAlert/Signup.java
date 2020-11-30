@@ -17,7 +17,6 @@ public class Signup extends AppCompatActivity {
     private Button signButton;
     private Button reg_btn;
     private Button logButton;
-    private String number;
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
@@ -31,42 +30,47 @@ public class Signup extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), Dashboard.class);
             startActivity(intent);
         } else {*/
-            setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_signup);
 
-            /*Hooks*/
-            regNo = findViewById(R.id.MobileNo);
-            regPin = findViewById(R.id.pin);
-            regEmail = findViewById(R.id.Email);
-            reg_btn = (Button) findViewById(R.id.register);
-            logButton = (Button) findViewById(R.id.Login1);
-
-
-            logButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    openLogin();
-                }
-            });
+        /*Hooks*/
+        regNo = findViewById(R.id.MobileNo);
+        regPin = findViewById(R.id.pin);
+        regEmail = findViewById(R.id.Email);
+        reg_btn = (Button) findViewById(R.id.register);
+        logButton = (Button) findViewById(R.id.Login1);
+        logButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openLogin();
+            }
+        });
 
 
-            reg_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    rootNode = FirebaseDatabase.getInstance();
-                    reference = rootNode.getReference("users");
+        reg_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rootNode = FirebaseDatabase.getInstance();
+                reference = rootNode.getReference("users");
 
 
-                    ///number = getIntent().getStringExtra("phonenumber");
-                    String PIN = regPin.getEditText().getText().toString();
-                    String mobileNumber = regNo.getEditText().getText().toString();
-                    String email = regEmail.getEditText().getText().toString();
+                String PIN = regPin.getEditText().getText().toString();
+                String mobileNumber = regNo.getEditText().getText().toString();
+                String email = regEmail.getEditText().getText().toString();
 
-                    UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, email);
-                    reference.child(mobileNumber).setValue(helperClass);
-                    openAuthentication();
+                Intent i = new Intent(Signup.this, Authenticate.class);
+                i.putExtra("mobileNumber", mobileNumber);
+                startActivity(i);
+                UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, email);
+                reference.child(mobileNumber).setValue(helperClass);
 
-                }
-            });
-        }
+
+                    /*
+                openAuthentication();
+*/
+
+            }
+
+        });
+    }
 
     /*private boolean validNumber() {
 
@@ -139,12 +143,13 @@ public class Signup extends AppCompatActivity {
     }
 */
 
+
     public void openAuthentication() {
-        Intent intent = new Intent(this, Dashboard.class);
+        Intent intent = new Intent(this, Authenticate.class);
+        //   intent.putExtra(mobileNumber);
         startActivity(intent);
         finish();
     }
-
 
     public void openLogin() {
         Intent intent = new Intent(this, Login.class);

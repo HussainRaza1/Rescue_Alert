@@ -98,7 +98,6 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 count = (int) dataSnapshot.getChildrenCount();
                 Log.d("ContactAdapter", String.valueOf(count));
-
                 FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
 
 
@@ -169,8 +168,5 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
             }
         });
-
     }
-
-
 }
