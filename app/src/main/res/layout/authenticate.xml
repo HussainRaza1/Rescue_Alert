@@ -43,7 +43,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/verification_code_entered"
+            android:id="@+id/code_entered"
             style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             app:counterTextColor="@color/White">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_number"
+                android:id="@+id/verification_code_entered"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -65,7 +65,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/verify_btn"
+            android:id="@+id/verify"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

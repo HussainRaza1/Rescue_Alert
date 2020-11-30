@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
@@ -27,32 +27,30 @@ public class Authenticate extends AppCompatActivity {
     Button verify_btn;
     EditText mobileNumberEntered;
     ProgressBar progressBar;
-    FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authenticate);
 
-        verify_btn = findViewById(R.id.verify_btn);
+        verify_btn = findViewById(R.id.verify);
         mobileNumberEntered = findViewById(R.id.verification_code_entered);
         progressBar = findViewById(R.id.progress_bar);
 
         String phoneNo = getIntent().getStringExtra("mobileNumber");
+
         sendVerificationCodeToUser(phoneNo);
     }
 
     private void sendVerificationCodeToUser(String phoneNo) {
-
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(phoneNo)       // Phone number to verify
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)                 // Activity (for callback binding)
-                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
-                        .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNo,        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                TaskExecutors.MAIN_THREAD,   // Activity (for callback binding)
+                mCallbacks);        // OnVerificationStateChangedCallbacks
     }
+
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -79,19 +77,24 @@ public class Authenticate extends AppCompatActivity {
     };
 
     private void verifyCode(String codeByUser) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeByUser, verificationCodeBySystem);
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCodeBySystem, codeByUser);
         signInTheUserByCredentials(credential);
     }
 
     private void signInTheUserByCredentials(PhoneAuthCredential credential) {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(Authenticate.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
+
+                            Toast.makeText(Authenticate.this, "Your Account has been created successfully!", Toast.LENGTH_SHORT).show();
+
+                            //Perform Your required action here to either let the user sign In or do something required
                             Intent intent = new Intent(getApplicationContext(), Dashboard.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
@@ -101,5 +104,23 @@ public class Authenticate extends AppCompatActivity {
                         }
                     }
                 });
+
+        verify_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String code = mobileNumberEntered.getText().toString();
+
+                if (code.isEmpty() || code.length() < 6) {
+                    mobileNumberEntered.setError("Wrong OTP...");
+                    mobileNumberEntered.requestFocus();
+                    return;
+                }
+                progressBar.setVisibility(View.VISIBLE);
+                verifyCode(code);
+            }
+        });
+
     }
+
 }

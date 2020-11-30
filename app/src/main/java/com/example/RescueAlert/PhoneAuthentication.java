@@ -181,7 +181,7 @@ run ke dekh
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     //verification successful we will start the profile activity
-                                    Intent intent = new Intent(PhoneAuthentication.this, Dashboard1.class);
+                                    Intent intent = new Intent(PhoneAuthentication.this, Dashboard.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
 

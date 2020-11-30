@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -57,8 +58,9 @@ public class Signup extends AppCompatActivity {
                 String email = regEmail.getEditText().getText().toString();
 
                 Intent i = new Intent(Signup.this, Authenticate.class);
-                i.putExtra("mobileNumber", mobileNumber);
+               i.putExtra("mobileNumber", mobileNumber);
                 startActivity(i);
+
                 UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, email);
                 reference.child(mobileNumber).setValue(helperClass);
 
@@ -146,7 +148,6 @@ public class Signup extends AppCompatActivity {
 
     public void openAuthentication() {
         Intent intent = new Intent(this, Authenticate.class);
-        //   intent.putExtra(mobileNumber);
         startActivity(intent);
         finish();
     }
