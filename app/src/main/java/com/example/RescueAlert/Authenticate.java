@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
@@ -28,27 +28,28 @@ public class Authenticate extends AppCompatActivity {
     EditText mobileNumberEntered;
     ProgressBar progressBar;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authenticate);
-
         verify_btn = findViewById(R.id.verify);
         mobileNumberEntered = findViewById(R.id.verification_code_entered);
         progressBar = findViewById(R.id.progress_bar);
-
         String phoneNo = getIntent().getStringExtra("mobileNumber");
-
         sendVerificationCodeToUser(phoneNo);
     }
 
     private void sendVerificationCodeToUser(String phoneNo) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNo,        // Phone number to verify
-                60,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                TaskExecutors.MAIN_THREAD,   // Activity (for callback binding)
-                mCallbacks);        // OnVerificationStateChangedCallbacks
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(phoneNo)       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
 
