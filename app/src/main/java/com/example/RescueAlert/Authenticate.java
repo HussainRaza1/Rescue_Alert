@@ -96,9 +96,7 @@ public class Authenticate extends AppCompatActivity {
                             Toast.makeText(Authenticate.this, "Your Account has been created successfully!", Toast.LENGTH_SHORT).show();
 
                             //Perform Your required action here to either let the user sign In or do something required
-                            Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+                           openDash();
 
                         } else {
                             Toast.makeText(Authenticate.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -122,6 +120,12 @@ public class Authenticate extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void openDash() {
+        Intent intent = new Intent(Authenticate.this, Dashboard.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 }
