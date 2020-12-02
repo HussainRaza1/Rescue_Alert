@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,6 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -21,42 +23,39 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    private Button add_family;
+    Button l_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard1);
+        setContentView(R.layout.newdash);
 
-        /*----------hooks------------*/
+
+        /*------------------------HOOKS---------------------*/
+
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar2);
+        l_btn = findViewById(R.id.nav_logout);
 
-        /*----------toolbar------------*/
+
+        /*----------------- toolbar--------------*/
+
+
         setSupportActionBar(toolbar);
 
-        /*----------Navigation drawer menu------------*/
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        /*--------------------Navigation Drawer Menu--------------*/
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(Dashboard1.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_emergency);
 
 
-        add_family = (Button) findViewById(R.id.family);
-        add_family.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                openContacts();
-            }
-        });
-
-    }
-
-    public void openContacts() {
-
-        Intent intent = new Intent(this, AddContacts.class);
-        startActivity(intent);
     }
 
     @Override
@@ -69,7 +68,45 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        switch (menuItem.getItemId()) {
+
+            case R.id.nav_emergency:
+                break;
+            case R.id.nav_fam:
+                Intent f = new Intent(Dashboard1.this, AddContacts.class);
+                startActivity(f);
+                break;
+            case R.id.nav_circle:
+                Intent c = new Intent(Dashboard1.this, Circle.class);
+                startActivity(c);
+                break;
+
+            case R.id.nav_track:
+
+            case R.id.nav_setting:
+
+            case R.id.nav_contact:
+                Intent t = new Intent(Dashboard1.this, ContactUs.class);
+                startActivity(t);
+                break;
+
+            case R.id.nav_logout:
+                l_btn.setOnClickListener((new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(Dashboard1.this, " Sign out!", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getApplicationContext(), Signup.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }));
+                break;
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

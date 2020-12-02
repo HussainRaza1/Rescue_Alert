@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            Intent i = new Intent(getApplicationContext(), Dashboard.class);
+            Intent i = new Intent(getApplicationContext(), Dashboard1.class);
             startActivity(i);
             //finish();
         } else {
@@ -87,7 +87,7 @@ public class Login extends AppCompatActivity {
                 // Successfully signed in
 
 
-                Intent i = new Intent(Login.this, Dashboard.class);
+                Intent i = new Intent(Login.this, Dashboard1.class);
                 startActivity(i);
                 //finish();
                 // ...

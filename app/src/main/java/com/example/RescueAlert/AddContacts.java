@@ -4,39 +4,48 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.firebase.client.annotations.NotNull;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-import org.jetbrains.annotations.NotNull;
 
-
-public class AddContacts extends AppCompatActivity {
+public class AddContacts extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     final static String Tag = "AddContacts";
-
-    private Button save;
-    private Button add1;
-    // private Button add2;
-    // private Button add3;
-    private Button message;
-
     TextView number_text, family_number;
     FamilyContact contact;
     ListView family_view;
     FirebaseListAdapter adapter;
-
+    Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Button l_btn;
+    private Button save;
+    private Button add1;
+    private Button message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +56,13 @@ public class AddContacts extends AppCompatActivity {
         /* Hooks*/
         save = findViewById(R.id.add_save);
         add1 = findViewById(R.id.adding);
-        //  add2 = findViewById(R.id.adding1);
-        //  add3 = findViewById(R.id.adding2);
+        drawerLayout = findViewById(R.id.drawer_layout2);
+        navigationView = findViewById(R.id.nav_view2);
+        toolbar = findViewById(R.id.toolbar2);
+        l_btn = findViewById(R.id.nav_logout);
         number_text = findViewById(R.id.user_family_number);
         family_view = findViewById(R.id.family_list);
         message = findViewById(R.id.add_custom);
-
-        // number = getIntent().getStringExtra("user_phone");
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,26 +83,22 @@ public class AddContacts extends AppCompatActivity {
                 sendLocation();
             }
         });
+        setSupportActionBar(toolbar);
 
-      /*  add2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                openContacts();
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(AddContacts.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
-            }
-        });*/
-
-     /*   add3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                openContacts();
-            }
-        });*/
-
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_emergency);
 
         display();
     }
 
     public void display() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
         String current_user = firebaseUser.getPhoneNumber();
         Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
         FirebaseListOptions<FamilyContact> options = new FirebaseListOptions.Builder<FamilyContact>().setQuery(query, FamilyContact.class).setLayout(android.R.layout.list_content).build();
@@ -120,50 +125,32 @@ public class AddContacts extends AppCompatActivity {
 
         Log.e(Tag, "Inside display comment method");
     }
-/*
-    public void display(){
+
+
+    public void add_family(final String numbr) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final String bleh = firebaseUser.getPhoneNumber();
-       FirebaseDatabase.getInstance().getReference("family").orderByChild("number").addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot snapshot) {
-               String num = snapshot.child("number").getValue().toString();
-               number_text.setText(num);
+        final String num = firebaseUser.getPhoneNumber(); //tera yeh hai, maine apne variables use kiye, oh it doesnt matter yahan konse likho
 
-           }
+        Log.d("AddContacts", num);
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError error) {
+        FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final String user = dataSnapshot.child(num).getRef().getKey();
+                String no = numbr;
+                Log.d("AddContacts", user);
+                contact = new FamilyContact(no, user);
+                FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
+                Toast.makeText(AddContacts.this, "Contact added!", Toast.LENGTH_LONG).show();
+            }
 
-           }
-       });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-    }*/
+            }
+        });
+    }
 
-
-    /* public void add_family(final String numbr){
-         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-         final String num = firebaseUser.getPhoneNumber(); //tera yeh hai, maine apne variables use kiye, oh it doesnt matter yahan konse likho
-
-         Log.d("AddContacts", num);
-
-         FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
-             @Override
-             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 final String user = dataSnapshot.child(num).getRef().getKey();
-                 String no = numbr;
-                 Log.d("AddContacts", user);
-                 contact = new FamilyContact(no, user);
-                 FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
-                 Toast.makeText(AddContacts.this, "Contact added!", Toast.LENGTH_LONG).show();
-             }
-
-             @Override
-             public void onCancelled(@NonNull DatabaseError databaseError) {
-
-             }
-         });
-     }*/
     public void openContacts() {
         Intent intent = new Intent(this, ContactActivity.class);
         startActivity(intent);
@@ -188,18 +175,71 @@ public class AddContacts extends AppCompatActivity {
         adapter.stopListening();
     }
 
-    @Override
+/*    @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(this, Dashboard.class);
+        Intent i = new Intent(this, Dashboard1.class);
         startActivity(i);
-    }
+    }*/
 
     public void sendLocation() {
 
         Intent i = new Intent(this, LocationActivity.class);
         startActivity(i);
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        switch (menuItem.getItemId()) {
+
+            case R.id.nav_emergency:
+                Intent e = new Intent(AddContacts.this, Dashboard1.class);
+                startActivity(e);
+                break;
+            case R.id.nav_fam:
+                break;
+            case R.id.nav_circle:
+                Intent c = new Intent(AddContacts.this, Circle.class);
+                startActivity(c);
+                break;
+
+            case R.id.nav_track:
+
+            case R.id.nav_setting:
+
+            case R.id.nav_contact:
+                Intent t = new Intent(AddContacts.this, ContactUs.class);
+                startActivity(t);
+                break;
+
+            case R.id.nav_logout:
+                l_btn.setOnClickListener((new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(AddContacts.this, " Sign out!", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getApplicationContext(), Signup.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }));
+                break;
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 }

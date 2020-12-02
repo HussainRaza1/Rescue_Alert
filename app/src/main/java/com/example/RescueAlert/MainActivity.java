@@ -46,9 +46,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
+             /*   if() {
+
+                }*/
+
                 Intent i = (new Intent(MainActivity.this, Signup.class));
                 startActivity(i);
                 finish();
+
             }
 
         }, SPLASH_SCREEN);
