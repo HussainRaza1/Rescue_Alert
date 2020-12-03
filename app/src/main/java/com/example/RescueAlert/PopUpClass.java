@@ -59,6 +59,15 @@ public class PopUpClass extends AppCompatActivity {
 
         Button buttonEdit = popEme.findViewById(R.id.emeButton);
 
+        popEme.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //Close the window when clicked
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,14 +107,6 @@ public class PopUpClass extends AppCompatActivity {
                     }
                 });
 
-                popEme.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        //Close the window when clicked
-                        popupWindow.dismiss();
-                        return true;
-                    }
-                });
             }
         });
     }
