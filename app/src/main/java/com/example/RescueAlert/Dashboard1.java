@@ -44,6 +44,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.newdash);
 
         t = new ActionBarDrawerToggle(this, drawerLayout,R.string.Open, R.string.Close);
+        t.syncState();
 
         emergency = findViewById(R.id.emergency_layout);
         emergency.setOnClickListener(new View.OnClickListener() {
