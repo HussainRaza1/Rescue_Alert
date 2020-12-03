@@ -25,7 +25,7 @@
         <activity
             android:name=".Settings"
             android:exported="true"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
         <activity android:name=".Invite_activity" />
         <activity
             android:name=".ContactUs"
@@ -65,6 +65,8 @@
             android:name=".popup"
             android:exported="true" />
         <activity android:name=".Circle" />
+        <activity android:name=".PopUpClass"
+            android:exported="true"/>
         <activity
             android:name=".Authenticate"
             android:exported="true" />
@@ -78,7 +80,6 @@
         <activity android:name=".ContactActivity" />
         <activity android:name=".PhoneAuthentication" />
         <activity android:name=".CircleActivity" />
-        <activity android:name=".Settings" />
         <activity
             android:name=".Login"
             android:exported="true" />
