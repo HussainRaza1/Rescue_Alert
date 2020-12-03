@@ -22,7 +22,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContactUs" android:exported="true"></activity>
+        <activity
+            android:name=".Settings"
+            android:exported="true"
+            android:label="@string/title_activity_settings" />
+        <activity android:name=".Invite_activity" />
+        <activity
+            android:name=".ContactUs"
+            android:exported="true" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -51,7 +58,6 @@
         <activity
             android:name=".Dashboard1"
             android:exported="true" />
-
         <activity
             android:name=".LocationActivity"
             android:label="@string/title_activity_location" />
@@ -59,6 +65,8 @@
             android:name=".popup"
             android:exported="true" />
         <activity android:name=".Circle" />
+        <activity android:name=".PopUpClass"
+            android:exported="true"/>
         <activity
             android:name=".Authenticate"
             android:exported="true" />
@@ -72,7 +80,6 @@
         <activity android:name=".ContactActivity" />
         <activity android:name=".PhoneAuthentication" />
         <activity android:name=".CircleActivity" />
-        <activity android:name=".Settings" />
         <activity
             android:name=".Login"
             android:exported="true" />

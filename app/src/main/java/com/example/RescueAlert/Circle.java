@@ -46,9 +46,6 @@ public class Circle extends AppCompatActivity {
         text2 = findViewById(R.id.circle_text_2);
 
 
-       /* add2 = findViewById(R.id.adding1);
-        add3 = findViewById(R.id.adding2);*/
-
 
         add1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -56,18 +53,6 @@ public class Circle extends AppCompatActivity {
             }
         });
         display();
-
-      /*  add2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                openContacts();
-            }
-        });*/
-
-   /*     add3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                openContacts();
-            }
-        });*/
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override

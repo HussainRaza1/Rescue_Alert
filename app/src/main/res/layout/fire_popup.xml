@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/Note_pop"
+                android:id="@+id/Note_fire"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -29,7 +29,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/emergency_pop"
+                android:id="@+id/fire_pop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -40,10 +40,10 @@
 
 
             <Button
-                android:id="@+id/emeButton"
+                android:id="@+id/fireButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Call    1122" />
+                android:text="Call    16" />
 
         </LinearLayout>
 

@@ -129,7 +129,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
     public void add_family(final String numbr) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final String num = firebaseUser.getPhoneNumber(); //tera yeh hai, maine apne variables use kiye, oh it doesnt matter yahan konse likho
+        final String num = firebaseUser.getPhoneNumber();
 
         Log.d("AddContacts", num);
 
@@ -214,7 +214,6 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
                 Intent c = new Intent(AddContacts.this, Circle.class);
                 startActivity(c);
                 break;
-
             case R.id.nav_track:
 
             case R.id.nav_setting:
@@ -223,20 +222,18 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
                 Intent t = new Intent(AddContacts.this, ContactUs.class);
                 startActivity(t);
                 break;
-
-            case R.id.nav_logout:
-                l_btn.setOnClickListener((new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FirebaseAuth.getInstance().signOut();
-                        Toast.makeText(AddContacts.this, " Sign out!", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(), Signup.class);
-                        startActivity(i);
-                        finish();
-                    }
-                }));
+            case R.id.nav_invite:
+                Intent i = new Intent(AddContacts.this, Invite_activity.class);
+                startActivity(i);
                 break;
+            case R.id.nav_logout:
 
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(AddContacts.this, " Sign out!", Toast.LENGTH_SHORT).show();
+                Intent l = new Intent(getApplicationContext(), Signup.class);
+                startActivity(l);
+                finish();
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
