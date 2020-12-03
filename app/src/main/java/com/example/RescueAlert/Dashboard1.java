@@ -33,9 +33,6 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newdash);
 
-     /*   t = new ActionBarDrawerToggle(this, drawerLayout,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        t.syncState();*/
-
 /*        SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(this);
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
