@@ -33,6 +33,8 @@
     <string name="menu_gallery">Gallery</string>
     <string name="title_activity_drawer">Drawer</string>
     <string name="title_activity_drawer1">DrawerActivity</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
 
 
 </resources>
