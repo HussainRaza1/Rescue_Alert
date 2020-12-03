@@ -40,7 +40,7 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
         /*------navBar-------*/
         et_drawerLayout = findViewById(R.id.drawer_layout1);
         et_navigationView = findViewById(R.id.nav_view1);
-        et_toolbar = findViewById(R.id.toolbar3);
+        et_toolbar = findViewById(R.id.toolbar2);
 
         setSupportActionBar(et_toolbar);
 
@@ -83,6 +83,7 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
             case R.id.nav_emergency:
                 Intent e = new Intent(ContactUs.this, Dashboard1.class);
                 startActivity(e);
+                break;
             case R.id.nav_fam:
                 Intent f = new Intent(ContactUs.this, AddContacts.class);
                 startActivity(f);
@@ -91,29 +92,25 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
                 Intent c = new Intent(ContactUs.this, Circle.class);
                 startActivity(c);
                 break;
-
             case R.id.nav_track:
 
             case R.id.nav_setting:
 
             case R.id.nav_invite:
 
-                /*case R.id.nav_req:*/
+                Intent i = new Intent(ContactUs.this, Invite_activity.class);
+                startActivity(i);
+                break;
 
             case R.id.nav_contact:
                 break;
 
             case R.id.nav_logout:
-                l_btn.setOnClickListener((new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FirebaseAuth.getInstance().signOut();
-                        Toast.makeText(ContactUs.this, " Sign out!", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(), Signup.class);
-                        startActivity(i);
-                        finish();
-                    }
-                }));
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(ContactUs.this, " Sign out!", Toast.LENGTH_SHORT).show();
+                Intent l = new Intent(getApplicationContext(), Signup.class);
+                startActivity(l);
+                finish();
                 break;
 
         }

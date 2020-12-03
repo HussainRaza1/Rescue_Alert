@@ -22,15 +22,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/small_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--<androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar2"
-            android:theme="@style/AppTheme.NoActionBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
+            android:theme="@style/AppTheme.NoActionBar"
             app:layout_constraintBottom_toTopOf="@+id/small_light"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp"/>
+            tools:layout_editor_absoluteX="0dp" />-->
 
         <TextView
             android:id="@+id/Rescue_alert"
@@ -65,13 +74,14 @@
             android:layout_margin="5dp"
             android:alignmentMode="alignMargins"
             android:columnCount="2"
-            app:layout_constraintBottom_toTopOf="@+id/red_button"
             android:columnOrderPreserved="false"
             android:foregroundGravity="center_horizontal"
             android:rowCount="2"
+            app:layout_constraintBottom_toTopOf="@+id/red_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/small_light">
+
             ///Fire Brigade
 
             <androidx.cardview.widget.CardView
