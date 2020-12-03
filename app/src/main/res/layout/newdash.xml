@@ -94,6 +94,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
+                    android:id="@+id/fire_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -129,6 +130,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
+                    android:id="@+id/emergency_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -164,6 +166,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
+                    android:id="@+id/police_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -199,6 +202,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
+                    android:id="@+id/medical_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"

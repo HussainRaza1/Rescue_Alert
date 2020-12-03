@@ -3,6 +3,7 @@ package com.example.RescueAlert;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -91,17 +92,17 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 startActivity(t);
                 break;
 
-            case R.id.nav_invite:
-                Intent i = new Intent(Dashboard1.this, Invite_activity.class);
-                startActivity(i);
-                break;
-
             case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(Dashboard1.this, " Sign out!", Toast.LENGTH_SHORT).show();
-                Intent l = new Intent(getApplicationContext(), Signup.class);
-                startActivity(l);
-                finish();
+                l_btn.setOnClickListener((new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(Dashboard1.this, " Sign out!", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getApplicationContext(), Signup.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }));
                 break;
 
         }
