@@ -36,15 +36,12 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     Toolbar toolbar;
     Button l_btn;
     LinearLayout emergency;
-    private ActionBarDrawerToggle t;
+    ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newdash);
-
-        t = new ActionBarDrawerToggle(this, drawerLayout,R.string.Open, R.string.Close);
-        t.syncState();
 
         emergency = findViewById(R.id.emergency_layout);
         emergency.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +79,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         /*--------------------Navigation Drawer Menu--------------*/
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(Dashboard1.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(Dashboard1.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -166,7 +163,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(t.onOptionsItemSelected(item))
+        if(toggle.onOptionsItemSelected(item))
             return true;
 
         return super.onOptionsItemSelected(item);

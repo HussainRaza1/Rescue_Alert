@@ -10,6 +10,7 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
 
 import com.example.RescueAlert.R;
@@ -47,6 +48,8 @@ public class Settings extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.settings, rootKey);
+            getPreferenceScreen().getSharedPreferences()
+                    .registerOnSharedPreferenceChangeListener(this);
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             final EditTextPreference template = findPreference("template_preference");
