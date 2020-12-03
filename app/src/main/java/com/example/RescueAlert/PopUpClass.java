@@ -123,10 +123,10 @@ public class PopUpClass extends AppCompatActivity {
         boolean focusable = true;
 
         //Create a window with our parameters
-        final PopupWindow popupWindow = new PopupWindow(popFire, width, height, true);
+        final PopupWindow firePopupWindow = new PopupWindow(popFire, width, height, true);
 
         //Set the location of the window on the screen
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        firePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         //Initialize the elements of our window, install the handler
 
@@ -149,7 +149,7 @@ public class PopUpClass extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 //Close the window when clicked
-                popupWindow.dismiss();
+                firePopupWindow.dismiss();
                 return true;
             }
         });
@@ -168,10 +168,10 @@ public class PopUpClass extends AppCompatActivity {
         boolean focusable = true;
 
         //Create a window with our parameters
-        final PopupWindow popupWindow = new PopupWindow(popPolice, width, height, true);
+        final PopupWindow policePopupWindow = new PopupWindow(popPolice, width, height, true);
 
         //Set the location of the window on the screen
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        policePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         //Initialize the elements of our window, install the handler
 
@@ -194,7 +194,7 @@ public class PopUpClass extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 //Close the window when clicked
-                popupWindow.dismiss();
+                policePopupWindow.dismiss();
                 return true;
             }
         });
@@ -213,10 +213,10 @@ public class PopUpClass extends AppCompatActivity {
         boolean focusable = true;
 
         //Create a window with our parameters
-        final PopupWindow firePopupWindow = new PopupWindow(popMed, width, height, true);
+        final PopupWindow medicalPopupWindow = new PopupWindow(popMed, width, height, true);
 
         //Set the location of the window on the screen
-        firePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        medicalPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         //Initialize the elements of our window, install the handler
 
@@ -239,7 +239,7 @@ public class PopUpClass extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 //Close the window when clicked
-                firePopupWindow.dismiss();
+                medicalPopupWindow.dismiss();
                 return true;
             }
         });
