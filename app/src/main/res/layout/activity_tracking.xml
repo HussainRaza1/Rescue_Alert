@@ -66,42 +66,42 @@
             android:columnCount="2"
             android:columnOrderPreserved="false"
             android:foregroundGravity="center_horizontal"
-            android:rowCount="2"
+            android:rowCount="1"
             app:layout_constraintBottom_toTopOf="@+id/red_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/small_light">
 
-            ///Fire Brigade
+            ///Live location
 
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="80dp"
                 app:cardBackgroundColor="@color/LightCoral"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="5dp">
 
                 <LinearLayout
-                    android:id="@+id/fire_layout"
+                    android:id="@+id/live_loc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginTop="12dp"
-                        android:src="@drawable/white_fire" />
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/my_live_location_white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/arimo"
-                        android:text="Fire Brigade"
+                        android:text="Your Live Location"
                         android:textColor="@color/White"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -112,127 +112,53 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="80dp"
                 app:cardBackgroundColor="@color/LightCoral"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="5dp">
 
                 <LinearLayout
-                    android:id="@+id/emergency_layout"
+                    android:id="@+id/req_loc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/emergency_image"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:id="@+id/req_location"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_marginTop="12dp"
-                        android:src="@drawable/white_ambulance" />
+                        android:src="@drawable/user_white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/arimo"
-                        android:text="Ambulance"
+                        android:text="Requested Location"
                         android:textColor="@color/White"
                         android:textSize="14sp" />
                 </LinearLayout>
 
 
             </androidx.cardview.widget.CardView>
-            ///Police
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                app:cardBackgroundColor="@color/LightCoral"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="5dp">
-
-                <LinearLayout
-                    android:id="@+id/police_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginTop="12dp"
-                        android:src="@drawable/white_police" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/arimo"
-                        android:text="Police"
-                        android:textColor="@color/White"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-            ///Medical assistance
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                app:cardBackgroundColor="@color/LightCoral"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="5dp">
-
-                <LinearLayout
-                    android:id="@+id/medical_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginTop="12dp"
-                        android:src="@drawable/white_aid" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/arimo"
-                        android:text="Medical Assistance"
-                        android:textColor="@color/White"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
         </GridLayout>
 
         <Button
-            android:id="@+id/red_button"
-            android:layout_width="130dp"
-            android:layout_height="131dp"
-            android:background="@drawable/pressed_button"
+            android:id="@+id/track_back"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_background2"
+            android:text="Home"
+            android:textColor="#2196F3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gridLayout"
-            app:layout_constraintVertical_bias="0.896" />
-
+            app:layout_constraintVertical_bias="0.589" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </androidx.drawerlayout.widget.DrawerLayout>

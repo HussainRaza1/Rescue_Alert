@@ -22,15 +22,14 @@ import java.util.ArrayList;
 
 
 public class ContactActivity extends AppCompatActivity {
-    String Tag = "ContactsActivity";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-    private ArrayList<Contacts> contactList = new ArrayList<>();
+    String Tag = "ContactsActivity";
     ContactAdapter viewAdapter;
     RecyclerView recyclerView;
     Cursor contacts;
     Contacts mContact;
+    private ArrayList<Contacts> contactList = new ArrayList<>();
     /// private ArrayList<UserHelperClass> mUsers = new ArrayList<UserHelperClass>();
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,22 +68,11 @@ public class ContactActivity extends AppCompatActivity {
         while (contacts.moveToNext()) {
             String phone = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             String name = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-          /*  phone = phone.replace(" ", "");
-            phone = phone.replace("-", "");
-            phone = phone.replace("(", "");
-            phone = phone.replace(")", "");
-
-            if(String.valueOf(phone.charAt(0)).equals("0"))
-            {
-                phone = phone.replaceFirst("0","");
-            }
-
-            if (!String.valueOf(phone.charAt(0)).equals("+")) {
-                phone = ISOPrefix + phone;
-            }*/
             mContact = new Contacts(phone, name);
             contactList.add(mContact);
+
             //readUsers(mContact);
+
             Log.d(Tag, "contacts: " + contactList);
             Log.d(Tag, "current contact" + mContact.toString());
         }
@@ -95,7 +83,7 @@ public class ContactActivity extends AppCompatActivity {
 
     private String getCountryISO() {
         String iso = null;
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(ContactActivity.this.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         if (telephonyManager.getNetworkCountryIso() != null) {
             if (!telephonyManager.getNetworkCountryIso().toString().equals("")) {
                 iso = telephonyManager.getNetworkCountryIso().toString();

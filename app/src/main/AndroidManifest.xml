@@ -22,6 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Tracking"></activity>
         <activity
             android:name=".Settings"
             android:exported="true"
@@ -45,7 +46,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,8 +53,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".Dashboard1"
             android:exported="true" />
@@ -62,11 +60,15 @@
             android:name=".LocationActivity"
             android:label="@string/title_activity_location" />
         <activity
+            android:name=".FirePop"
+            android:exported="true" />
+        <activity
             android:name=".popup"
             android:exported="true" />
         <activity android:name=".Circle" />
-        <activity android:name=".PopUpClass"
-            android:exported="true"/>
+        <activity
+            android:name=".PopUpClass"
+            android:exported="true" />
         <activity
             android:name=".Authenticate"
             android:exported="true" />

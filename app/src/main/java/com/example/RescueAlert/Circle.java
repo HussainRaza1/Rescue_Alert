@@ -26,6 +26,7 @@ public class Circle extends AppCompatActivity {
     final static String Tag = "Circle";
     private Button save;
     private Button add1;
+
   /*  private Button add2;
     private Button add3;*/
 
