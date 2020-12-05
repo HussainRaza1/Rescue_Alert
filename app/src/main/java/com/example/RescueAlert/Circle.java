@@ -99,7 +99,7 @@ public class Circle extends AppCompatActivity {
     }
 
     public void openContacts() {
-        Intent intent = new Intent(this, CircleContacts.class);
+        Intent intent = new Intent(this, CircleContactActivity.class);
         startActivity(intent);
     }
 

@@ -72,7 +72,7 @@
             android:exported="true" />
         <activity android:name=".AddContacts" />
         <activity
-            android:name=".CircleContacts"
+            android:name=".CircleContactActivity"
             android:exported="true" />
         <activity
             android:name=".Dashboard"
@@ -82,7 +82,6 @@
             android:exported="true" />
         <activity android:name=".ContactActivity" />
         <activity android:name=".PhoneAuthentication" />
-        <activity android:name=".CircleActivity" />
         <activity
             android:name=".Login"
             android:exported="true" />

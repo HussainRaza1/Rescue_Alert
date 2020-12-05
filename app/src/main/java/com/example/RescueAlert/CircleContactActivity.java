@@ -34,12 +34,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-    public class CircleContacts extends AppCompatActivity {
+    public class CircleContactActivity extends AppCompatActivity {
         String Tag = "ContactsActivity";
         private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
         private ArrayList<UserHelperClass> mUsers = new ArrayList<UserHelperClass>();
         private ArrayList<Contacts> contactList = new ArrayList<>();
-        CircleRecyler viewAdapter;
+        CircleAdapter viewAdapter;
         RecyclerView recyclerView;
         Cursor contacts;
         Contacts mContact;
@@ -48,13 +48,13 @@ import java.util.ArrayList;
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.circle_contact);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(CircleContacts.this, LinearLayoutManager.VERTICAL, false);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(CircleContactActivity.this, LinearLayoutManager.VERTICAL, false);
             recyclerView = findViewById(R.id.circle_contact_list);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
 
 
-            int permissionCheck = ContextCompat.checkSelfPermission(CircleContacts.this, Manifest.permission.READ_CONTACTS);
+            int permissionCheck = ContextCompat.checkSelfPermission(CircleContactActivity.this, Manifest.permission.READ_CONTACTS);
             if(permissionCheck == PackageManager.PERMISSION_GRANTED){
                 readContactList();
             }
@@ -83,7 +83,7 @@ import java.util.ArrayList;
             }
             while(contacts.moveToNext()) {
                 String name = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                String phone = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                String phone = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));/*
                 phone = phone.replace(" ", "");
                 phone = phone.replace("-", "");
                 phone = phone.replace("(", "");
@@ -96,7 +96,7 @@ import java.util.ArrayList;
 
                 if (!String.valueOf(phone.charAt(0)).equals("+")) {
                     phone = ISOPrefix + phone;
-                }
+                }*/
                 mContact = new Contacts(phone, name);
                 contactList.add(mContact);
                 Log.d(Tag, "contacts: " + contactList);
@@ -108,7 +108,7 @@ import java.util.ArrayList;
 
         private String getCountryISO() {
             String iso = null;
-            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(CircleContacts.this.TELEPHONY_SERVICE);
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(CircleContactActivity.this.TELEPHONY_SERVICE);
             if(telephonyManager.getNetworkCountryIso()!=null){
                 if (!telephonyManager.getNetworkCountryIso().toString().equals("")){
                     iso = telephonyManager.getNetworkCountryIso().toString();
@@ -135,7 +135,7 @@ import java.util.ArrayList;
                 @Override
                 public void onDataChange( DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        if(snapshot.child("phone").getValue().equals(mContact.getNumber())) {
+                        if(snapshot.child("mobileNumber").getValue().equals(mContact.getNumber())) {
                             Log.d(Tag, "Inside read users");
                             UserHelperClass user = snapshot.getValue(UserHelperClass.class);
                             if (!user.getMobileNumber().equals(firebaseUser.getPhoneNumber())) {
@@ -145,7 +145,7 @@ import java.util.ArrayList;
                             }
                         }
                     }
-                    viewAdapter = new CircleRecyler(mUsers, CircleContacts.this);
+                    viewAdapter = new CircleAdapter(mUsers, CircleContactActivity.this);
                     recyclerView.setAdapter(viewAdapter);
                 }
                 @Override

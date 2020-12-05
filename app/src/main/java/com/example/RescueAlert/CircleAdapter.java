@@ -22,14 +22,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
+class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
     Context mContext;
     private ArrayList<UserHelperClass> mUser;
     CircleContact circleContact;
-    FamilyContact contact;
     int count = 0;
 
-    public CircleRecyler(ArrayList<UserHelperClass> mUser, Context mContext) {
+    public CircleAdapter(ArrayList<UserHelperClass> mUser, Context mContext) {
         this.mUser = mUser;
         this.mContext = mContext;
     }
@@ -37,8 +36,8 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.contact_item, parent, false);
-        return new CircleRecyler.ViewHolder(view);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.circle_contact_item, parent, false);
+        return new CircleAdapter.ViewHolder(view);
     }
 
     @Override
@@ -46,7 +45,6 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         final UserHelperClass user = mUser.get(position);
 
         holder.user_phone.setText(user.getMobileNumber());
-        holder.user_name.setText(user.getEmail());
 
         holder.circle_Add.setOnClickListener(new View.OnClickListener() {
             @Override
