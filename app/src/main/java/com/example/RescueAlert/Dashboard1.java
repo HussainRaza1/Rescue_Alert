@@ -24,17 +24,16 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    Button r_btn;
+    Button l_btn;
     LinearLayout emergency, fire, police, med;
     ActionBarDrawerToggle toggle;
+
+    PopUpClass popUpClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newdash);
-
-     /*   t = new ActionBarDrawerToggle(this, drawerLayout,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        t.syncState();*/
 
 /*        SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(this);
@@ -51,7 +50,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar2);
-        r_btn = findViewById(R.id.red_button);
+        l_btn = findViewById(R.id.nav_logout);
         emergency = findViewById(R.id.emergency_layout);
         fire = findViewById(R.id.fire_layout);
         police = findViewById(R.id.police_layout);
@@ -78,43 +77,46 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpClass popUpClass = new PopUpClass();
                 popUpClass.showPopupWindow(view);
+
             }
         });
         fire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpClass popUpClass = new PopUpClass();
-                popUpClass.showPopupWindowFire(view);
+                popUpClass.showPopupWindowfire(view);
             }
         });
         police.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpClass popUpClass = new PopUpClass();
-                popUpClass.showPopupWindowPolice(view);
+                popUpClass.showPopupWindowpolice(view);
             }
         });
         med.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpClass popUpClass = new PopUpClass();
-                popUpClass.showPopupWindowMedical(view);
+                popUpClass.showPopupWindowmedical(view);
             }
         });
-        r_btn.setOnLongClickListener(new View.OnLongClickListener() {
+
+      /*  sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
-            public boolean onLongClick(View v) {
-                sendLocation();
-                return false;
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if(key == "send_message"){
+                    if()
+                    //don't show popup
+                }
+                else {
+                    switchPref.toString();
+                }
+
             }
-        });
+        });*/
+
+
     }
-    private void sendLocation() {
-        Intent i = new Intent(this, LocationActivity.class);
-        startActivity(i);
-    }
+
 
     @Override
     public void onBackPressed() {
@@ -136,22 +138,28 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
             Intent f = new Intent(Dashboard1.this, AddContacts.class);
             startActivity(f);
         }
+
         if (id == R.id.nav_circle) {
             Intent c = new Intent(Dashboard1.this, Circle.class);
             startActivity(c);
         }
+
         if (id == R.id.nav_track) {
             //do tracking
             Toast.makeText(Dashboard1.this, "NavTrack clicked", Toast.LENGTH_SHORT).show();
         }
+
         if (id == R.id.nav_setting) {
             Intent i = new Intent(Dashboard1.this, Settings.class);
             startActivity(i);
         }
+
         if (id == R.id.nav_contact) {
             Intent t = new Intent(Dashboard1.this, ContactUs.class);
             startActivity(t);
         }
+
+
         if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(Dashboard1.this, " Sign out!", Toast.LENGTH_SHORT).show();
@@ -159,9 +167,11 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
             startActivity(l);
             finish();
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

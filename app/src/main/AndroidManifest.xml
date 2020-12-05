@@ -74,6 +74,9 @@
             android:exported="true" />
         <activity android:name=".AddContacts" />
         <activity
+            android:name=".CircleContacts"
+            android:exported="true" />
+        <activity
             android:name=".Dashboard"
             android:exported="true" />
         <activity
