@@ -28,6 +28,8 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     LinearLayout emergency, fire, police, med;
     ActionBarDrawerToggle toggle;
 
+    PopUpClass popUpClass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,28 +77,25 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpClass popUpClass = new PopUpClass();
                 popUpClass.showPopupWindow(view);
+
             }
         });
         fire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpClass popUpClass = new PopUpClass();
                 popUpClass.showPopupWindowfire(view);
             }
         });
         police.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpClass popUpClass = new PopUpClass();
                 popUpClass.showPopupWindowpolice(view);
             }
         });
         med.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpClass popUpClass = new PopUpClass();
                 popUpClass.showPopupWindowmedical(view);
             }
         });

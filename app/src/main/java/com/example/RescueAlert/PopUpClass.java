@@ -33,7 +33,6 @@ import java.util.ArrayList;
 public class PopUpClass extends AppCompatActivity {
     private static final int REQUEST_PHONE_CALL = 1;
     ArrayList<String> phoneNumber = new ArrayList();
-
     public void showPopupWindow(View view) {
         //Create a View object yourself through inflater
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
