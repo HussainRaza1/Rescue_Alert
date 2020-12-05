@@ -31,16 +31,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--<androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/AppTheme.NoActionBar"
-            app:layout_constraintBottom_toTopOf="@+id/small_light"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp" />-->
-
         <TextView
             android:id="@+id/Rescue_alert"
             android:layout_width="0dp"

@@ -43,26 +43,22 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Button l_btn;
-    private Button save;
-    private Button add1;
-    private Button message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contacts);
 
-
         /* Hooks*/
-        save = findViewById(R.id.add_save);
-        add1 = findViewById(R.id.adding);
+        Button save = findViewById(R.id.add_save);
+        Button add1 = findViewById(R.id.adding);
         drawerLayout = findViewById(R.id.drawer_layout2);
         navigationView = findViewById(R.id.nav_view2);
         toolbar = findViewById(R.id.toolbar2);
         l_btn = findViewById(R.id.nav_logout);
         number_text = findViewById(R.id.user_family_number);
         family_view = findViewById(R.id.family_list);
-        message = findViewById(R.id.add_custom);
+        Button message = findViewById(R.id.add_custom);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +99,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
         FirebaseListOptions<FamilyContact> options = new FirebaseListOptions.Builder<FamilyContact>().setQuery(query, FamilyContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<FamilyContact>(options) {
+
             @Override
             protected void populateView(@NotNull View v, @NotNull final FamilyContact model, int position) {
                 family_number = (TextView) v.findViewById(R.id.family_user);
@@ -126,11 +123,11 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         Log.e(Tag, "Inside display comment method");
     }
 
-
     public void add_family(final String numbr) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
+        assert num != null;
         Log.d("AddContacts", num);
 
         FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {

@@ -32,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class PopUpClass extends AppCompatActivity {
+
     private static final int REQUEST_PHONE_CALL = 1;
     ArrayList<String> phoneNumber = new ArrayList();
 
@@ -60,6 +61,14 @@ public class PopUpClass extends AppCompatActivity {
 
         Button buttonEdit = popEme.findViewById(R.id.emeButton);
 
+        popEme.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //Close the window when clicked
+                popupWindow.dismiss();
+                return true;
+            }
+        });
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,19 +108,12 @@ public class PopUpClass extends AppCompatActivity {
                     }
                 });
 
-                popEme.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        //Close the window when clicked
-                        popupWindow.dismiss();
-                        return true;
-                    }
-                });
+
             }
         });
     }
 
-    public void showPopupWindowfire(final View view) {
+    public void showPopupWindowFire(final View view) {
         //Create a View object yourself through inflater
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
         final View popFire = inflater.inflate(R.layout.fire_popup, null);
@@ -138,41 +140,9 @@ public class PopUpClass extends AppCompatActivity {
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Call
-                Intent myIntent = new Intent(Intent.ACTION_CALL);
-                String phNum = "tel:" + "16";
-                myIntent.setData(Uri.parse(phNum));
-                if (ContextCompat.checkSelfPermission(PopUpClass.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(PopUpClass.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                } else {
-                    startActivity(myIntent);
-                }
 
-                //Message
-
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                String current_user = firebaseUser.getPhoneNumber();
-                Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String num = snapshot.child("number").getValue().toString();
-                            phoneNumber.add(num);
-                        }
-                        String message = "There is an Fire at my place. I'm Calling the Fire brigade" + "\n\n\n" + "Sent by RESCUE ALERT APP";
-                        SmsManager smsManager = SmsManager.getDefault();
-                        for (int i = 0; i < phoneNumber.size(); i++) {
-                            smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                Intent fire = new Intent(getApplicationContext(), FirePop.class);
+                startActivity(fire);
 
                 popFire.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -186,7 +156,7 @@ public class PopUpClass extends AppCompatActivity {
         });
     }
 
-    public void showPopupWindowpolice(final View view) {
+    public void showPopupWindowPolice(final View view) {
         //Create a View object yourself through inflater
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
         final View popPolice = inflater.inflate(R.layout.police_popup, null);
@@ -261,7 +231,7 @@ public class PopUpClass extends AppCompatActivity {
         });
     }
 
-    public void showPopupWindowmedical(final View view) {
+    public void showPopupWindowMedical(final View view) {
         //Create a View object yourself through inflater
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
         final View popMed = inflater.inflate(R.layout.med_popup, null);

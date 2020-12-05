@@ -24,10 +24,10 @@ import java.util.ArrayList;
 
 class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
     Context mContext;
-    private ArrayList<Contacts> mUser;
     CircleContact circleContact;
     FamilyContact contact;
     int count = 0;
+    private ArrayList<Contacts> mUser;
 
     public ContactAdapter(ArrayList<Contacts> mUser, Context mContext) {
         this.mUser = mUser;
@@ -74,19 +74,6 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return mUser.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView user_phone, user_name;
-        Button contact_Add, circle_Add;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            user_name = itemView.findViewById(R.id.contact_name);
-            user_phone = itemView.findViewById(R.id.contact_phone);
-            contact_Add = itemView.findViewById(R.id.add_contact);
-            circle_Add = itemView.findViewById(R.id.circle_add);
-        }
     }
 
     public void add_family(final String numbr) {
@@ -168,5 +155,18 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
             }
         });
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView user_phone, user_name;
+        Button contact_Add, circle_Add;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            user_name = itemView.findViewById(R.id.contact_name);
+            user_phone = itemView.findViewById(R.id.contact_phone);
+            contact_Add = itemView.findViewById(R.id.add_contact);
+            circle_Add = itemView.findViewById(R.id.circle_add);
+        }
     }
 }
