@@ -12,7 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup extends AppCompatActivity {
-    TextInputLayout regNo, regPin, regEmail;
+    TextInputLayout regNo, regPin, regName;
 
     private Button signButton;
     private Button reg_btn;
@@ -35,7 +35,7 @@ public class Signup extends AppCompatActivity {
         /*Hooks*/
         regNo = findViewById(R.id.MobileNo);
         regPin = findViewById(R.id.pin);
-        regEmail = findViewById(R.id.Email);
+        regName = findViewById(R.id.Name);
         reg_btn = (Button) findViewById(R.id.register);
         logButton = (Button) findViewById(R.id.Login1);
         logButton.setOnClickListener(new View.OnClickListener() {
@@ -54,9 +54,9 @@ public class Signup extends AppCompatActivity {
 
                 String PIN = regPin.getEditText().getText().toString();
                 String mobileNumber = regNo.getEditText().getText().toString();
-                String email = regEmail.getEditText().getText().toString();
+                String name = regName.getEditText().getText().toString();
 
-                UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, email);
+                UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, name);
                 reference.child(mobileNumber).setValue(helperClass);
 
                 Intent i = new Intent(Signup.this, Authenticate.class);

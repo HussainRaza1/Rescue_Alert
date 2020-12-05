@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,19 +10,20 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/close_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/bungee"
-            android:textSize="24sp"
-            android:text="ADD CONTACTS"
-            android:paddingLeft="7dp"></TextView>
+            android:paddingLeft="7dp"
+            android:text="Close CONTACTS"
+            android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contact_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/LightCoral"
-            android:padding="5dp" />
-         </LinearLayout>
+            android:padding="5dp"
+            tools:listitem="@layout/contact_item" />
+    </LinearLayout>
 </ScrollView>

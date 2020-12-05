@@ -1,7 +1,7 @@
 package com.example.RescueAlert;
 
 public class UserHelperClass {
-    String mobileNumber, PIN, email;
+    String mobileNumber, PIN, name;
 
 
     public UserHelperClass() {
@@ -11,7 +11,7 @@ public class UserHelperClass {
     public UserHelperClass(String mobileNumber, String PIN, String email) {
         this.mobileNumber = mobileNumber;
         this.PIN = PIN;
-        this.email = email;
+        this.name = name;
     }
 
 
@@ -31,11 +31,11 @@ public class UserHelperClass {
         this.PIN = PIN;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {
+        return name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String name) {
+        this.name = name;
     }
 }
