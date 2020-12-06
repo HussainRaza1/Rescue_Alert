@@ -13,14 +13,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup extends AppCompatActivity {
     TextInputLayout regNo, regPin, regName;
-
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
     private Button signButton;
     private Button reg_btn;
     private Button logButton;
-
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +59,6 @@ public class Signup extends AppCompatActivity {
                 Intent i = new Intent(Signup.this, Authenticate.class);
                 i.putExtra("mobileNumber", mobileNumber);
                 startActivity(i);
-
-
-                    /*
-                openAuthentication();
-*/
 
             }
 
@@ -144,12 +136,6 @@ public class Signup extends AppCompatActivity {
     }
 */
 
-
-    public void openAuthentication() {
-        Intent intent = new Intent(this, Authenticate.class);
-        startActivity(intent);
-        finish();
-    }
 
     public void openLogin() {
         Intent intent = new Intent(this, Login.class);

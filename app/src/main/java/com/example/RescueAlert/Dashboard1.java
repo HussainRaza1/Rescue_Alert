@@ -1,6 +1,8 @@
 package com.example.RescueAlert;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -20,11 +24,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int REQUEST_PHONE_CALL = 1;
     //variable
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    Button l_btn;
+    Button r_btn;
     LinearLayout emergency, fire, police, med;
     ActionBarDrawerToggle toggle;
 
@@ -50,8 +55,8 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar2);
-        l_btn = findViewById(R.id.nav_logout);
         emergency = findViewById(R.id.emergency_layout);
+        r_btn = findViewById(R.id.red_button);
         fire = findViewById(R.id.fire_layout);
         police = findViewById(R.id.police_layout);
         med = findViewById(R.id.medical_layout);
@@ -74,11 +79,23 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         navigationView.setCheckedItem(R.id.nav_emergency);
 
 
+        r_btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent red = new Intent(Dashboard1.this, LocationActivity.class);
+                if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                } else {
+                    startActivity(red);
+                }
+                return true;
+            }
+        });
+
         emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popUpClass.showPopupWindow(view);
-
             }
         });
         fire.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +116,6 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 popUpClass.showPopupWindowmedical(view);
             }
         });
-
       /*  sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
