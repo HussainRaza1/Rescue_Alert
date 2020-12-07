@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp">
 
+
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="match_parent"
@@ -19,13 +20,20 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:src="@drawable/rescue_icon" />
+
+
             <TextView
                 android:id="@+id/Note_pop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:fontFamily="@font/basic"
-                android:padding="5dp"
+                android:padding="3dp"
                 android:text="NOTE:"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -45,6 +53,7 @@
                 android:id="@+id/emeButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawable="@drawable/ic_mylocation"
                 android:text="Call    1122" />
 
         </LinearLayout>

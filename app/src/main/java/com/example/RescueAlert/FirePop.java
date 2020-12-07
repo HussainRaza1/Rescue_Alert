@@ -96,6 +96,7 @@ public class FirePop extends AppCompatActivity {
                     }
                 });
 
+
                /* popFire.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
