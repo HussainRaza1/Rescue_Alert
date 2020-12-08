@@ -3,6 +3,7 @@ package com.example.RescueAlert;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +41,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import static com.example.RescueAlert.Settings.SETTINGS_KEY;
+
+public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int REQUEST_PHONE_CALL = 1;
     //variable
@@ -48,21 +53,29 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     Button r_btn, e_btn;
     LinearLayout emergency, fire, police, med;
     ActionBarDrawerToggle toggle;
-    PopUpClass popUpClass;
     Dialog epicDialog;
     ArrayList<String> phoneNumber = new ArrayList();
+    Switch switchPref;
+    Switch switchPref1;
+    private SharedPreferences sharedPref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newdash);
-/*        SharedPreferences sharedPref =
+
+
+        sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(this);
-        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
 
-        final Boolean switchPref = sharedPref.getBoolean
-                (Settings.KEY_PREF_EXAMPLE_SWITCH, false);*/
+        final boolean switchPref1 = sharedPref.getBoolean
+                ("eme2", false);
+
+        final String MessagePref = sharedPref.getString
+                ("template_text", "null");
+
 
 
 
@@ -132,6 +145,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 MedPopup();
             }
         });
+        setupSharedPreferences();
 
       /*  sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -149,7 +163,6 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
 
     }
-
 
     private void EmergencyPopup() {
         epicDialog.setContentView(R.layout.emergency_popup);
@@ -422,4 +435,26 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
         return super.onOptionsItemSelected(item);
     }
-}
+
+    private void setupSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        if (key == SETTINGS_KEY) {
+            Toast.makeText(Dashboard1.this, "Works",Toast.LENGTH_SHORT);
+
+            /*final boolean switchPref = sharedPref.getBoolean
+                    ("eme1", false);
+            if (!switchPref) {
+                Intent intent = new Intent (this, ContactUs.class);
+                Log.d("Dashboard1.this","It works");
+                startActivity(intent);*/
+            } else {
+                Toast.makeText(Dashboard1.this, "SwitchPref doesn't works", Toast.LENGTH_SHORT);
+            }
+        }
+    }

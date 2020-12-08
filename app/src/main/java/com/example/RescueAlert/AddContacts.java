@@ -76,7 +76,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendLocation();
+                sendCircle();
             }
         });
         setSupportActionBar(toolbar);
@@ -155,7 +155,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
 
     public void saveDashboard() {
-        Intent intent = new Intent(this, Dashboard.class);
+        Intent intent = new Intent(this, Dashboard1.class);
         startActivity(intent);
     }
 
@@ -179,9 +179,9 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         startActivity(i);
     }*/
 
-    public void sendLocation() {
+    public void sendCircle() {
 
-        Intent i = new Intent(this, LocationActivity.class);
+        Intent i = new Intent(this, Circle.class);
         startActivity(i);
 
     }
@@ -212,12 +212,14 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
                 startActivity(c);
                 break;
             case R.id.nav_track:
-
-            case R.id.nav_setting:
-
-            case R.id.nav_contact:
-                Intent t = new Intent(AddContacts.this, ContactUs.class);
+                Intent t = new Intent(AddContacts.this, Tracking.class);
                 startActivity(t);
+            case R.id.nav_setting:
+                Intent s = new Intent(AddContacts.this, Settings.class);
+                startActivity(s);
+            case R.id.nav_contact:
+                Intent u = new Intent(AddContacts.this, ContactUs.class);
+                startActivity(u);
                 break;
             case R.id.nav_invite:
                 Intent i = new Intent(AddContacts.this, Invite_activity.class);

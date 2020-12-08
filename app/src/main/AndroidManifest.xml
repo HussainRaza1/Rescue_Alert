@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.RescueAlert">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -23,7 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".Signin"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -39,7 +39,7 @@
         <activity
             android:name=".LiveLocationActivity"
             android:exported="true"
-            android:label="@string/title_activity_live_location"/>
+            android:label="@string/title_activity_live_location" />
         <activity
             android:name=".Tracking"
             android:exported="true" />
@@ -47,6 +47,10 @@
             android:name=".Settings"
             android:exported="true"
             android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".Preference"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
         <activity android:name=".Invite_activity" />
         <activity
             android:name=".ContactUs"

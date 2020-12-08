@@ -35,11 +35,11 @@
 
         <TextView
             android:id="@+id/add_family"
-            android:layout_width="111dp"
-            android:layout_height="24dp"
+            android:layout_width="155dp"
+            android:layout_height="22dp"
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/arimo"
-            android:text="Add Family"
+            android:text="Close Contacts"
             android:textColor="#fff"
             android:textSize="20sp"
             android:textStyle="italic"
@@ -90,8 +90,7 @@
             <TextView
                 android:id="@+id/user_family_number"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
-
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/adding"
@@ -99,15 +98,23 @@
                 android:layout_height="80dp"
                 android:background="@drawable/ic_add_contact_1" />
 
-            <TextView
-                android:id="@+id/Fnf"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text="Add Friends and Family Numbers"
-                android:textStyle="italic"
-                android:translationY="-30sp" />
+                android:orientation="vertical"
+                android:padding="3dp"
+                android:translationY="15dp">
 
+                <TextView
+                    android:id="@+id/Fnf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/arimo"
+                    android:padding="5dp"
+                    android:text="Add close contacts you want to send SOS message to"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
             <!--     <TextView
                      android:id="@+id/textView5"
                      android:layout_width="wrap_content"
@@ -138,7 +145,7 @@
             <ListView
                 android:id="@+id/family_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></ListView>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
@@ -148,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/btn_background2"
-            android:text="Save"
+            android:text="Home"
             android:textColor="#2196F3"
             app:layout_constraintBottom_toTopOf="@+id/add_custom"
             app:layout_constraintEnd_toEndOf="parent"
@@ -164,12 +171,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/btn_background2"
-            android:text="Custom Message"
+            android:text="Go to Circle"
             android:textColor="@color/MediumSpringGreen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.drawerlayout.widget.DrawerLayout>
