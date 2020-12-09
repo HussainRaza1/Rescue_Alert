@@ -50,6 +50,7 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="title_activity_live_location">Map</string>
+    <string name="title_activity_requested_location">Map</string>
 
 
 </resources>
