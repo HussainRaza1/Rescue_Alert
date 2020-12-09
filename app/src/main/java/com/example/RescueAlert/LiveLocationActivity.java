@@ -1,5 +1,6 @@
 package com.example.RescueAlert;
 
+import android.annotation.SuppressLint;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -9,36 +10,41 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class LiveLocationActivity extends FragmentActivity implements OnMapReadyCallback {
+public class LiveLocationActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private final long MIN_TIME = 1000;
     private final long MIN_DIST = 5;
     Location mLastLocation;
     LocationRequest mLocationRequest;
-    private GoogleMap mMap;
-    private DatabaseReference databaseReference;
+    GoogleMap mmap;
     private LocationListener locationListener;
     private LocationManager locationManager;
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_location);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.live_map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Live Location");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Live Location");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -50,6 +56,8 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
 
             }
         });
+
+
     }
 
     /**
@@ -61,31 +69,41 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        mmap = googleMap;
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0,
+                0, this);
+    }
 
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        //locationManager.removeUpdates(this);
+        if (mmap != null) {
 
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-            }
+            LatLng latlng=new LatLng(location.getLatitude(),location.getLongitude());
+            mmap.addMarker(new
+                    MarkerOptions().position(latlng).title("Current location"));
+            mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,17f));
 
-            @Override
-            public void onProviderDisabled(String provider) {
-            }
+        }
 
-            @Override
-            public void onProviderEnabled(String provider) {
-            }
+    }
 
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-            }
-        };
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
     }
 }
-
 
 // Add a marker in Sydney and move the camera
         /*LatLng sydney = new LatLng(-34, 151);

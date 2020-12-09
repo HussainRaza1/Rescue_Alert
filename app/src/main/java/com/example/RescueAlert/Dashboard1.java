@@ -41,9 +41,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import static com.example.RescueAlert.Settings.SETTINGS_KEY;
-
-public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQUEST_PHONE_CALL = 1;
     //variable
@@ -145,7 +143,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 MedPopup();
             }
         });
-        setupSharedPreferences();
+        /*setupSharedPreferences();*/
 
       /*  sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -401,7 +399,8 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
         if (id == R.id.nav_track) {
             //do tracking
-            Toast.makeText(Dashboard1.this, "NavTrack clicked", Toast.LENGTH_SHORT).show();
+            Intent t = new Intent(Dashboard1.this, Tracking.class);
+            startActivity(t);
         }
 
         if (id == R.id.nav_setting) {
@@ -436,25 +435,25 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupSharedPreferences() {
+    /*private void setupSharedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        if (key == SETTINGS_KEY) {
-            Toast.makeText(Dashboard1.this, "Works",Toast.LENGTH_SHORT);
+        if (key == ) {
+            Toast.makeText(Dashboard1.this, "Works",Toast.LENGTH_SHORT).show();
 
-            /*final boolean switchPref = sharedPref.getBoolean
+            *//*final boolean switchPref = sharedPref.getBoolean
                     ("eme1", false);
             if (!switchPref) {
                 Intent intent = new Intent (this, ContactUs.class);
                 Log.d("Dashboard1.this","It works");
-                startActivity(intent);*/
+                startActivity(intent);*//*
             } else {
-                Toast.makeText(Dashboard1.this, "SwitchPref doesn't works", Toast.LENGTH_SHORT);
+                Toast.makeText(Dashboard1.this, "SwitchPref doesn't works", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
+        }*/
+}

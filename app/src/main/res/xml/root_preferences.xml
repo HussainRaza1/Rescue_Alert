@@ -4,7 +4,6 @@
     <PreferenceCategory app:title="Emergency Contacts">
 
         <SwitchPreference
-            app:defaultValue="false"
             app:key="eme1"
             app:summaryOff="Message will not be sent to close contacts"
             app:summaryOn="Message will be sent to close contacts"
@@ -25,7 +24,7 @@
 
         <EditTextPreference
             app:key="template_tex"
-            app:title="S.O.S. Message Templates"
+            app:title="S.O.S. Message"
             app:useSimpleSummaryProvider="true" />
 
         <!-- <ListPreference

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,9 +26,10 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
     Toolbar toolbar;
     ActionBarDrawerToggle toggle;
     LinearLayout liv_loc, re_loc;
+    Button back;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
-    FirebaseAuth  mAuth;
+    FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     @Override
@@ -40,6 +42,7 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
         toolbar = findViewById(R.id.toolbar2);
         liv_loc = findViewById(R.id.live_loc);
         re_loc = findViewById(R.id.req_loc);
+        back = findViewById(R.id.track_back);
 
         /*----------------- toolbar--------------*/
 
@@ -69,10 +72,22 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
             }
 
         });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                home();
+            }
+        });
+    }
+
+    private void home() {
+        Intent h = new Intent(Tracking.this, Dashboard1.class);
+        startActivity(h);
+        finish();
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {

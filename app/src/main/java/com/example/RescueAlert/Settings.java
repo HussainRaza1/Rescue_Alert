@@ -12,8 +12,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Settings extends AppCompatActivity {
     public static final String
-            SETTINGS_KEY = "Settings";
-    public static final String
             KEY_PREF_EXAMPLE_SWITCH = "example_switch";
 
     @Override
