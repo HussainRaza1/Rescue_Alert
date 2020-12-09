@@ -31,7 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-
 public class AddContacts extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     final static String Tag = "AddContacts";

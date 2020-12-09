@@ -78,7 +78,17 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
                 home();
             }
         });
+
+        re_loc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent req = new Intent(Tracking.this, RequestedUser.class);
+                startActivity(req);
+            }
+        });
+
     }
+
 
     private void home() {
         Intent h = new Intent(Tracking.this, Dashboard1.class);
