@@ -414,7 +414,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         }
 
         if (id == R.id.nav_setting) {
-            Intent i = new Intent(Dashboard1.this, Settings.class);
+            Intent i = new Intent(Dashboard1.this, MainSettings.class);
             startActivity(i);
         }
 

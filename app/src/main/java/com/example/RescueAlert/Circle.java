@@ -93,7 +93,7 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
     public void display() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
-        Query query = FirebaseDatabase.getInstance().getReference("circle").orderByChild("circle_number").equalTo(current_user);
+        Query query = FirebaseDatabase.getInstance().getReference("circle").orderByChild("user_number").equalTo(current_user);
         FirebaseListOptions<CircleContact> options = new FirebaseListOptions.Builder<CircleContact>().setQuery(query, CircleContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<CircleContact>(options) {
 

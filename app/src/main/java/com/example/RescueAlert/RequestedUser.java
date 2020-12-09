@@ -99,4 +99,16 @@ public class RequestedUser extends AppCompatActivity {
         finish();
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }

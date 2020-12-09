@@ -32,55 +32,65 @@ public class Signin extends AppCompatActivity {
         login_input = findViewById(R.id.code_entered);
 
 
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginUser();
+            }
+        });
+
     }
 
     private Boolean validateText() {
-        String val = login_input.getEditText().getText().toString();
+        String val = login_text.getText().toString();
         if (val.isEmpty()) {
-            login_input.setError(("Field cannot be empty"));
+            login_text.setError(("Field cannot be empty"));
             return false;
         } else {
-            login_input.setError(null);
-            login_input.setErrorEnabled(false);
             return true;
         }
 
     }
 
-    public void loginUser(View view) {
+    public void loginUser() {
         if (!validateText()) {
             return;
         } else {
             isUser();
         }
-
     }
+
 
     private void isUser() {
 
-        final String EnterPhone = login_input.getEditText().getText().toString();
+        final String EnterPhone = login_text.getText().toString();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         Query checkUser = reference.orderByChild("mobileNumber").equalTo(EnterPhone);
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (dataSnapshot.exists()) {
+                        login_input.setError(null);
+                        login_input.setErrorEnabled(false);
 
-                if (snapshot.exists()) {
-
-                    login_input.setError(null);
-                    login_input.setErrorEnabled(false);
-
-                    /*String phoneFromDB = snapshot.child(EnterPhone).child("mobileNumber").getValue(String.class);
-                    if (phoneFromDB.equals(EnterPhone)) {*/
-                    Intent intent = new Intent(Signin.this, Dashboard1.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    login_input.setError("No such user exists");
-                    login_input.requestFocus();
+                        String phoneFromDB = dataSnapshot.child("mobileNumber").getValue(String.class);
+                        if (phoneFromDB.equals(EnterPhone)) {
+                            Intent intent = new Intent(Signin.this, Dashboard1.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            login_input.setError("No such user exists");
+                            login_input.requestFocus();
+                        }
+                    }
                 }
             }
+            /*if (snapshot.child("mobileNumber").getValue().equals(EnterPhone)) {
+                        Intent i = new Intent();
+                    }
+*/
 
 
             @Override
@@ -90,6 +100,7 @@ public class Signin extends AppCompatActivity {
         });
     }
 }
+
     /*public void checkNumber() {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
