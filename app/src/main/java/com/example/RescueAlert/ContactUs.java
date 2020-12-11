@@ -75,6 +75,7 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
             super.onBackPressed();
         }
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
@@ -111,8 +112,8 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
 
 
         if (id == R.id.nav_contact) {
-            Intent t = new Intent(ContactUs.this, ContactUs.class);
-            startActivity(t);
+            Intent o = new Intent(ContactUs.this, ContactUs.class);
+            startActivity(o);
         }
 
 

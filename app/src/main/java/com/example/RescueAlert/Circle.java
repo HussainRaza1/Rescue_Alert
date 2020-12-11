@@ -205,8 +205,8 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
 
 
         if (id == R.id.nav_contact) {
-            Intent t = new Intent(Circle.this, ContactUs.class);
-            startActivity(t);
+            Intent o = new Intent(Circle.this, ContactUs.class);
+            startActivity(o);
         }
 
 

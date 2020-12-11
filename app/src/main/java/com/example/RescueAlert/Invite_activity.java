@@ -111,8 +111,8 @@ public class Invite_activity extends AppCompatActivity implements NavigationView
 
 
         if (id == R.id.nav_contact) {
-            Intent t = new Intent(Invite_activity.this, ContactUs.class);
-            startActivity(t);
+            Intent o = new Intent(Invite_activity.this, ContactUs.class);
+            startActivity(o);
         }
 
 
