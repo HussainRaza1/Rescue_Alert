@@ -62,6 +62,14 @@
                 android:paddingTop="20dp"
                 tools:ignore="HardcodedText" />
 
+            <EditText
+                android:id="@+id/code_verify_field"
+                android:hint="Enter code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 

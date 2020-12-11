@@ -143,9 +143,7 @@ public class Signup extends AppCompatActivity {
 
 
     public void openLogin() {
-        String mobileNumber = regNo.getEditText().getText().toString();
-        Intent intent = new Intent(this, Authenticate.class);
-        intent.putExtra("mobileNumber", mobileNumber);
+        Intent intent = new Intent(this, Signin.class);
         startActivity(intent);
         //finish();
     }
