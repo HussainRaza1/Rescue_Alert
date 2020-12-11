@@ -44,6 +44,8 @@ import java.util.ArrayList;
 public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQUEST_PHONE_CALL = 1;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+    private final int LocationPermissionRequestCode = 1234;
     //variable
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -55,8 +57,9 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     ArrayList<String> phoneNumber = new ArrayList();
     Switch switchPref;
     Switch switchPref1;
+    Boolean mLocationPermissionGranted = false;
     private SharedPreferences sharedPref;
-
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +164,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
 
     }
+
 
     private void EmergencyPopup() {
         epicDialog.setContentView(R.layout.emergency_popup);
@@ -401,6 +405,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         if (id == R.id.nav_track) {
             //do tracking
             Intent t = new Intent(Dashboard1.this, Tracking.class);
+
             startActivity(t);
         }
 
@@ -408,6 +413,12 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
             Intent i = new Intent(Dashboard1.this, MainSettings.class);
             startActivity(i);
         }
+
+        if (id == R.id.nav_invite) {
+            Intent n = new Intent(Dashboard1.this, Invite_activity.class);
+            startActivity(n);
+        }
+
 
         if (id == R.id.nav_contact) {
             Intent t = new Intent(Dashboard1.this, ContactUs.class);

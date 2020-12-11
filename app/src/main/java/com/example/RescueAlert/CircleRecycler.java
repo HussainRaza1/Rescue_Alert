@@ -38,7 +38,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.circle_contact_item, parent, false);
-        return new CircleRecyler.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -79,20 +79,25 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference("users").child(num).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Log.d("CircleRecycler", String.valueOf(dataSnapshot.getChildrenCount()));
 
                         final String user = dataSnapshot.child(num).getRef().getKey();
+                        Log.d("AddContacts", user);
+                        if (count < 3) {
                             Log.d("ContactAdapter", String.valueOf(count));
                             circleContact = new CircleContact(numbr, user);
                             FirebaseDatabase.getInstance().getReference("circle").push().setValue(circleContact);
                             Toast.makeText(mContext, "Circle Contact added!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(mContext, "Can not add more than three contacts!", Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
@@ -105,7 +110,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         });
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView user_phone, user_name;
         Button circle_Add;
 

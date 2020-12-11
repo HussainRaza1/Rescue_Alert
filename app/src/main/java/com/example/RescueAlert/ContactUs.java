@@ -25,7 +25,7 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
     DrawerLayout et_drawerLayout;
     NavigationView et_navigationView;
     Toolbar et_toolbar;
-    Button l_btn;
+    ActionBarDrawerToggle toggle;
 
 
     @Override
@@ -45,7 +45,7 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
         setSupportActionBar(et_toolbar);
 
         et_navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(ContactUs.this, et_drawerLayout, et_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(ContactUs.this, et_drawerLayout, et_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         et_drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -75,47 +75,65 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
             super.onBackPressed();
         }
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-        switch (menuItem.getItemId()) {
-            case R.id.nav_emergency:
-                Intent e = new Intent(ContactUs.this, Dashboard1.class);
-                startActivity(e);
-                break;
-            case R.id.nav_fam:
-                Intent f = new Intent(ContactUs.this, AddContacts.class);
-                startActivity(f);
-                break;
-            case R.id.nav_circle:
-                Intent c = new Intent(ContactUs.this, Circle.class);
-                startActivity(c);
-                break;
-            case R.id.nav_track:
-
-            case R.id.nav_setting:
-
-            case R.id.nav_invite:
-
-                Intent i = new Intent(ContactUs.this, Invite_activity.class);
-                startActivity(i);
-                break;
-
-            case R.id.nav_contact:
-                break;
-
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(ContactUs.this, " Sign out!", Toast.LENGTH_SHORT).show();
-                Intent l = new Intent(getApplicationContext(), Signup.class);
-                startActivity(l);
-                finish();
-                break;
-
+        int id = menuItem.getItemId();
+        if (id == R.id.nav_emergency) {
+            Intent e = new Intent(ContactUs.this, Dashboard1.class);
+            startActivity(e);
         }
+        if (id == R.id.nav_fam) {
+            Intent f = new Intent(ContactUs.this, AddContacts.class);
+            startActivity(f);
+        }
+
+        if (id == R.id.nav_circle) {
+            Intent c = new Intent(ContactUs.this, Circle.class);
+            startActivity(c);
+        }
+
+        if (id == R.id.nav_track) {
+            //do tracking
+            Intent t = new Intent(ContactUs.this, Tracking.class);
+            startActivity(t);
+        }
+
+        if (id == R.id.nav_setting) {
+            Intent i = new Intent(ContactUs.this, MainSettings.class);
+            startActivity(i);
+        }
+
+        if (id == R.id.nav_invite) {
+            Intent n = new Intent(ContactUs.this, Invite_activity.class);
+            startActivity(n);
+        }
+
+
+        if (id == R.id.nav_contact) {
+            Intent t = new Intent(ContactUs.this, ContactUs.class);
+            startActivity(t);
+        }
+
+
+        if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(ContactUs.this, " Sign out!", Toast.LENGTH_SHORT).show();
+            Intent l = new Intent(ContactUs.this, Signup.class);
+            startActivity(l);
+            finish();
+        }
+
         et_drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (toggle.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+    }
 }

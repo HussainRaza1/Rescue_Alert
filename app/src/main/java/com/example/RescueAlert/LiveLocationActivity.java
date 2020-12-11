@@ -18,6 +18,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LiveLocationActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -64,7 +67,7 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -87,6 +90,16 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
             mmap.addMarker(new
                     MarkerOptions().position(latlng).title("Current location"));
             mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 17f));
+
+            String lat = String.valueOf(location.getLatitude());
+            String lon = String.valueOf(location.getLongitude());
+            //Log.d("mylocation", String.valueOf(lat) + "   " + String.valueOf(lon));
+
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            String num = firebaseUser.getPhoneNumber();
+
+            FirebaseDatabase.getInstance().getReference("users").child(num).child("latitude").setValue(lat);
+            FirebaseDatabase.getInstance().getReference("users").child(num).child("longitude").setValue(lon);
 
         }
     }

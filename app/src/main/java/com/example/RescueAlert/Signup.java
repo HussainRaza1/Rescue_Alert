@@ -7,7 +7,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +57,7 @@ public class Signup extends AppCompatActivity {
                 String mobileNumber = regNo.getEditText().getText().toString();
                 String name = regName.getEditText().getText().toString();
 
-                UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, name, null, null);
+                UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, name,"0", "0");
                 reference.child(mobileNumber).setValue(helperClass);
 
                 Intent i = new Intent(Signup.this, Authenticate.class);
