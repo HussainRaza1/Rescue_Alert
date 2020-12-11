@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Signin extends AppCompatActivity {
 
-    String codeVerification;
     String verificationCodeBySystem;
     EditText login_text;
     Button login_button;
