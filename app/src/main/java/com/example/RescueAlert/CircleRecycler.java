@@ -25,11 +25,9 @@ import java.util.ArrayList;
 class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
     Context mContext;
     CircleContact circleContact;
-    FamilyContact contact;
-    int count = 0;
-    private ArrayList<UserHelperClass> mUser;
+    private ArrayList<FamilyContact> mUser;
 
-    public CircleRecyler(ArrayList<UserHelperClass> mUser, Context mContext) {
+    public CircleRecyler(ArrayList<FamilyContact> mUser, Context mContext) {
         this.mUser = mUser;
         this.mContext = mContext;
     }
@@ -43,15 +41,15 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final UserHelperClass user = mUser.get(position);
+        final FamilyContact user = mUser.get(position);
 
-        holder.user_phone.setText(user.getMobileNumber());
-        holder.user_name.setText(user.getName());
+        holder.user_phone.setText(user.getNumber());
+        holder.user_name.setText(user.getUser_ref());
 
         holder.circle_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_circle(user.getMobileNumber());
+                add_circle(user.getNumber());
                 Intent i = new Intent(mContext, Circle.class);
                 // i.putExtra("user_phone", user.getNumber());
                 mContext.startActivity(i);
@@ -60,7 +58,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
 
     }
 
-    public void setList(ArrayList<UserHelperClass> newList) {
+    public void setList(ArrayList<FamilyContact> newList) {
         this.mUser = newList;
         notifyDataSetChanged();
     }
@@ -85,7 +83,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
                         Log.d("CircleRecycler", String.valueOf(dataSnapshot.getChildrenCount()));
 
                         final String user = dataSnapshot.child(num).getRef().getKey();
-                            Log.d("ContactAdapter", String.valueOf(count));
+
                             circleContact = new CircleContact(numbr, user);
                             FirebaseDatabase.getInstance().getReference("circle").push().setValue(circleContact);
                             Toast.makeText(mContext, "Circle Contact added!", Toast.LENGTH_LONG).show();

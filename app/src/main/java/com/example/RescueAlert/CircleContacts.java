@@ -37,6 +37,7 @@ public class CircleContacts extends AppCompatActivity {
     Cursor contacts;
     CirclePhone mContact;
     private ArrayList<UserHelperClass> mUsers = new ArrayList<UserHelperClass>();
+    private ArrayList<FamilyContact> familyUsers = new ArrayList<FamilyContact>();
     private ArrayList<CirclePhone> contactList = new ArrayList<>();
 
     @Override
@@ -122,6 +123,15 @@ public class CircleContacts extends AppCompatActivity {
         return false;
     }
 
+    private boolean familyUserExists(ArrayList<FamilyContact> usersList, String phone) {
+        for (FamilyContact user : usersList) {
+            if (user.getNumber().equals(phone)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void readUsers(final CirclePhone mContact) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
@@ -132,16 +142,34 @@ public class CircleContacts extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     if (snapshot.child("mobileNumber").getValue().equals(mContact.getNumber())) {
                         Log.d(Tag, "Inside read users");
-                        UserHelperClass user = snapshot.getValue(UserHelperClass.class);
+                        final UserHelperClass user = snapshot.getValue(UserHelperClass.class);
                         if (!user.getMobileNumber().equals(firebaseUser.getPhoneNumber())) {
                             if (!userExists(mUsers, mContact.getNumber())) {
                                 mUsers.add(user);
-                            }
+                            } FirebaseDatabase.getInstance().getReference("family").orderByChild("number").equalTo(user.getMobileNumber())
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                        final FamilyContact family_user = snapshot.getValue(FamilyContact.class);
+                                        if (snapshot.child("number").getValue().equals(user.getMobileNumber())){
+                                            if (!familyUserExists(familyUsers, user.getMobileNumber())) {
+                                                familyUsers.add(family_user);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         }
                     }
                 }
                 ///mUsers.add(new UserHelperClass("123456789","1234","gmail.com"));
-                viewAdapter.setList(mUsers);
+                viewAdapter.setList(familyUsers);
             }
 
             @Override
