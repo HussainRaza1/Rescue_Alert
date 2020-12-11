@@ -25,11 +25,9 @@ import java.util.ArrayList;
 class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
     Context mContext;
     CircleContact circleContact;
-    FamilyContact contact;
-    int count = 0;
-    private ArrayList<UserHelperClass> mUser;
+    private ArrayList<FamilyContact> mUser;
 
-    public CircleRecyler(ArrayList<UserHelperClass> mUser, Context mContext) {
+    public CircleRecyler(ArrayList<FamilyContact> mUser, Context mContext) {
         this.mUser = mUser;
         this.mContext = mContext;
     }
@@ -38,20 +36,20 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.circle_contact_item, parent, false);
-        return new ViewHolder(view);
+        return new CircleRecyler.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final UserHelperClass user = mUser.get(position);
+        final FamilyContact user = mUser.get(position);
 
-        holder.user_phone.setText(user.getMobileNumber());
-        holder.user_name.setText(user.getName());
+        holder.user_phone.setText(user.getNumber());
+        holder.user_name.setText(user.getUser_ref());
 
         holder.circle_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_circle(user.getMobileNumber());
+                add_circle(user.getNumber());
                 Intent i = new Intent(mContext, Circle.class);
                 // i.putExtra("user_phone", user.getNumber());
                 mContext.startActivity(i);
@@ -60,7 +58,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
 
     }
 
-    public void setList(ArrayList<UserHelperClass> newList) {
+    public void setList(ArrayList<FamilyContact> newList) {
         this.mUser = newList;
         notifyDataSetChanged();
     }
@@ -79,25 +77,20 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                FirebaseDatabase.getInstance().getReference("users").child(num).addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Log.d("CircleRecycler", String.valueOf(dataSnapshot.getChildrenCount()));
 
                         final String user = dataSnapshot.child(num).getRef().getKey();
-                        Log.d("AddContacts", user);
-                        if (count < 3) {
-                            Log.d("ContactAdapter", String.valueOf(count));
+
                             circleContact = new CircleContact(numbr, user);
                             FirebaseDatabase.getInstance().getReference("circle").push().setValue(circleContact);
                             Toast.makeText(mContext, "Circle Contact added!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(mContext, "Can not add more than three contacts!", Toast.LENGTH_LONG).show();
-                        }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
@@ -110,7 +103,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         });
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView user_phone, user_name;
         Button circle_Add;
 
