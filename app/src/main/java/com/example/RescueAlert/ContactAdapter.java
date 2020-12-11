@@ -70,7 +70,7 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
-        FirebaseDatabase.getInstance().getReference().child("family").child(num).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("family").child(num).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {

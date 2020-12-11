@@ -75,7 +75,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
-        FirebaseDatabase.getInstance().getReference("circle").child("circle_number").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("circle").child("circle_number").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
