@@ -48,8 +48,8 @@ public class CircleContacts extends AppCompatActivity {
         recyclerView = findViewById(R.id.circle_contact_list);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        mUsers = new ArrayList<>();
-        viewAdapter = new CircleRecyler(mUsers, CircleContacts.this);
+        familyUsers = new ArrayList<>();
+        viewAdapter = new CircleRecyler(familyUsers, CircleContacts.this);
         recyclerView.setAdapter(viewAdapter);
 
 
