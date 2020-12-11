@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public class Circle extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -98,12 +100,10 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
         adapter = new FirebaseListAdapter<CircleContact>(options) {
 
             @Override
-            public View getView(int position, View view, ViewGroup viewGroup) {
+            public View getView(int position, View view, @NotNull ViewGroup viewGroup) {
                 View rowView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.circle_list_layout, viewGroup, false);
                 CircleContact model = (CircleContact) getItem(position);
-
                 populateView(rowView, model, position);
-
                 return rowView;
             }
 
@@ -113,10 +113,10 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
                 circle_number.setText(model.getCircle_number());
                 Log.d(Tag, "circle number " + model.getCircle_number());
             }
-
         };
-        circle_view.setAdapter(adapter);
 
+        circle_view.setAdapter(adapter);
+        adapter.stopListening();
         Log.e(Tag, "Inside display circle method");
     }
 

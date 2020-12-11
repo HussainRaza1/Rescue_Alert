@@ -76,13 +76,13 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
-        /*re_loc.setOnClickListener(new View.OnClickListener() {
+        re_loc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent req = new Intent(Tracking.this, RequestedUser.class);
                 startActivity(req);
             }
-        });*/
+        });
 
     }
 
