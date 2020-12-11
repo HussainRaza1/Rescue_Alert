@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.RescueAlert">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -22,15 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Tracking"></activity>
-        <activity
-            android:name=".Settings"
-            android:exported="true"
-            android:label="@string/title_activity_settings" />
-        <activity android:name=".Invite_activity" />
-        <activity
-            android:name=".ContactUs"
-            android:exported="true" />
+        <activity android:name=".MainSettings"></activity>
+        <activity android:name=".RequestedUser" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,6 +36,31 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".RequestedLocation"
+            android:label="@string/title_activity_requested_location" />
+        <activity android:name=".Signin" />
+        <activity
+            android:name=".LiveLocationActivity"
+            android:exported="true"
+            android:label="@string/title_activity_live_location" />
+        <activity
+            android:name=".Tracking"
+            android:exported="true" />
+        <activity
+            android:name=".Settings"
+            android:exported="true"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".Preference"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".Invite_activity" />
+        <activity
+            android:name=".ContactUs"
+            android:exported="true" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -69,6 +88,9 @@
         <activity
             android:name=".PopUpClass"
             android:exported="true" />
+
+        <service android:name=".MyService" />
+
         <activity
             android:name=".Authenticate"
             android:exported="true" />

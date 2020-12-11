@@ -1,9 +1,14 @@
 package com.example.RescueAlert;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
@@ -17,18 +22,14 @@ import java.util.List;
 public class Login extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 1;
+    ActivityResultLauncher<Intent> someActivityResultLauncher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            Intent i = new Intent(getApplicationContext(), Dashboard1.class);
-            startActivity(i);
-            //finish();
-        } else {
+      //  FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
             invokeFirebaseLoginUI();
-        }
     }
 
 
@@ -60,20 +61,46 @@ public class Login extends AppCompatActivity {
         }
     }*/
 
+
+
+
     private void invokeFirebaseLoginUI() {
 
         // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
+        final List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.PhoneBuilder().build());
 
+         someActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request code
+                            Intent data = result.getData();
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setAvailableProviders(providers)
+                                    .build();
+                        }
+                    }
+                });
+        openSomeActivityForResult();
+
+
         // Create and launch sign-in intent
-        startActivityForResult(
+       /* startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .build(),
-                RC_SIGN_IN);
+                RC_SIGN_IN);*/
 
+    }
+
+    public void openSomeActivityForResult() {
+        Intent intent = new Intent(this, Dashboard1.class);
+        someActivityResultLauncher.launch(intent);
     }
 
     @Override

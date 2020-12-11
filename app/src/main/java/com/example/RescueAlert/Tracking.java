@@ -3,6 +3,9 @@ package com.example.RescueAlert;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,12 +17,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Tracking extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     ActionBarDrawerToggle toggle;
+    LinearLayout liv_loc, re_loc;
+    Button back;
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +40,9 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar2);
+        liv_loc = findViewById(R.id.live_loc);
+        re_loc = findViewById(R.id.req_loc);
+        back = findViewById(R.id.track_back);
 
         /*----------------- toolbar--------------*/
 
@@ -46,6 +60,36 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_emergency);
 
+        liv_loc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent live = new Intent(Tracking.this, LiveLocationActivity.class);
+                startActivity(live);
+            }
+
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                home();
+            }
+        });
+
+        /*re_loc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent req = new Intent(Tracking.this, RequestedUser.class);
+                startActivity(req);
+            }
+        });*/
+
+    }
+
+    private void home() {
+        Intent h = new Intent(Tracking.this, Dashboard1.class);
+        startActivity(h);
+        finish();
     }
 
     @Override

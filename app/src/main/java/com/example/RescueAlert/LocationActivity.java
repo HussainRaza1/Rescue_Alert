@@ -110,10 +110,12 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         }
 
     }
+
     private void moveCamera(LatLng latLng, Float zoom) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
     }
+
     private void getLocationPermission() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
@@ -130,6 +132,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         }
 
     }
+
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         mLocationPermissionGranted = false;
@@ -148,6 +151,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             }
         }
     }
+
     private void send_message(final double myLatitude, final double myLongitude) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();

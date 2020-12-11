@@ -5,14 +5,14 @@
 
     <TextView
         android:id="@+id/family_user"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="5dp"
         android:autoSizeMaxTextSize="15dp"
         android:autoSizeMinTextSize="8dp"
+        android:editable="false"
         android:hint="Number"
-        android:textColor="@color/Black"></TextView>
-
+        android:textColor="@color/Black" />
 </LinearLayout>

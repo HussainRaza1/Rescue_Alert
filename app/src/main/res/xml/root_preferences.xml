@@ -1,35 +1,42 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
+
+    <PreferenceCategory app:title="Emergency Contacts">
+
+        <SwitchPreference
+            app:key="eme1"
+            app:summaryOff="Message will not be sent to close contacts"
+            app:summaryOn="Message will be sent to close contacts"
+            app:title="Send Message To Close Contacts When Calling Helpline" />
+
+        <SwitchPreference
+            app:defaultValue="false"
+            app:dependency="eme1"
+            app:key="eme2"
+            app:summaryOff="Dialogue will not show"
+            app:summaryOn="Dialogue will show"
+            app:title="Show Dialogue Before Calling Helplines" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Close Contacts">
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="template_tex"
+            app:title="S.O.S. Message"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+        <!-- <ListPreference
+             app:defaultValue="reply"
+             app:entries="@array/reply_entries"
+             app:entryValues="@array/reply_values"
+             app:key="reply"
+             app:title="@string/reply_title"
+             app:useSimpleSummaryProvider="true" />-->
+
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
-    </PreferenceCategory>
 
 </PreferenceScreen>

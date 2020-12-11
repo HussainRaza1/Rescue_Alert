@@ -2,7 +2,6 @@ package com.example.RescueAlert;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,15 +57,6 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
             }
         });
 
-        holder.circle_Add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add_circle(user.getNumber());
-                Intent i = new Intent(mContext, Circle.class);
-                // i.putExtra("user_phone", user.getNumber());
-                mContext.startActivity(i);
-            }
-        });
 
     }
 
@@ -83,8 +73,6 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
         FirebaseDatabase.getInstance().getReference().child("family").child(num).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                count = (int) dataSnapshot.getChildrenCount();
-                Log.d("ContactAdapter", String.valueOf(count));
                 FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
 
 
@@ -92,56 +80,11 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         final String user = dataSnapshot.child(num).getRef().getKey();
-                        Log.d("AddContacts", user);
-                        if (count < 3) {
                             contact = new FamilyContact(numbr, user);
                             FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
                             Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(mContext, "Can not add more than three contacts!", Toast.LENGTH_LONG).show();
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void add_circle(final String numbr) {
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final String num = firebaseUser.getPhoneNumber();
-
-        FirebaseDatabase.getInstance().getReference("circle").child("circle_number").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                count = (int) dataSnapshot.getChildrenCount();
-                Log.d("ContactAdapter", String.valueOf(count));
-
-                FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Log.d("CircleAdatper", String.valueOf(dataSnapshot.getChildrenCount()));
-
-                        final String user = dataSnapshot.child(num).getRef().getKey();
-                        Log.d("AddContacts", user);
-                        if (count < 3) {
-                            Log.d("ContactAdapter", String.valueOf(count));
-                            circleContact = new CircleContact(numbr, user);
-                            FirebaseDatabase.getInstance().getReference("circle").push().setValue(circleContact);
-                            Toast.makeText(mContext, "Circle Contact added!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(mContext, "Can not add more than three contacts!", Toast.LENGTH_LONG).show();
-                        }
-                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

@@ -12,12 +12,12 @@
         <item
             android:id="@+id/nav_fam"
             android:icon="@drawable/ic_add"
-            android:title="Add Family" />
+            android:title="Close Contacts" />
 
         <item
             android:id="@+id/nav_circle"
             android:icon="@drawable/ic_circle1"
-            android:title="Circle" />
+            android:title="Family" />
 
         <item
             android:id="@+id/nav_track"

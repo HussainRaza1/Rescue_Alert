@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <PreferenceCategory android:title="Emergency Contacts">
     <EditTextPreference
         android:defaultValue="false"
         android:key="template_preference"
         android:selectAllOnFocus="true"
-        android:singleLine="true"
         android:title="Template" />
-    <SwitchPreference
+
+    </PreferenceCategory>
+
+
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="send_message"
         android:switchTextOff="Off"
         android:switchTextOn="On"
-        android:title="Send Message" />
+        android:selectAllOnFocus="true"
+        android:title="Send Message To Close Contacts When Calling Helpline" />
+
+
+
 </PreferenceScreen>

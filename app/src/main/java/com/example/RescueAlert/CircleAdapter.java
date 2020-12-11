@@ -22,13 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
+class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
     Context mContext;
-    private ArrayList<UserHelperClass> mUser;
     CircleContact circleContact;
+    FamilyContact contact;
     int count = 0;
+    private ArrayList<UserHelperClass> mUser;
 
-    public CircleAdapter(ArrayList<UserHelperClass> mUser, Context mContext) {
+    public CircleRecyler(ArrayList<UserHelperClass> mUser, Context mContext) {
         this.mUser = mUser;
         this.mContext = mContext;
     }
@@ -37,7 +38,7 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.circle_contact_item, parent, false);
-        return new CircleAdapter.ViewHolder(view);
+        return new CircleRecyler.ViewHolder(view);
     }
 
     @Override
@@ -45,6 +46,7 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
         final UserHelperClass user = mUser.get(position);
 
         holder.user_phone.setText(user.getMobileNumber());
+        holder.user_name.setText(user.getName());
 
         holder.circle_Add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,22 +60,15 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
 
     }
 
+    public void setList(ArrayList<UserHelperClass> newList) {
+        this.mUser = newList;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {
         return mUser.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView user_phone, user_name;
-        Button circle_Add;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            user_name = itemView.findViewById(R.id.circle_contact_name);
-            user_phone = itemView.findViewById(R.id.circle_contact_phone);
-            circle_Add = itemView.findViewById(R.id.circle_add);
-        }
     }
 
     public void add_circle(final String numbr) {
@@ -116,4 +111,18 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
             }
         });
     }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView user_phone, user_name;
+        Button circle_Add;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            user_name = itemView.findViewById(R.id.circle_contact_name);
+            user_phone = itemView.findViewById(R.id.circle_contact_phone);
+            circle_Add = itemView.findViewById(R.id.circle_add);
+        }
+    }
+
+
 }
