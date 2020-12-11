@@ -134,7 +134,7 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
     }
 
     public void openContacts() {
-        Intent intent = new Intent(this, CircleContactActivity.class);
+        Intent intent = new Intent(this, CircleContacts.class);
         startActivity(intent);
     }
 

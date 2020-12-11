@@ -75,8 +75,6 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
 
-
-                    ///*count*///
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         final String user = dataSnapshot.child(num).getRef().getKey();

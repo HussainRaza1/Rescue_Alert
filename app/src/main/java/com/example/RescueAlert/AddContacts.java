@@ -92,7 +92,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
         String current_user = firebaseUser.getPhoneNumber();
-        Query query = FirebaseDatabase.getInstance().getReference("close_contact").orderByChild("user_ref").equalTo(current_user);
+        Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
         FirebaseListOptions<FamilyContact> options = new FirebaseListOptions.Builder<FamilyContact>().setQuery(query, FamilyContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<FamilyContact>(options) {
 
