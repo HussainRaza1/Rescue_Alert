@@ -75,11 +75,9 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
-        FirebaseDatabase.getInstance().getReference("circle").child("circle_number").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("circle").child("circle_number").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                count = (int) dataSnapshot.getChildrenCount();
-                Log.d("CircleRecycler", String.valueOf(count));
 
                 FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -87,15 +85,10 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
                         Log.d("CircleRecycler", String.valueOf(dataSnapshot.getChildrenCount()));
 
                         final String user = dataSnapshot.child(num).getRef().getKey();
-                        Log.d("AddContacts", user);
-                        if (count < 3) {
                             Log.d("ContactAdapter", String.valueOf(count));
                             circleContact = new CircleContact(numbr, user);
                             FirebaseDatabase.getInstance().getReference("circle").push().setValue(circleContact);
                             Toast.makeText(mContext, "Circle Contact added!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(mContext, "Can not add more than three contacts!", Toast.LENGTH_LONG).show();
-                        }
                     }
 
                     @Override

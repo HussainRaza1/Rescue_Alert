@@ -57,9 +57,9 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Query query = FirebaseDatabase.getInstance().getReference("users").orderByChild("mobileNumber");
+        Query query = FirebaseDatabase.getInstance().getReference("users").orderByChild("mobileNumber").equalTo(circle_number);
         Log.d(Tag, "number " + circle_number);
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
