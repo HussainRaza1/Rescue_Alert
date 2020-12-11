@@ -73,6 +73,8 @@ public class Settings extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key == "send_message"){
+            }
 
         }
     }
