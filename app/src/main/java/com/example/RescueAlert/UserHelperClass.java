@@ -1,17 +1,19 @@
 package com.example.RescueAlert;
 
 public class UserHelperClass {
-    String mobileNumber, PIN, name;
+    String mobileNumber, PIN, name, lat, lon;
 
 
     public UserHelperClass() {
     }
 
 
-    public UserHelperClass(String mobileNumber, String PIN, String email) {
+    public UserHelperClass(String mobileNumber, String PIN, String name, String lat, String lon) {
         this.mobileNumber = mobileNumber;
         this.PIN = PIN;
         this.name = name;
+        this.lat = lat;
+        this.lon = lon;
     }
 
 
@@ -35,7 +37,24 @@ public class UserHelperClass {
         return name;
     }
 
-    public void setEmail(String name) {
+    public void setName(String name) {
         this.name = name;
     }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
 }

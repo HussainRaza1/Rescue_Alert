@@ -13,8 +13,8 @@
         android:layout_marginBottom="5dp"
         android:autoSizeMaxTextSize="15dp"
         android:autoSizeMinTextSize="8dp"
-        android:editable="false"
         android:hint="Number"
+        android:padding="5dp"
         android:textColor="@color/Black" />
 
 </LinearLayout>

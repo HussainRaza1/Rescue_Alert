@@ -176,13 +176,15 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
                 Intent e = new Intent(Circle.this, Dashboard1.class);
                 startActivity(e);
                 break;
-            case R.id.nav_fam:
 
+            case R.id.nav_fam:
                 Intent c = new Intent(Circle.this, AddContacts.class);
                 startActivity(c);
                 break;
+
             case R.id.nav_circle:
                 break;
+
             case R.id.nav_track:
 
                 Intent t = new Intent(Circle.this, Tracking.class);

@@ -71,26 +71,25 @@ public class Signin extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    if (dataSnapshot.exists()) {
+                 /*   if (dataSnapshot.exists()) {
                         login_input.setError(null);
-                        login_input.setErrorEnabled(false);
+                        login_input.setErrorEnabled(false);*/
 
-                        String phoneFromDB = dataSnapshot.child("mobileNumber").getValue(String.class);
-                        if (phoneFromDB.equals(EnterPhone)) {
-                            Intent intent = new Intent(Signin.this, Dashboard1.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            login_input.setError("No such user exists");
-                            login_input.requestFocus();
-                        }
+                    String phoneFromDB = dataSnapshot.child("mobileNumber").getValue(String.class);
+                    if (phoneFromDB.equals(EnterPhone)) {
+
+                        String phone = dataSnapshot.child(EnterPhone).child("mobileNumber").getValue(String.class);
+                        Intent p = new Intent(getApplicationContext(), Authenticate.class);
+                        p.putExtra("mobile_number", phone);
+                        startActivity(p);
+                        finish();
+                    } else {
+                        login_input.setError("No such user exists");
+                        login_input.requestFocus();
                     }
+                    // }
                 }
             }
-            /*if (snapshot.child("mobileNumber").getValue().equals(EnterPhone)) {
-                        Intent i = new Intent();
-                    }
-*/
 
 
             @Override

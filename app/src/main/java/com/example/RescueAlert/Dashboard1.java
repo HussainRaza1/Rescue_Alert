@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.MenuItem;
@@ -63,15 +62,6 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newdash);
-
-        Intent intent = new Intent(this, MyService.class);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            startForegroundService(intent);
-        } else {
-            startService(intent);
-        }
 
 
         sharedPref =
@@ -395,7 +385,8 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
         int id = menuItem.getItemId();
         if (id == R.id.nav_emergency) {
-            Toast.makeText(Dashboard1.this, "NavEmergency clicked", Toast.LENGTH_SHORT).show();
+            Intent e = new Intent(Dashboard1.this, Dashboard1.class);
+            startActivity(e);
         }
         if (id == R.id.nav_fam) {
             Intent f = new Intent(Dashboard1.this, AddContacts.class);

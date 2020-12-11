@@ -1,18 +1,29 @@
 package com.example.RescueAlert;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.firebase.client.annotations.NotNull;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.RescueAlert.Circle.Tag;
 
 public class RequestedLocation extends FragmentActivity implements OnMapReadyCallback {
 
+    String circle_number;
     private GoogleMap mMap;
 
     @Override
@@ -20,14 +31,9 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requested_location);
 
-        /*Intent intent = new Intent(this, MyService.class);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        circle_number = getIntent().getStringExtra("circle_number");
 
-            startForegroundService(intent);
-        } else {
-            startService(intent);
-        }*/
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -48,9 +54,35 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        Query query = FirebaseDatabase.getInstance().getReference("users").orderByChild("mobileNumber");
+        Log.d(Tag, "number " + circle_number);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.child("mobileNumber").getValue().equals(circle_number)) {
+                        //Log.d(Tag, "Inside live location");
+                        UserHelperClass user = snapshot.getValue(UserHelperClass.class);
+                        String lat = user.getLat();
+                        String lon = user.getLon();
+                       // Log.d(Tag, "Location " + lat + lon);
+                        LatLng loc = new LatLng(Double.valueOf(lat), Double.valueOf(lon));
+                        mMap.clear();
+                        mMap.addMarker(new
+                                MarkerOptions().position(loc).title("User location"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 17f));
+                    }
+
+                    // show map
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
     }
 }

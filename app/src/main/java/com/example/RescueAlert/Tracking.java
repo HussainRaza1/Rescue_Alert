@@ -63,15 +63,12 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
         liv_loc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* mAuth = FirebaseAuth.getInstance();
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user!=null){*/
                 Intent live = new Intent(Tracking.this, LiveLocationActivity.class);
                 startActivity(live);
-
             }
 
         });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,16 +76,15 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
-        re_loc.setOnClickListener(new View.OnClickListener() {
+        /*re_loc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent req = new Intent(Tracking.this, RequestedUser.class);
                 startActivity(req);
             }
-        });
+        });*/
 
     }
-
 
     private void home() {
         Intent h = new Intent(Tracking.this, Dashboard1.class);

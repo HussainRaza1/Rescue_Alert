@@ -66,8 +66,21 @@ public class RequestedUser extends AppCompatActivity {
             protected void populateView(@NotNull View v, @NotNull final CircleContact model, int position) {
                 req_number = (TextView) v.findViewById(R.id.req_list);
                 req_number.setText(model.getUser_number());
-                Log.d(Tag, "number " + model.getUser_number());
+               // Log.d(Tag, "number " + model.getUser_number());
+
+                final String circle_user_number = model.getUser_number();
+                req_number.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), RequestedLocation.class);
+                        intent.putExtra("circle_number", circle_user_number);
+                        startActivity(intent);
+                    }
+                });
             }
+
+
+
 
             @Override
             public View getView(int position, View view, ViewGroup viewGroup) {
@@ -76,9 +89,9 @@ public class RequestedUser extends AppCompatActivity {
 
                 populateView(rowView, model, position);
 
+
                 return rowView;
             }
-
 
         };
         req_user.setAdapter(adapter);
@@ -86,11 +99,13 @@ public class RequestedUser extends AppCompatActivity {
         Log.e(Tag, "Inside display comment method");
     }
 
+
     private void famReq() {
         Intent intent = new Intent(this, Circle.class);
         startActivity(intent);
         finish();
     }
+
 
     private void backReq() {
 
@@ -100,11 +115,13 @@ public class RequestedUser extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
         adapter.startListening();
     }
+
 
     @Override
     protected void onStop() {

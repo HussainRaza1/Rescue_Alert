@@ -25,11 +25,8 @@ import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 public class AddContacts extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -95,7 +92,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
         String current_user = firebaseUser.getPhoneNumber();
-        Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
+        Query query = FirebaseDatabase.getInstance().getReference("close_contact").orderByChild("user_ref").equalTo(current_user);
         FirebaseListOptions<FamilyContact> options = new FirebaseListOptions.Builder<FamilyContact>().setQuery(query, FamilyContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<FamilyContact>(options) {
 
@@ -120,31 +117,6 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         family_view.setAdapter(adapter);
 
         Log.e(Tag, "Inside display comment method");
-    }
-
-    public void add_family(final String numbr) {
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final String num = firebaseUser.getPhoneNumber();
-
-        assert num != null;
-        Log.d("AddContacts", num);
-
-        FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final String user = dataSnapshot.child(num).getRef().getKey();
-                String no = numbr;
-                Log.d("AddContacts", user);
-                contact = new FamilyContact(no, user);
-                FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
-                Toast.makeText(AddContacts.this, "Contact added!", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void openContacts() {

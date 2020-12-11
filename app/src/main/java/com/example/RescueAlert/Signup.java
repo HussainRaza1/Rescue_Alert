@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -15,6 +17,7 @@ public class Signup extends AppCompatActivity {
     TextInputLayout regNo, regPin, regName;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
+    LatLng regLat, regLon;
     private Button signButton;
     private Button reg_btn;
     private Button logButton;
@@ -35,6 +38,8 @@ public class Signup extends AppCompatActivity {
         regName = findViewById(R.id.Name);
         reg_btn = (Button) findViewById(R.id.register);
         logButton = (Button) findViewById(R.id.Login1);
+
+
         logButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 openLogin();
@@ -53,7 +58,7 @@ public class Signup extends AppCompatActivity {
                 String mobileNumber = regNo.getEditText().getText().toString();
                 String name = regName.getEditText().getText().toString();
 
-                UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, name);
+                UserHelperClass helperClass = new UserHelperClass(mobileNumber, PIN, name, null, null);
                 reference.child(mobileNumber).setValue(helperClass);
 
                 Intent i = new Intent(Signup.this, Authenticate.class);
@@ -138,7 +143,9 @@ public class Signup extends AppCompatActivity {
 
 
     public void openLogin() {
-        Intent intent = new Intent(this, Signin.class);
+        String mobileNumber = regNo.getEditText().getText().toString();
+        Intent intent = new Intent(this, Authenticate.class);
+        intent.putExtra("mobileNumber", mobileNumber);
         startActivity(intent);
         //finish();
     }

@@ -1,9 +1,11 @@
 package com.example.RescueAlert;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,11 +18,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class LiveLocationActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -37,27 +34,25 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_location);
+
+        ///foreground service
+        Intent intent = new Intent(this, MyService.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.live_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Live Location");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
     }
 
     /**
@@ -72,6 +67,7 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mmap = googleMap;
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationManager.requestLocationUpdates(
@@ -85,13 +81,13 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
         //locationManager.removeUpdates(this);
         if (mmap != null) {
 
-            LatLng latlng=new LatLng(location.getLatitude(),location.getLongitude());
+            mmap.clear();
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
             mmap.addMarker(new
                     MarkerOptions().position(latlng).title("Current location"));
-            mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,17f));
+            mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 17f));
 
         }
-
     }
 
     @Override
