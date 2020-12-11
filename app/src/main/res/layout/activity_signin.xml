@@ -43,15 +43,8 @@
         android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/code_entered"
-            style="@style/AppTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/White"
-            app:counterTextColor="@color/White">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/Login_entered"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,13 +58,11 @@
             <EditText
                 android:id="@+id/code_verify_field"
                 android:hint="Enter code"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:ems="10"
                 android:layout_gravity="center_horizontal"
                 />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/signin"
