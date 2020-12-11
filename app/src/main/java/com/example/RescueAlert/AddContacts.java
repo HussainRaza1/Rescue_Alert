@@ -204,8 +204,8 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
 
         if (id == R.id.nav_contact) {
-            Intent t = new Intent(AddContacts.this, ContactUs.class);
-            startActivity(t);
+            Intent o = new Intent(AddContacts.this, ContactUs.class);
+            startActivity(o);
         }
 
 
@@ -229,3 +229,4 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
         return super.onOptionsItemSelected(item);
     }
+}

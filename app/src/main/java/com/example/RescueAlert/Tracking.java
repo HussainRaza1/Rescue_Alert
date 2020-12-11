@@ -137,8 +137,8 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
 
 
         if (id == R.id.nav_contact) {
-            Intent t = new Intent(Tracking.this, ContactUs.class);
-            startActivity(t);
+            Intent o = new Intent(Tracking.this, ContactUs.class);
+            startActivity(o);
         }
 
 

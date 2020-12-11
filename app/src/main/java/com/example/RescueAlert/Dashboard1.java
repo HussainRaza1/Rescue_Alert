@@ -421,8 +421,8 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
 
         if (id == R.id.nav_contact) {
-            Intent t = new Intent(Dashboard1.this, ContactUs.class);
-            startActivity(t);
+            Intent o = new Intent(Dashboard1.this, ContactUs.class);
+            startActivity(o);
         }
 
 

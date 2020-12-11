@@ -96,8 +96,8 @@ public class MainSettings extends AppCompatActivity implements NavigationView.On
 
 
         if (id == R.id.nav_contact) {
-            Intent t = new Intent(MainSettings.this, ContactUs.class);
-            startActivity(t);
+            Intent o = new Intent(MainSettings.this, ContactUs.class);
+            startActivity(o);
         }
 
 
