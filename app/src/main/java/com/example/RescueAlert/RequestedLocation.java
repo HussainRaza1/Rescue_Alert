@@ -41,6 +41,7 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
     }
 
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -50,6 +51,8 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

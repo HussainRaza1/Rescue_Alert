@@ -76,13 +76,13 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
-        /*re_loc.setOnClickListener(new View.OnClickListener() {
+        re_loc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent req = new Intent(Tracking.this, RequestedUser.class);
                 startActivity(req);
             }
-        });*/
+        });
 
     }
 
@@ -121,13 +121,20 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
 
         if (id == R.id.nav_track) {
             //do tracking
-            Toast.makeText(Tracking.this, "NavTrack clicked", Toast.LENGTH_SHORT).show();
+            Intent t = new Intent(Tracking.this, Tracking.class);
+            startActivity(t);
         }
 
         if (id == R.id.nav_setting) {
             Intent i = new Intent(Tracking.this, Settings.class);
             startActivity(i);
         }
+
+        if (id == R.id.nav_invite) {
+            Intent n = new Intent(Tracking.this, Invite_activity.class);
+            startActivity(n);
+        }
+
 
         if (id == R.id.nav_contact) {
             Intent t = new Intent(Tracking.this, ContactUs.class);

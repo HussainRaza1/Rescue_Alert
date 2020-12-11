@@ -39,6 +39,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Button l_btn;
+    ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(AddContacts.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(AddContacts.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -90,7 +91,6 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
     public void display() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
         String current_user = firebaseUser.getPhoneNumber();
         Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
         FirebaseListOptions<FamilyContact> options = new FirebaseListOptions.Builder<FamilyContact>().setQuery(query, FamilyContact.class).setLayout(android.R.layout.list_content).build();
@@ -170,43 +170,62 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-        switch (menuItem.getItemId()) {
-
-            case R.id.nav_emergency:
-                Intent e = new Intent(AddContacts.this, Dashboard1.class);
-                startActivity(e);
-                break;
-            case R.id.nav_fam:
-                break;
-            case R.id.nav_circle:
-                Intent c = new Intent(AddContacts.this, Circle.class);
-                startActivity(c);
-                break;
-            case R.id.nav_track:
-                Intent t = new Intent(AddContacts.this, Tracking.class);
-                startActivity(t);
-            case R.id.nav_setting:
-                Intent s = new Intent(AddContacts.this, Settings.class);
-                startActivity(s);
-            case R.id.nav_contact:
-                Intent u = new Intent(AddContacts.this, ContactUs.class);
-                startActivity(u);
-                break;
-            case R.id.nav_invite:
-                Intent i = new Intent(AddContacts.this, Invite_activity.class);
-                startActivity(i);
-                break;
-            case R.id.nav_logout:
-
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(AddContacts.this, " Sign out!", Toast.LENGTH_SHORT).show();
-                Intent l = new Intent(getApplicationContext(), Signup.class);
-                startActivity(l);
-                finish();
-                break;
+        int id = menuItem.getItemId();
+        if (id == R.id.nav_emergency) {
+            Intent e = new Intent(AddContacts.this, Dashboard1.class);
+            startActivity(e);
         }
+        if (id == R.id.nav_fam) {
+            Intent f = new Intent(AddContacts.this, AddContacts.class);
+            startActivity(f);
+        }
+
+        if (id == R.id.nav_circle) {
+            Intent c = new Intent(AddContacts.this, Circle.class);
+            startActivity(c);
+        }
+
+        if (id == R.id.nav_track) {
+            //do tracking
+            Intent t = new Intent(AddContacts.this, Tracking.class);
+
+            startActivity(t);
+        }
+
+        if (id == R.id.nav_setting) {
+            Intent i = new Intent(AddContacts.this, MainSettings.class);
+            startActivity(i);
+        }
+
+        if (id == R.id.nav_invite) {
+            Intent n = new Intent(AddContacts.this, Invite_activity.class);
+            startActivity(n);
+        }
+
+
+        if (id == R.id.nav_contact) {
+            Intent t = new Intent(AddContacts.this, ContactUs.class);
+            startActivity(t);
+        }
+
+
+        if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(AddContacts.this, " Sign out!", Toast.LENGTH_SHORT).show();
+            Intent l = new Intent(AddContacts.this, Signup.class);
+            startActivity(l);
+            finish();
+        }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (toggle.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+    }

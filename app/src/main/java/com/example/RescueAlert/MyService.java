@@ -19,10 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
-
 public class MyService extends Service implements LocationListener {
 
 
@@ -83,7 +79,7 @@ public class MyService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(@NonNull Location location) {
 
-        String lat = String.valueOf(location.getLatitude());
+        /*String lat = String.valueOf(location.getLatitude());
         String lon = String.valueOf(location.getLongitude());
         //Log.d("mylocation", String.valueOf(lat) + "   " + String.valueOf(lon));
 
@@ -91,7 +87,7 @@ public class MyService extends Service implements LocationListener {
         String num = firebaseUser.getPhoneNumber();
 
         FirebaseDatabase.getInstance().getReference("users").child(num).child("latitude").setValue(lat);
-        FirebaseDatabase.getInstance().getReference("users").child(num).child("longitude").setValue(lon);
+        FirebaseDatabase.getInstance().getReference("users").child(num).child("longitude").setValue(lon);*/
     }
 
 

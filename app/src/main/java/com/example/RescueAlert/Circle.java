@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public class Circle extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,6 +39,7 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     TextView circle_number, text2;
+    ActionBarDrawerToggle toggle;
     private Button save, circ;
     private Button add1;
 
@@ -80,7 +83,7 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(Circle.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(Circle.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -98,12 +101,10 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
         adapter = new FirebaseListAdapter<CircleContact>(options) {
 
             @Override
-            public View getView(int position, View view, ViewGroup viewGroup) {
+            public View getView(int position, View view, @NotNull ViewGroup viewGroup) {
                 View rowView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.circle_list_layout, viewGroup, false);
                 CircleContact model = (CircleContact) getItem(position);
-
                 populateView(rowView, model, position);
-
                 return rowView;
             }
 
@@ -113,10 +114,10 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
                 circle_number.setText(model.getCircle_number());
                 Log.d(Tag, "circle number " + model.getCircle_number());
             }
-
         };
-        circle_view.setAdapter(adapter);
 
+        circle_view.setAdapter(adapter);
+        adapter.stopListening();
         Log.e(Tag, "Inside display circle method");
     }
 
@@ -170,50 +171,63 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-        switch (menuItem.getItemId()) {
-
-            case R.id.nav_emergency:
-                Intent e = new Intent(Circle.this, Dashboard1.class);
-                startActivity(e);
-                break;
-
-            case R.id.nav_fam:
-                Intent c = new Intent(Circle.this, AddContacts.class);
-                startActivity(c);
-                break;
-
-            case R.id.nav_circle:
-                break;
-
-            case R.id.nav_track:
-
-                Intent t = new Intent(Circle.this, Tracking.class);
-                startActivity(t);
-
-            case R.id.nav_setting:
-
-                Intent s = new Intent(Circle.this, Settings.class);
-                startActivity(s);
-
-            case R.id.nav_contact:
-                Intent u = new Intent(Circle.this, ContactUs.class);
-                startActivity(u);
-                break;
-            case R.id.nav_invite:
-                Intent i = new Intent(Circle.this, Invite_activity.class);
-                startActivity(i);
-                break;
-            case R.id.nav_logout:
-
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(Circle.this, " Sign out!", Toast.LENGTH_SHORT).show();
-                Intent l = new Intent(getApplicationContext(), Signup.class);
-                startActivity(l);
-                finish();
-                break;
+        int id = menuItem.getItemId();
+        if (id == R.id.nav_emergency) {
+            Intent e = new Intent(Circle.this, Dashboard1.class);
+            startActivity(e);
         }
+        if (id == R.id.nav_fam) {
+            Intent f = new Intent(Circle.this, AddContacts.class);
+            startActivity(f);
+        }
+
+        if (id == R.id.nav_circle) {
+            Intent c = new Intent(Circle.this, Circle.class);
+            startActivity(c);
+        }
+
+        if (id == R.id.nav_track) {
+            //do tracking
+            Intent t = new Intent(Circle.this, Tracking.class);
+
+            startActivity(t);
+        }
+
+        if (id == R.id.nav_setting) {
+            Intent i = new Intent(Circle.this, MainSettings.class);
+            startActivity(i);
+        }
+
+        if (id == R.id.nav_invite) {
+            Intent n = new Intent(Circle.this, Invite_activity.class);
+            startActivity(n);
+        }
+
+
+        if (id == R.id.nav_contact) {
+            Intent t = new Intent(Circle.this, ContactUs.class);
+            startActivity(t);
+        }
+
+
+        if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(Circle.this, " Sign out!", Toast.LENGTH_SHORT).show();
+            Intent l = new Intent(Circle.this, Signup.class);
+            startActivity(l);
+            finish();
+        }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (toggle.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+    }
 }
