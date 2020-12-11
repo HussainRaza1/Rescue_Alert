@@ -44,7 +44,7 @@ public class Invite_activity extends AppCompatActivity implements NavigationView
         toggle.syncState();
 
         in_navigationView.setNavigationItemSelectedListener(this);
-        in_navigationView.setCheckedItem(R.id.nav_contact);
+        in_navigationView.setCheckedItem(R.id.nav_invite);
 
 
         inv_send.setOnClickListener(new View.OnClickListener() {

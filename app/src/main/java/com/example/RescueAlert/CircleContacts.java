@@ -87,7 +87,7 @@ public class CircleContacts extends AppCompatActivity {
             phone = phone.replace(")", "");
 
             if (String.valueOf(phone.charAt(0)).equals("0")) {
-                phone = phone.replaceFirst("0", "");
+                phone = phone.replaceFirst("0", "+92");
             }
 
             if (!String.valueOf(phone.charAt(0)).equals("+")) {

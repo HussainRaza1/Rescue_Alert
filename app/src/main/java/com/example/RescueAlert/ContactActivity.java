@@ -66,18 +66,24 @@ public class ContactActivity extends AppCompatActivity {
             contacts = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
         }
         while (contacts.moveToNext()) {
-            String phone = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             String name = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phone = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            phone = phone.replace(" ", "");
+            phone = phone.replace("-", "");
+            phone = phone.replace("(", "");
+            phone = phone.replace(")", "");
+
+            if (String.valueOf(phone.charAt(0)).equals("0")) {
+                phone = phone.replaceFirst("0", "+92");
+            }
+
+            if (!String.valueOf(phone.charAt(0)).equals("+")) {
+                phone = ISOPrefix + phone;
+            }
             mContact = new Contacts(phone, name);
             contactList.add(mContact);
-
-            //readUsers(mContact);
-
             Log.d(Tag, "contacts: " + contactList);
-            Log.d(Tag, "current contact" + mContact.toString());
         }
-        viewAdapter = new ContactAdapter(contactList, ContactActivity.this);
-        recyclerView.setAdapter(viewAdapter);
         Log.d(Tag, "Inside contact list method");
     }
 

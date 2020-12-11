@@ -31,31 +31,6 @@ public class Authenticate extends AppCompatActivity {
     Button verify_btn;
     EditText mobileNumberEntered;
     ProgressBar progressBar;
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks =
-            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-                @Override
-                public void onCodeSent(String s, @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                    super.onCodeSent(s, forceResendingToken);
-                    verificationCodeBySystem = s;
-                }
-
-                @Override
-                public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-
-                    String code = phoneAuthCredential.getSmsCode();
-                    if (code != null) {
-                        mobileNumberEntered.setText(code);
-                        progressBar.setVisibility(View.VISIBLE);
-                        verifyCode(code);
-                    }
-                }
-
-                @Override
-                public void onVerificationFailed(FirebaseException e) {
-                    Toast.makeText(Authenticate.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,7 +73,36 @@ public class Authenticate extends AppCompatActivity {
                         .setCallbacks(mCallbacks)                       // OnVerificationStateChangedCallbacks
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
+
     }
+
+
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks =
+            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                @Override
+                public void onCodeSent(@NotNull String s, @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                    super.onCodeSent(s, forceResendingToken);
+                    verificationCodeBySystem = s;
+                }
+
+                @Override
+                public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+                    String code = phoneAuthCredential.getSmsCode();
+                    if (code != null) {
+                        mobileNumberEntered.setText(code);
+                        progressBar.setVisibility(View.VISIBLE);
+                        verifyCode(code);
+                    }
+                }
+
+                @Override
+                public void onVerificationFailed(FirebaseException e) {
+                    Toast.makeText(Authenticate.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            };
+
 
     private void verifyCode(String codeByUser) {
 

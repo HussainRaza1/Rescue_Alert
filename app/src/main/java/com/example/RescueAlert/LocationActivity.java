@@ -1,6 +1,7 @@
 package com.example.RescueAlert;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -156,7 +157,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
         Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -164,11 +165,14 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     String num = snapshot.child("number").getValue().toString();
                     phoneNumber.add(num);
                 }
+
                 String message = "Can you pick me from " + "http://maps.google.com/maps?q=" + String.valueOf(myLatitude) + "," + String.valueOf(myLongitude);
                 SmsManager smsManager = SmsManager.getDefault();
                 for (int i = 0; i < phoneNumber.size(); i++) {
                     smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
                 }
+                Intent a = new Intent(LocationActivity.this, LiveLocationActivity.class);
+                startActivity(a);
             }
 
             @Override

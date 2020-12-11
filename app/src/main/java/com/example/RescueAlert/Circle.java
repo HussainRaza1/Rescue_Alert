@@ -88,7 +88,7 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_emergency);
+        navigationView.setCheckedItem(R.id.nav_circle);
 
     }
 

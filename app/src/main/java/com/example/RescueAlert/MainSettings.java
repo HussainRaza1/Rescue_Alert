@@ -46,7 +46,8 @@ public class MainSettings extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_emergency);
+        navigationView.setCheckedItem(R.id.nav_setting);
+
 
     }
 

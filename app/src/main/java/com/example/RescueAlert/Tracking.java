@@ -58,7 +58,7 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_emergency);
+        navigationView.setCheckedItem(R.id.nav_track);
 
         liv_loc.setOnClickListener(new View.OnClickListener() {
             @Override

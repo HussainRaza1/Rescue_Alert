@@ -84,7 +84,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_emergency);
+        navigationView.setCheckedItem(R.id.nav_fam);
 
         display();
     }
