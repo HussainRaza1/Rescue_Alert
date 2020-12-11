@@ -146,25 +146,8 @@ public class CircleContacts extends AppCompatActivity {
                         if (!user.getMobileNumber().equals(firebaseUser.getPhoneNumber())) {
                             if (!userExists(mUsers, mContact.getNumber())) {
                                 mUsers.add(user);
-                            } FirebaseDatabase.getInstance().getReference("family").orderByChild("number").equalTo(user.getMobileNumber())
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                                        final FamilyContact family_user = snapshot.getValue(FamilyContact.class);
-                                        if (snapshot.child("number").getValue().equals(user.getMobileNumber())){
-                                            if (!familyUserExists(familyUsers, user.getMobileNumber())) {
-                                                familyUsers.add(family_user);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+                                setFamilyUsers(user.getMobileNumber());
+                            }
                         }
                     }
                 }
@@ -177,6 +160,28 @@ public class CircleContacts extends AppCompatActivity {
                 Log.d("ContactsActivity", "cancelled");
             }
         });
+    }
+
+    public void setFamilyUsers(final String number){
+        FirebaseDatabase.getInstance().getReference("family").orderByChild("number").equalTo(number)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                            final FamilyContact family_user = dataSnapshot.getValue(FamilyContact.class);
+                            if (snapshot.child("number").getValue().equals(number)){
+                                if (!familyUserExists(familyUsers, number)) {
+                                    familyUsers.add(family_user);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     @Override

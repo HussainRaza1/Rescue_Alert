@@ -74,7 +74,7 @@ public class ContactActivity extends AppCompatActivity {
             phone = phone.replace(")", "");
 
             if (String.valueOf(phone.charAt(0)).equals("0")) {
-                phone = phone.replaceFirst("0", "+92");
+                phone = phone.replaceFirst("0", "");
             }
 
             if (!String.valueOf(phone.charAt(0)).equals("+")) {
@@ -82,8 +82,14 @@ public class ContactActivity extends AppCompatActivity {
             }
             mContact = new Contacts(phone, name);
             contactList.add(mContact);
+
+            //readUsers(mContact);
+
             Log.d(Tag, "contacts: " + contactList);
+            Log.d(Tag, "current contact" + mContact.toString());
         }
+        viewAdapter = new ContactAdapter(contactList, ContactActivity.this);
+        recyclerView.setAdapter(viewAdapter);
         Log.d(Tag, "Inside contact list method");
     }
 
