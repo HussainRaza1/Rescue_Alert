@@ -37,7 +37,6 @@ public class CircleContacts extends AppCompatActivity {
     Cursor contacts;
     CirclePhone mContact;
     private ArrayList<UserHelperClass> mUsers = new ArrayList<UserHelperClass>();
-    private ArrayList<UserHelperClass> UserHelperClass = new ArrayList<UserHelperClass>();
     private ArrayList<CirclePhone> contactList = new ArrayList<>();
 
     @Override
@@ -48,8 +47,8 @@ public class CircleContacts extends AppCompatActivity {
         recyclerView = findViewById(R.id.circle_contact_list);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        UserHelperClass = new ArrayList<>();
-        viewAdapter = new CircleRecyler(UserHelperClass, CircleContacts.this);
+        mUsers = new ArrayList<>();
+        viewAdapter = new CircleRecyler(mUsers, CircleContacts.this);
         recyclerView.setAdapter(viewAdapter);
 
 
@@ -87,7 +86,7 @@ public class CircleContacts extends AppCompatActivity {
             phone = phone.replace(")", "");
 
             if (String.valueOf(phone.charAt(0)).equals("0")) {
-                phone = phone.replaceFirst("0", "+92");
+                phone = phone.replaceFirst("0", "");
             }
 
             if (!String.valueOf(phone.charAt(0)).equals("+")) {
@@ -160,17 +159,17 @@ public class CircleContacts extends AppCompatActivity {
             }
         });
     }
-
-    public void setFamilyUsers(final String number) {
+/*
+    public void setFamilyUsers(final String number){
         FirebaseDatabase.getInstance().getReference("family").orderByChild("number").equalTo(number)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                             final FamilyContact family_user = dataSnapshot.getValue(FamilyContact.class);
-                            if (snapshot.child("number").getValue().equals(number)) {
-                                if (!familyUserExists(UserHelperClass, number)) {
-                                    UserHelperClass.add(family_user);
+                            if (snapshot.child("number").getValue().equals(number)){
+                                if (!familyUserExists(familyUsers, number)) {
+                                    familyUsers.add(family_user);
                                 }
                             }
                         }
@@ -181,7 +180,7 @@ public class CircleContacts extends AppCompatActivity {
 
                     }
                 });
-    }
+    }*/
 
     @Override
     public void onStart() {
