@@ -49,7 +49,6 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
         }
 
 
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -98,8 +97,8 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             String num = firebaseUser.getPhoneNumber();
 
-            FirebaseDatabase.getInstance().getReference("users").child(num).child("latitude").setValue(lat);
-            FirebaseDatabase.getInstance().getReference("users").child(num).child("longitude").setValue(lon);
+            FirebaseDatabase.getInstance().getReference("users").child(num).child("lat").setValue(lat);
+            FirebaseDatabase.getInstance().getReference("users").child(num).child("lon").setValue(lon);
 
         }
     }
