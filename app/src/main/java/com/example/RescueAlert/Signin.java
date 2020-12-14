@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +31,30 @@ public class Signin extends AppCompatActivity {
     Button login_button;
     TextInputLayout login_input;
     EditText codeField;
-    ProgressBar progressBar;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks =
+            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                @Override
+                public void onCodeSent(String s, @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                    super.onCodeSent(s, forceResendingToken);
+                    verificationCodeBySystem = s;
+                }
+
+                @Override
+                public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+                    String code = phoneAuthCredential.getSmsCode();
+                    if (code != null) {
+                        codeField.setText(code);
+                        verifyCode(code);
+                    }
+                }
+
+                @Override
+                public void onVerificationFailed(FirebaseException e) {
+                    Toast.makeText(Signin.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +62,10 @@ public class Signin extends AppCompatActivity {
         setContentView(R.layout.activity_signin);
 
 
-
         login_text = findViewById(R.id.Login_entered);
         login_button = findViewById(R.id.signin);
         login_input = findViewById(R.id.code_entered);
         codeField = findViewById(R.id.code_verify_field);
-
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,14 +84,6 @@ public class Signin extends AppCompatActivity {
             return true;
         }
 
-    }
-
-    public void loginUser() {
-        if (!validateText()) {
-            return;
-        } else {
-            sendVerificationCodeToUser(login_text.getText().toString());
-        }
     }
 
 
@@ -113,31 +125,13 @@ public class Signin extends AppCompatActivity {
         });
     }*/
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks =
-            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-                @Override
-                public void onCodeSent(String s, @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                    super.onCodeSent(s, forceResendingToken);
-                    verificationCodeBySystem = s;
-                }
-
-                @Override
-                public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-
-                    String code = phoneAuthCredential.getSmsCode();
-                    if (code != null) {
-                        codeField.setText(code);
-                        progressBar.setVisibility(View.VISIBLE);
-                        verifyCode(code);
-                    }
-                }
-
-                @Override
-                public void onVerificationFailed(FirebaseException e) {
-                    Toast.makeText(Signin.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            };
+    public void loginUser() {
+        if (!validateText()) {
+            return;
+        } else {
+            sendVerificationCodeToUser(login_text.getText().toString());
+        }
+    }
 
     private void sendVerificationCodeToUser(String phoneNo) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

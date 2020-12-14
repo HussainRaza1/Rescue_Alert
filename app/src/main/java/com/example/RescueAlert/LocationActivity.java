@@ -1,7 +1,6 @@
 package com.example.RescueAlert;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -171,8 +170,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 for (int i = 0; i < phoneNumber.size(); i++) {
                     smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
                 }
-                Intent a = new Intent(LocationActivity.this, LiveLocationActivity.class);
-                startActivity(a);
             }
 
             @Override

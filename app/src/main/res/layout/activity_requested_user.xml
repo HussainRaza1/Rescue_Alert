@@ -136,7 +136,6 @@
             android:background="#FFFFFF"
             android:orientation="horizontal"
             android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/back_req"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +144,8 @@
             <ListView
                 android:id="@+id/req_users"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="4dp" />
         </LinearLayout>
 
 
@@ -159,8 +159,10 @@
             android:textColor="#2196F3"
             app:layout_constraintBottom_toTopOf="@+id/fam_req"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Linear_add2"
+            app:layout_constraintVertical_bias="0.984"
             app:layout_goneMarginTop="10dp" />
 
         <Button
