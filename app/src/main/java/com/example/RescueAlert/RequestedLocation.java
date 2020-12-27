@@ -66,6 +66,7 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
                     if (snapshot.child("mobileNumber").getValue().equals(circle_number)) {
                         //Log.d(Tag, "Inside live location");
                         UserHelperClass user = snapshot.getValue(UserHelperClass.class);
+                        //get crash long lang
                         String lat = "33.67731435";
                         String lon = "72.99245983";
                         // Log.d(Tag, "Location " + lat + lon);

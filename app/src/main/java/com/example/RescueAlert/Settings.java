@@ -5,7 +5,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreference;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +25,7 @@ public class Settings extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings_base, new com.example.RescueAlert.Preference())
+                .replace(R.id.settings, new com.example.RescueAlert.Preference())
                 .commit();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -41,7 +44,7 @@ public class Settings extends AppCompatActivity {
         super.onStop();
     }
 
-    public class SettingsFragment extends PreferenceFragmentCompat {
+    public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
         SharedPreferences sharedPreferences;
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -51,11 +54,15 @@ public class Settings extends AppCompatActivity {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.settings, rootKey);
-           /* getPreferenceScreen().getSharedPreferences()
+            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            getPreferenceScreen().getSharedPreferences()
                     .registerOnSharedPreferenceChangeListener(this);
-
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            final SwitchPreference swtich1 = findPreference("eme1");
+            final SwitchPreference swtich2 = findPreference("eme2");
+            final EditTextPreference template = findPreference("template_text");
+
+            /* sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             final EditTextPreference template = findPreference("template_preference");
             final SwitchPreference message = findPreference("send_message");
 
@@ -81,6 +88,25 @@ public class Settings extends AppCompatActivity {
             }
 
         }*/
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        }
+
+        @Override
+        public void onStart() {
+            getPreferenceScreen().getSharedPreferences()
+                    .registerOnSharedPreferenceChangeListener(this);
+            super.onStart();
+        }
+
+        @Override
+        public void onStop() {
+            getPreferenceScreen().getSharedPreferences()
+                    .unregisterOnSharedPreferenceChangeListener(this);
+            super.onStop();
         }
     }
 }

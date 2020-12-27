@@ -139,7 +139,7 @@ public class ContactActivity extends AppCompatActivity {
             }
         });
     }*/
-//run kr k dekh
+
 
     @Override
     public void onStart() {

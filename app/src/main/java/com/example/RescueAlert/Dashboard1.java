@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int REQUEST_PHONE_CALL = 1;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
@@ -56,10 +56,9 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     Dialog epicDialog;
     ArrayList<String> phoneNumber = new ArrayList();
     Switch switchPref;
-    Switch switchPref1;
+    boolean switchPref1;
     Boolean mLocationPermissionGranted = false;
     private SharedPreferences sharedPref;
-    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +70,8 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        final boolean switchPref1 = sharedPref.getBoolean
-                ("eme2", false);
+        switchPref1 = sharedPref.getBoolean
+                ("eme1", false);
 
         final String MessagePref = sharedPref.getString
                 ("template_text", "null");
@@ -81,6 +80,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
 
         /*------------------------HOOKS---------------------*/
+
         epicDialog = new Dialog(this);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -91,12 +91,9 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         police = findViewById(R.id.police_layout);
         med = findViewById(R.id.medical_layout);
 
-
         /*----------------- toolbar--------------*/
 
-
         setSupportActionBar(toolbar);
-
 
         /*--------------------Navigation Drawer Menu--------------*/
 
@@ -128,27 +125,31 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 EmergencyPopup();
             }
         });
+
         fire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirePopup();
             }
         });
+
         police.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PolicePopup();
             }
         });
+
         med.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MedPopup();
             }
         });
-        /*setupSharedPreferences();*/
 
-      /*  sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+        setupSharedPreferences();
+
+        /*sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 if(key == "send_message"){
@@ -160,187 +161,223 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 }
 
             }
-        });*/
-
+        });
+*/
 
     }
 
 
     private void EmergencyPopup() {
-        epicDialog.setContentView(R.layout.emergency_popup);
-        e_btn = (Button) epicDialog.findViewById(R.id.emeButton);
-        TextView eme_text = (TextView) epicDialog.findViewById(R.id.emergency_pop);
+        if (switchPref1 == true) {
+            epicDialog.setContentView(R.layout.emergency_popup);
+            e_btn = (Button) epicDialog.findViewById(R.id.emeButton);
+            TextView eme_text = (TextView) epicDialog.findViewById(R.id.emergency_pop);
 
-        eme_text.setText("Pressing call will send a message to the people in your Close Contacts, informing them of an emergency");
+            eme_text.setText("Pressing call will send a message to the people in your Close Contacts, informing them of an emergency");
 
-        e_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Call
-                Intent myIntent = new Intent(Intent.ACTION_CALL);
-                String phNum = "tel:" + "1122";
-                myIntent.setData(Uri.parse(phNum));
-                if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                } else {
-                    startActivity(myIntent);
+            e_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Call
+                    Intent myIntent = new Intent(Intent.ACTION_CALL);
+                    String phNum = "tel:" + "1122";
+                    myIntent.setData(Uri.parse(phNum));
+                    if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                    } else {
+                        startActivity(myIntent);
+                    }
+
+                    //Message
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    assert firebaseUser != null;
+                    String current_user = firebaseUser.getPhoneNumber();
+                    Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String num = snapshot.child("number").getValue().toString();
+                                phoneNumber.add(num);
+                            }
+                            String message = "There is an Emergency at my place. I'm Calling 1122" + "\n\n\n" + "Sent by RESCUE ALERT APP";
+                            SmsManager smsManager = SmsManager.getDefault();
+                            for (int i = 0; i < phoneNumber.size(); i++) {
+                                smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
+            });
+            epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            epicDialog.show();
+        } else {
 
-                //Message
-
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                assert firebaseUser != null;
-                String current_user = firebaseUser.getPhoneNumber();
-                Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String num = snapshot.child("number").getValue().toString();
-                            phoneNumber.add(num);
-                        }
-                        String message = "There is an Emergency at my place. I'm Calling 1122" + "\n\n\n" + "Sent by RESCUE ALERT APP";
-                        SmsManager smsManager = SmsManager.getDefault();
-                        for (int i = 0; i < phoneNumber.size(); i++) {
-                            smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+            Intent myIntent = new Intent(Intent.ACTION_CALL);
+            String phNum = "tel:" + "1122";
+            myIntent.setData(Uri.parse(phNum));
+            if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            } else {
+                startActivity(myIntent);
             }
-        });
-        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        epicDialog.show();
+
+        }
     }
 
     private void FirePopup() {
-        epicDialog.setContentView(R.layout.fire_popup);
-        e_btn = (Button) epicDialog.findViewById(R.id.fireButton);
-        TextView fire_text = (TextView) epicDialog.findViewById(R.id.fire_pop);
+        if (switchPref1 == true) {
+            epicDialog.setContentView(R.layout.fire_popup);
+            e_btn = (Button) epicDialog.findViewById(R.id.fireButton);
+            TextView fire_text = (TextView) epicDialog.findViewById(R.id.fire_pop);
 
-        fire_text.setText("Pressing call will send a message to the people in your Close Contacts, informing them of the fire");
+            fire_text.setText("Pressing call will send a message to the people in your Close Contacts, informing them of the fire");
 
-        e_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Call
-                Intent myIntent = new Intent(Intent.ACTION_CALL);
-                String phNum = "tel:" + "16";
-                myIntent.setData(Uri.parse(phNum));
-                if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                } else {
-                    startActivity(myIntent);
+            e_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Call
+                    Intent myIntent = new Intent(Intent.ACTION_CALL);
+                    String phNum = "tel:" + "16";
+                    myIntent.setData(Uri.parse(phNum));
+                    if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                    } else {
+                        startActivity(myIntent);
+                    }
+
+                    //Message
+
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    assert firebaseUser != null;
+                    String current_user = firebaseUser.getPhoneNumber();
+                    Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String num = snapshot.child("number").getValue().toString();
+                                phoneNumber.add(num);
+                            }
+                            String message = "There is a fire at my place. I'm Calling 16" + "\n\n\n" + "Sent by RESCUE ALERT APP";
+                            SmsManager smsManager = SmsManager.getDefault();
+                            for (int i = 0; i < phoneNumber.size(); i++) {
+                                smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
-
-                //Message
-
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                assert firebaseUser != null;
-                String current_user = firebaseUser.getPhoneNumber();
-                Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String num = snapshot.child("number").getValue().toString();
-                            phoneNumber.add(num);
-                        }
-                        String message = "There is a fire at my place. I'm Calling 16" + "\n\n\n" + "Sent by RESCUE ALERT APP";
-                        SmsManager smsManager = SmsManager.getDefault();
-                        for (int i = 0; i < phoneNumber.size(); i++) {
-                            smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+            });
+            epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            epicDialog.show();
+        } else {
+            Intent myIntent = new Intent(Intent.ACTION_CALL);
+            String phNum = "tel:" + "16";
+            myIntent.setData(Uri.parse(phNum));
+            if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            } else {
+                startActivity(myIntent);
             }
-        });
-        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        epicDialog.show();
+        }
     }
 
     private void PolicePopup() {
-        epicDialog.setContentView(R.layout.police_popup);
-        e_btn = (Button) epicDialog.findViewById(R.id.policeButton);
-        TextView police_text = (TextView) epicDialog.findViewById(R.id.police_pop);
+        if (switchPref1 == true) {
+            epicDialog.setContentView(R.layout.police_popup);
+            e_btn = (Button) epicDialog.findViewById(R.id.policeButton);
+            TextView police_text = (TextView) epicDialog.findViewById(R.id.police_pop);
 
-        police_text.setText("Pressing call will send a message to the people in your Close Contacts, informing them of the crime");
+            police_text.setText("Pressing call will send a message to the people in your Close Contacts, informing them of the crime");
 
-        e_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Call
-                Intent myIntent = new Intent(Intent.ACTION_CALL);
-                String phNum = "tel:" + "15";
-                myIntent.setData(Uri.parse(phNum));
-                if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                } else {
-                    startActivity(myIntent);
+            e_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Call
+                    Intent myIntent = new Intent(Intent.ACTION_CALL);
+                    String phNum = "tel:" + "15";
+                    myIntent.setData(Uri.parse(phNum));
+                    if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                    } else {
+                        startActivity(myIntent);
+                    }
+
+                    //Message
+
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    assert firebaseUser != null;
+                    String current_user = firebaseUser.getPhoneNumber();
+                    Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String num = snapshot.child("number").getValue().toString();
+                                phoneNumber.add(num);
+                            }
+                            String message = "There is an Emergency at my place. I'm Calling 15" + "\n\n\n" + "Sent by RESCUE ALERT APP";
+                            SmsManager smsManager = SmsManager.getDefault();
+                            for (int i = 0; i < phoneNumber.size(); i++) {
+                                smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
-
-                //Message
-
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                assert firebaseUser != null;
-                String current_user = firebaseUser.getPhoneNumber();
-                Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String num = snapshot.child("number").getValue().toString();
-                            phoneNumber.add(num);
-                        }
-                        String message = "There is an Emergency at my place. I'm Calling 15" + "\n\n\n" + "Sent by RESCUE ALERT APP";
-                        SmsManager smsManager = SmsManager.getDefault();
-                        for (int i = 0; i < phoneNumber.size(); i++) {
-                            smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+            });
+            epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            epicDialog.show();
+        } else {
+            Intent myIntent = new Intent(Intent.ACTION_CALL);
+            String phNum = "tel:" + "15";
+            myIntent.setData(Uri.parse(phNum));
+            if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            } else {
+                startActivity(myIntent);
             }
-        });
-        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        epicDialog.show();
+
+        }
     }
 
     private void MedPopup() {
-        epicDialog.setContentView(R.layout.med_popup);
-        e_btn = (Button) epicDialog.findViewById(R.id.medButton);
-        TextView med_text = (TextView) epicDialog.findViewById(R.id.med_pop);
+        if (switchPref1 == true) {
+            epicDialog.setContentView(R.layout.med_popup);
+            e_btn = (Button) epicDialog.findViewById(R.id.medButton);
+            TextView med_text = (TextView) epicDialog.findViewById(R.id.med_pop);
 
-        med_text.setText("Calling Medical Assistance will get you in contact with medical specialists who will help you with your condition.");
+            med_text.setText("Calling Medical Assistance will get you in contact with medical specialists who will help you with your condition.");
 
-        e_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Call
-                Intent myIntent = new Intent(Intent.ACTION_CALL);
-                String phNum = "tel:" + "1166";
-                myIntent.setData(Uri.parse(phNum));
-                if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                } else {
-                    startActivity(myIntent);
-                }
+            e_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Call
+                    Intent myIntent = new Intent(Intent.ACTION_CALL);
+                    String phNum = "tel:" + "1166";
+                    myIntent.setData(Uri.parse(phNum));
+                    if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                    } else {
+                        startActivity(myIntent);
+                    }
 /*
                 //Message
 
@@ -368,12 +405,21 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
                     }
                 });*/
+                }
+            });
+            epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            epicDialog.show();
+        } else {
+            Intent myIntent = new Intent(Intent.ACTION_CALL);
+            String phNum = "tel:" + "1166";
+            myIntent.setData(Uri.parse(phNum));
+            if (ContextCompat.checkSelfPermission(Dashboard1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Dashboard1.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            } else {
+                startActivity(myIntent);
             }
-        });
-        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        epicDialog.show();
+        }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -410,7 +456,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         }
 
         if (id == R.id.nav_setting) {
-            Intent i = new Intent(Dashboard1.this, MainSettings.class);
+            Intent i = new Intent(Dashboard1.this, Settings.class);
             startActivity(i);
         }
 
@@ -439,33 +485,41 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
 
         if (toggle.onOptionsItemSelected(item))
             return true;
-
         return super.onOptionsItemSelected(item);
     }
 
-    /*private void setupSharedPreferences() {
+    private void setupSharedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-    }*/
+    }
 
-    /*@Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        if (key == ) {
-            Toast.makeText(Dashboard1.this, "Works",Toast.LENGTH_SHORT).show();
+        if (key.equals("eme1")) {
 
-            *//*final boolean switchPref = sharedPref.getBoolean
-                    ("eme1", false);
-            if (!switchPref) {
-                Intent intent = new Intent (this, ContactUs.class);
-                Log.d("Dashboard1.this","It works");
-                startActivity(intent);*//*
+            //  switchPref1.setOnCheckedChangeListener();
+            if (switchPref1 == false) {
+                Toast.makeText(getApplicationContext(), "Checked", Toast.LENGTH_SHORT).show();
+
+                // Checked the switch programmatically
+                switchPref1 = sharedPref.getBoolean
+                        ("eme1", true);
             } else {
-                Toast.makeText(Dashboard1.this, "SwitchPref doesn't works", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Unchecked", Toast.LENGTH_SHORT).show();
+
+                // Unchecked the switch programmatically
+                switchPref1 = sharedPref.getBoolean
+                        ("eme1", false);
             }
-        }*/
+        }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }

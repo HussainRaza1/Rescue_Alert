@@ -23,7 +23,7 @@
     <PreferenceCategory app:title="Close Contacts">
 
         <EditTextPreference
-            app:key="template_tex"
+            app:key="template_text"
             app:title="S.O.S. Message"
             app:useSimpleSummaryProvider="true" />
 
