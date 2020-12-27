@@ -105,6 +105,42 @@ public class ContactActivity extends AppCompatActivity {
         return CountryToPhonePrefix.getPhone(iso.toUpperCase());
     }
 
+   /* private boolean userExists(ArrayList<UserHelperClass> usersList, String phone) {
+        for(UserHelperClass user : usersList) {
+            if (user.getMobileNumber().equals(phone)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void readUsers(final Contacts mContact){
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+        Query query = databaseReference.orderByChild("phone").equalTo(mContact.getNumber());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange( DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if(snapshot.child("phone").getValue().equals(mContact.getNumber())) {
+                        Log.d(Tag, "Inside read users");
+                        UserHelperClass user = snapshot.getValue(UserHelperClass.class);
+                        if (!user.getMobileNumber().equals(firebaseUser.getPhoneNumber())) {
+                            if(!userExists(mUsers, mContact.getNumber())) {
+                                mUsers.add(user);
+                            }
+                        }
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("ContactsActivity", "cancelled");
+            }
+        });
+    }*/
+
+
     @Override
     public void onStart() {
         super.onStart();

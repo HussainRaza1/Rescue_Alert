@@ -1,10 +1,7 @@
 package com.example.RescueAlert;
 
-import android.app.assist.AssistStructure;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.TwoStatePreference;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +25,7 @@ public class Settings extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings_base, new com.example.RescueAlert.Preference())
+                .replace(R.id.settings, new com.example.RescueAlert.Preference())
                 .commit();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -49,7 +46,7 @@ public class Settings extends AppCompatActivity {
 
     public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
         SharedPreferences sharedPreferences;
-        SwitchPreference swtich1;
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         public SettingsFragment() {
             // Required empty public constructor
@@ -57,18 +54,19 @@ public class Settings extends AppCompatActivity {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.settings, rootKey);
+            setPreferencesFromResource(R.xml.root_preferences, rootKey);
             getPreferenceScreen().getSharedPreferences()
                     .registerOnSharedPreferenceChangeListener(this);
-
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            swtich1 = findPreference("eme1");
+            final SwitchPreference swtich1 = findPreference("eme1");
             final SwitchPreference swtich2 = findPreference("eme2");
-            final EditTextPreference template = findPreference("template_tex");
+            final EditTextPreference template = findPreference("template_text");
 
+            /* sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            final EditTextPreference template = findPreference("template_preference");
+            final SwitchPreference message = findPreference("send_message");
 
-
-     /*       if (template != null) {
+            if (template != null) {
                 template.setSummaryProvider(new Preference.SummaryProvider<EditTextPreference>() {
                     @Override
                     public CharSequence provideSummary(EditTextPreference preference) {
@@ -81,25 +79,34 @@ public class Settings extends AppCompatActivity {
                         }
                     }
                 });
-            }*/
+            }
         }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key == "send_message"){
+            }
+
+        }*/
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        }
+
         @Override
         public void onStart() {
-            super.onStart();
             getPreferenceScreen().getSharedPreferences()
                     .registerOnSharedPreferenceChangeListener(this);
+            super.onStart();
         }
 
         @Override
         public void onStop() {
-            super.onStop();
             getPreferenceScreen().getSharedPreferences()
                     .unregisterOnSharedPreferenceChangeListener(this);
-        }
-
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-
+            super.onStop();
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.RescueAlert;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -28,9 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
-public class LocationActivity extends FragmentActivity implements OnMapReadyCallback {
+public class LocationActivity extends FragmentActivity implements OnMapReadyCallback, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final int LocationPermissionRequestCode = 1234;
     private final float defaultZoom = 15f;
@@ -40,6 +44,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     ArrayList<String> phoneNumber = new ArrayList();
     double longitude1;
     double latitude1;
+    String template;
+    String message;
+    private SharedPreferences sharedPref;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
@@ -52,7 +59,13 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+
+        template = sharedPref.getString("template_text", "");
+
         getLocationPermission();
+        setupSharedPreferences();
 
     }
 
@@ -152,30 +165,64 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
+    private boolean userExists(ArrayList<String> num, String phone) {
+        for (String number : num) {
+            if (number.equals(phone)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void send_message(final double myLatitude, final double myLongitude) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
         Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
         query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String num = snapshot.child("number").getValue().toString();
-                    phoneNumber.add(num);
+                    if (!userExists(phoneNumber, num)) {
+                        phoneNumber.add(num);
+                    }
+                }
+                //Message
+                if (template.equals("")) {
+                    message = "Can you pick me from " + "http://maps.google.com/maps?q=" + String.valueOf(myLatitude) + "," + String.valueOf(myLongitude);
+
+                } else {
+                    message = template + "http://maps.google.com/maps?q=" + String.valueOf(myLatitude) + "," + String.valueOf(myLongitude);
                 }
 
-                String message = "Can you pick me from " + "http://maps.google.com/maps?q=" + String.valueOf(myLatitude) + "," + String.valueOf(myLongitude);
                 SmsManager smsManager = SmsManager.getDefault();
-                for (int i = 0; i < phoneNumber.size(); i++) {
-                    smsManager.sendTextMessage(phoneNumber.get(i), null, message, null, null);
+
+                for (String number : phoneNumber) {
+                    smsManager.sendTextMessage(number, null, message, null, null);
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+    }
+
+    private void setupSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
