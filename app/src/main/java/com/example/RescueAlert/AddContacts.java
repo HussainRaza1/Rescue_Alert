@@ -32,7 +32,6 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
     final static String Tag = "AddContacts";
     TextView number_text, family_number;
-    FamilyContact contact;
     ListView family_view;
     FirebaseListAdapter adapter;
     Toolbar toolbar;

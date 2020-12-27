@@ -28,8 +28,8 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
     private final long MIN_DIST = 5;
     Location mLastLocation;
     LocationRequest mLocationRequest;
-    GoogleMap mmap;
     private LocationListener locationListener;
+    GoogleMap mmap;
     private LocationManager locationManager;
 
     @SuppressLint("MissingPermission")

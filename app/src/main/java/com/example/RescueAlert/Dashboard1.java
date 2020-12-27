@@ -43,10 +43,10 @@ import java.util.ArrayList;
 
 public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int REQUEST_PHONE_CALL = 1;
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-    private final int LocationPermissionRequestCode = 1234;
+//    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+//    private final int LocationPermissionRequestCode = 1234;
     //variable
+private static final int REQUEST_PHONE_CALL = 1;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -59,7 +59,6 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     Switch switchPref1;
     Boolean mLocationPermissionGranted = false;
     private SharedPreferences sharedPref;
-    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
 
         final boolean switchPref1 = sharedPref.getBoolean
                 ("eme2", false);
+
 
         final String MessagePref = sharedPref.getString
                 ("template_text", "null");
@@ -146,7 +146,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 MedPopup();
             }
         });
-        /*setupSharedPreferences();*/
+        setupSharedPreferences();
 
       /*  sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -447,25 +447,30 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         return super.onOptionsItemSelected(item);
     }
 
-    /*private void setupSharedPreferences() {
+    private void setupSharedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-    }*/
+        sharedPreferences.registerOnSharedPreferenceChangeListener((SharedPreferences.OnSharedPreferenceChangeListener) Dashboard1.this);
+    }
 
-    /*@Override
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        if (key == ) {
-            Toast.makeText(Dashboard1.this, "Works",Toast.LENGTH_SHORT).show();
+        if (key == "eme1") {
+            Toast.makeText(Dashboard1.this, "Works", Toast.LENGTH_SHORT).show();
 
-            *//*final boolean switchPref = sharedPref.getBoolean
-                    ("eme1", false);
-            if (!switchPref) {
-                Intent intent = new Intent (this, ContactUs.class);
-                Log.d("Dashboard1.this","It works");
-                startActivity(intent);*//*
-            } else {
-                Toast.makeText(Dashboard1.this, "SwitchPref doesn't works", Toast.LENGTH_SHORT).show();
-            }
-        }*/
+          //  switchPref1.setOnCheckedChangeListener();
+                    if (switchPref1.isChecked()) {
+                        Toast.makeText(getApplicationContext(), "Unchecked", Toast.LENGTH_SHORT).show();
+
+                        // Checked the switch programmatically
+                        switchPref1.setChecked(false);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Checked", Toast.LENGTH_SHORT).show();
+
+                        // Unchecked the switch programmatically
+                        switchPref1.setChecked(true);
+                    }
+        }
+    }
+
 }
