@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.example.RescueAlert.Circle.Tag;
+import static com.example.RescueAlert.Family.Tag;
 
 public class RequestedLocation extends FragmentActivity implements OnMapReadyCallback {
 
@@ -74,7 +74,7 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
                         mMap.clear();
                         mMap.addMarker(new
                                 MarkerOptions().position(loc).title("User location"));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 17f));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,17));
                     }
 
                     // show map

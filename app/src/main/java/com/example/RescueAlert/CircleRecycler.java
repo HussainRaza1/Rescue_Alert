@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,7 +50,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
             @Override
             public void onClick(View v) {
                 add_circle(user.getMobileNumber());
-                Intent i = new Intent(mContext, Circle.class);
+                Intent i = new Intent(mContext, Family.class);
                 // i.putExtra("user_phone", user.getNumber());
                 mContext.startActivity(i);
             }
@@ -74,7 +73,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
-        FirebaseDatabase.getInstance().getReference("circle").child("circle_number").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("family").child("circle_number").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -86,8 +85,8 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
                         final String user = dataSnapshot.child(num).getRef().getKey();
 
                         circleContact = new CircleContact(numbr, user);
-                        FirebaseDatabase.getInstance().getReference("circle").push().setValue(circleContact);
-                        Toast.makeText(mContext, "Circle Contact added!", Toast.LENGTH_LONG).show();
+                        FirebaseDatabase.getInstance().getReference("family").push().setValue(circleContact);
+                        Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
                     }
 
                     @Override

@@ -69,12 +69,12 @@ public class MainSettings extends AppCompatActivity implements NavigationView.On
             startActivity(e);
         }
         if (id == R.id.nav_fam) {
-            Intent f = new Intent(MainSettings.this, AddContacts.class);
+            Intent f = new Intent(MainSettings.this, CloseContacts.class);
             startActivity(f);
         }
 
         if (id == R.id.nav_circle) {
-            Intent c = new Intent(MainSettings.this, Circle.class);
+            Intent c = new Intent(MainSettings.this, Family.class);
             startActivity(c);
         }
 

@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import static com.example.RescueAlert.Circle.Tag;
+import static com.example.RescueAlert.Family.Tag;
 
 public class RequestedUser extends AppCompatActivity {
     FirebaseListAdapter adapter;
@@ -58,7 +58,7 @@ public class RequestedUser extends AppCompatActivity {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
-        Query query = FirebaseDatabase.getInstance().getReference("circle").orderByChild("circle_number").equalTo(current_user);
+        Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("circle_number").equalTo(current_user);
         FirebaseListOptions<CircleContact> options = new FirebaseListOptions.Builder<CircleContact>().setQuery(query, CircleContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<CircleContact>(options) {
 
@@ -101,7 +101,7 @@ public class RequestedUser extends AppCompatActivity {
 
 
     private void famReq() {
-        Intent intent = new Intent(this, Circle.class);
+        Intent intent = new Intent(this, Family.class);
         startActivity(intent);
         finish();
     }

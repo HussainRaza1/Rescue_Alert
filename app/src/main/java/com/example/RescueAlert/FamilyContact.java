@@ -12,20 +12,20 @@ public class FamilyContact {
         this.user_ref = user_ref;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
     public String getNumber() {
         return number;
     }
 
-    public void setUser_ref(String user_ref) {
-        this.user_ref = user_ref;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getUser_ref() {
         return user_ref;
+    }
+
+    public void setUser_ref(String user_ref) {
+        this.user_ref = user_ref;
     }
 }
 

@@ -85,12 +85,12 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
             startActivity(e);
         }
         if (id == R.id.nav_fam) {
-            Intent f = new Intent(ContactUs.this, AddContacts.class);
+            Intent f = new Intent(ContactUs.this, CloseContacts.class);
             startActivity(f);
         }
 
         if (id == R.id.nav_circle) {
-            Intent c = new Intent(ContactUs.this, Circle.class);
+            Intent c = new Intent(ContactUs.this, Family.class);
             startActivity(c);
         }
 
@@ -101,7 +101,7 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
         }
 
         if (id == R.id.nav_setting) {
-            Intent i = new Intent(ContactUs.this, MainSettings.class);
+            Intent i = new Intent(ContactUs.this, Settings.class);
             startActivity(i);
         }
 
