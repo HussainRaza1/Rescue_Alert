@@ -262,9 +262,9 @@
             app:layout_constraintVertical_bias="0.896" />
 
         <TextView
+            android:id="@+id/location_change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location On"
             android:textColor="@color/White"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

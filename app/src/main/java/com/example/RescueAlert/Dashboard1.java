@@ -57,6 +57,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     ArrayList<String> phoneNumber = new ArrayList();
     Switch switchPref;
     boolean switchPref1;
+    TextView change;
     Boolean mLocationPermissionGranted = false;
 
     boolean location;
@@ -92,6 +93,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         police = findViewById(R.id.police_layout);
         med = findViewById(R.id.medical_layout);
         locationON = findViewById(R.id.white_button);
+        change = findViewById(R.id.location_change);
 
         /*----------------- toolbar--------------*/
 
@@ -124,13 +126,16 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         locationON.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                change.setText("Live Location");
                 if (location == false) {
                     Toast.makeText(Dashboard1.this, "Location is turned on", Toast.LENGTH_SHORT).show();
                     location = true;
+                    change.setText("Location on");
                     Intent intent = new Intent(Dashboard1.this, LiveLocationActivity.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(Dashboard1.this, "Location is turned off", Toast.LENGTH_SHORT).show();
+                    change.setText("Location off");
                     Intent intent = new Intent(Dashboard1.this, MyService.class);
                     stopService(intent);
                     location = false;

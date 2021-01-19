@@ -68,31 +68,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pin"
-            style="@style/AppTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:textColorHint="@color/White"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/White">
 
-            <com.google.android.material.textfield.TextInputEditText
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="PIN"
-                android:inputType="number"
-                android:textColor="#FFFFFF"
-                android:textColorHighlight="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:textColorLink="#FFFFFF"
-                android:textCursorDrawable="@color/White"
-                app:textInputLayoutFocusedRectEnabled="false" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Name"
