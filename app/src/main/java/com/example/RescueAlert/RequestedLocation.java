@@ -67,14 +67,14 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
                         //Log.d(Tag, "Inside live location");
                         UserHelperClass user = snapshot.getValue(UserHelperClass.class);
                         //get crash long lang
-                        String lat = "33.67731435";
-                        String lon = "72.99245983";
+                        String lat = user.lat;
+                        String lon = user.lon;
                         // Log.d(Tag, "Location " + lat + lon);
                         LatLng loc = new LatLng(Double.valueOf(lat), Double.valueOf(lon));
                         mMap.clear();
                         mMap.addMarker(new
                                 MarkerOptions().position(loc).title("User location"));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,17));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 17));
                     }
 
                     // show map

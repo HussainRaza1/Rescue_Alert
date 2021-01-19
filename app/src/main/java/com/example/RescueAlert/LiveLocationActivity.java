@@ -93,8 +93,6 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
 
             String lat = String.valueOf(location.getLatitude());
             String lon = String.valueOf(location.getLongitude());
-            //Log.d("mylocation", String.valueOf(lat) + "   " + String.valueOf(lon));
-
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             String num = firebaseUser.getPhoneNumber();
 

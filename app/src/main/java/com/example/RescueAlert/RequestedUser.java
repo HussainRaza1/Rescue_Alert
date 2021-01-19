@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +26,7 @@ import static com.example.RescueAlert.Family.Tag;
 public class RequestedUser extends AppCompatActivity {
     FirebaseListAdapter adapter;
     TextView req_number;
-    Button back_btn, fam_btn;
+    Button back_btn;
     ListView req_user;
 
     @Override
@@ -35,19 +36,12 @@ public class RequestedUser extends AppCompatActivity {
 
 
         back_btn = findViewById(R.id.back_req);
-        fam_btn = findViewById(R.id.fam_req);
         req_user = findViewById(R.id.req_users);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 backReq();
-            }
-        });
-        fam_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                famReq();
             }
         });
 
@@ -66,20 +60,24 @@ public class RequestedUser extends AppCompatActivity {
             protected void populateView(@NotNull View v, @NotNull final CircleContact model, int position) {
                 req_number = (TextView) v.findViewById(R.id.req_list);
                 req_number.setText(model.getUser_number());
-               // Log.d(Tag, "number " + model.getUser_number());
+                // Log.d(Tag, "number " + model.getUser_number());
 
                 final String circle_user_number = model.getUser_number();
                 req_number.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getApplicationContext(), RequestedLocation.class);
-                        intent.putExtra("circle_number", circle_user_number);
-                        startActivity(intent);
+                        try {
+                            Intent intent = new Intent(getApplicationContext(), RequestedLocation.class);
+                            intent.putExtra("circle_number", circle_user_number);
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            Toast.makeText(RequestedUser.this, "The location is not being shared", Toast.LENGTH_SHORT).show();
+
+
+                        }
                     }
                 });
             }
-
-
 
 
             @Override
@@ -97,13 +95,6 @@ public class RequestedUser extends AppCompatActivity {
         req_user.setAdapter(adapter);
 
         Log.e(Tag, "Inside display comment method");
-    }
-
-
-    private void famReq() {
-        Intent intent = new Intent(this, Family.class);
-        startActivity(intent);
-        finish();
     }
 
 
