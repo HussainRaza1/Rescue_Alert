@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#D35950"
-    android:theme="@style/AppTheme.CustomTheme">
+    android:theme="@style/AppTheme.NoActionBar">
 
 </androidx.appcompat.widget.Toolbar>

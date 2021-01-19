@@ -44,8 +44,6 @@ import java.util.ArrayList;
 public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int REQUEST_PHONE_CALL = 1;
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-    private final int LocationPermissionRequestCode = 1234;
     //variable
     DrawerLayout drawerLayout;
     NavigationView navigationView;

@@ -39,7 +39,7 @@
             android:layout_marginRight="5dp"
             android:background="@drawable/btn_background"
             android:gravity="center"
-            android:text="Circle" />
+            android:text="Family" />
 
     </LinearLayout>
 

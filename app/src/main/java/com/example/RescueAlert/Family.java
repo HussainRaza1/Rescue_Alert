@@ -110,7 +110,7 @@ public class Family extends AppCompatActivity implements NavigationView.OnNaviga
 
             @Override
             protected void populateView(@NonNull View v, @NonNull CircleContact model, int position) {
-                circle_number = (TextView) v.findViewById(R.id.circle_text);
+                circle_number = (TextView) v.findViewById(R.id.family_number);
                 circle_number.setText(model.getCircle_number());
                 Log.d(Tag, "circle number " + model.getCircle_number());
             }

@@ -37,7 +37,7 @@ public class CloseContacts extends AppCompatActivity implements NavigationView.O
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    Button l_btn;
+    Button l_btn, del;
     ActionBarDrawerToggle toggle;
 
     @Override
@@ -55,6 +55,8 @@ public class CloseContacts extends AppCompatActivity implements NavigationView.O
         number_text = findViewById(R.id.user_family_number);
         family_view = findViewById(R.id.family_list);
         Button message = findViewById(R.id.add_custom);
+        del = findViewById(R.id.delete_button);
+
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +99,7 @@ public class CloseContacts extends AppCompatActivity implements NavigationView.O
 
             @Override
             protected void populateView(@NotNull View v, @NotNull final FamilyContact model, int position) {
-                family_number = (TextView) v.findViewById(R.id.family_user);
+                family_number = (TextView) v.findViewById(R.id.close_number);
                 family_number.setText(model.getNumber());
                 Log.d(Tag, "number " + model.getNumber());
             }
