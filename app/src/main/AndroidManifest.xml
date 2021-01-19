@@ -80,34 +80,21 @@
         <activity
             android:name=".LocationActivity"
             android:label="@string/title_activity_location" />
-        <activity
-            android:name=".FirePop"
-            android:exported="true" />
-        <activity
-            android:name=".popup"
-            android:exported="true" />
-        <activity android:name=".Circle" />
-        <activity
-            android:name=".PopUpClass"
-            android:exported="true" />
+        <activity android:name=".Family" />
 
         <service android:name=".MyService" />
 
         <activity
             android:name=".Authenticate"
             android:exported="true" />
-        <activity android:name=".AddContacts" />
+        <activity android:name=".CloseContacts" />
         <activity
             android:name=".CircleContacts"
-            android:exported="true" />
-        <activity
-            android:name=".Dashboard"
             android:exported="true" />
         <activity
             android:name=".Signup"
             android:exported="true" />
         <activity android:name=".ContactActivity" />
-        <activity android:name=".PhoneAuthentication" />
         <activity
             android:name=".Login"
             android:exported="true" />

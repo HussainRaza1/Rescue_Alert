@@ -26,7 +26,7 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
     Toolbar toolbar;
     ActionBarDrawerToggle toggle;
     LinearLayout liv_loc, re_loc;
-    Button back;
+    Button back, destroy;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     FirebaseAuth mAuth;
@@ -43,6 +43,7 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
         liv_loc = findViewById(R.id.live_loc);
         re_loc = findViewById(R.id.req_loc);
         back = findViewById(R.id.track_back);
+        destroy = findViewById(R.id.destroy);
 
         /*----------------- toolbar--------------*/
 
@@ -84,6 +85,15 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
+        destroy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Tracking.this, MyService.class);
+                stopService(intent);
+                finish();
+            }
+        });
+
     }
 
     private void home() {
@@ -110,12 +120,12 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
             startActivity(e);
         }
         if (id == R.id.nav_fam) {
-            Intent f = new Intent(Tracking.this, AddContacts.class);
+            Intent f = new Intent(Tracking.this, CloseContacts.class);
             startActivity(f);
         }
 
         if (id == R.id.nav_circle) {
-            Intent c = new Intent(Tracking.this, Circle.class);
+            Intent c = new Intent(Tracking.this, Family.class);
             startActivity(c);
         }
 

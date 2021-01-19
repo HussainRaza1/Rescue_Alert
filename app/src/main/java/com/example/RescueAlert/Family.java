@@ -30,9 +30,9 @@ import com.google.firebase.database.Query;
 import org.jetbrains.annotations.NotNull;
 
 
-public class Circle extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Family extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    final static String Tag = "Circle";
+    final static String Tag = "Family";
     FirebaseListAdapter<CircleContact> adapter;
     ListView circle_view;
     Toolbar toolbar;
@@ -83,7 +83,7 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
-        toggle = new ActionBarDrawerToggle(Circle.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(Family.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -96,7 +96,7 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
     public void display() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
-        Query query = FirebaseDatabase.getInstance().getReference("circle").orderByChild("user_number").equalTo(current_user);
+        Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_number").equalTo(current_user);
         FirebaseListOptions<CircleContact> options = new FirebaseListOptions.Builder<CircleContact>().setQuery(query, CircleContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<CircleContact>(options) {
 
@@ -117,7 +117,6 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
         };
 
         circle_view.setAdapter(adapter);
-        adapter.stopListening();
         Log.e(Tag, "Inside display circle method");
     }
 
@@ -129,7 +128,7 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
 
 
     private void OpenClose() {
-        Intent intent = new Intent(this, AddContacts.class);
+        Intent intent = new Intent(this, CloseContacts.class);
         startActivity(intent);
         finish();
     }
@@ -173,47 +172,47 @@ public class Circle extends AppCompatActivity implements NavigationView.OnNaviga
 
         int id = menuItem.getItemId();
         if (id == R.id.nav_emergency) {
-            Intent e = new Intent(Circle.this, Dashboard1.class);
+            Intent e = new Intent(Family.this, Dashboard1.class);
             startActivity(e);
         }
         if (id == R.id.nav_fam) {
-            Intent f = new Intent(Circle.this, AddContacts.class);
+            Intent f = new Intent(Family.this, CloseContacts.class);
             startActivity(f);
         }
 
         if (id == R.id.nav_circle) {
-            Intent c = new Intent(Circle.this, Circle.class);
+            Intent c = new Intent(Family.this, Family.class);
             startActivity(c);
         }
 
         if (id == R.id.nav_track) {
             //do tracking
-            Intent t = new Intent(Circle.this, Tracking.class);
+            Intent t = new Intent(Family.this, Tracking.class);
 
             startActivity(t);
         }
 
         if (id == R.id.nav_setting) {
-            Intent i = new Intent(Circle.this, MainSettings.class);
+            Intent i = new Intent(Family.this, Settings.class);
             startActivity(i);
         }
 
         if (id == R.id.nav_invite) {
-            Intent n = new Intent(Circle.this, Invite_activity.class);
+            Intent n = new Intent(Family.this, Invite_activity.class);
             startActivity(n);
         }
 
 
         if (id == R.id.nav_contact) {
-            Intent o = new Intent(Circle.this, ContactUs.class);
+            Intent o = new Intent(Family.this, ContactUs.class);
             startActivity(o);
         }
 
 
         if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
-            Toast.makeText(Circle.this, " Sign out!", Toast.LENGTH_SHORT).show();
-            Intent l = new Intent(Circle.this, Signup.class);
+            Toast.makeText(Family.this, " Sign out!", Toast.LENGTH_SHORT).show();
+            Intent l = new Intent(Family.this, Signup.class);
             startActivity(l);
             finish();
         }

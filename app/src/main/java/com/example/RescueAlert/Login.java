@@ -32,38 +32,6 @@ public class Login extends AppCompatActivity {
             invokeFirebaseLoginUI();
     }
 
-
-/*    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-            if (resultCode == RESULT_OK) {
-
-                // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                if(user != null){
-
-                Intent i = new Intent(getApplicationContext(), Dashboard.class);
-                startActivity(i);
-                }
-            }
-
-        } else {
-
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            Toast.makeText(Login.this, "User is not registered", Toast.LENGTH_LONG).show();
-            if(user == null) {
-                Intent intent = new Intent(getApplicationContext(), Signup.class);
-                startActivity(intent);
-            }
-        }
-    }*/
-
-
-
-
     private void invokeFirebaseLoginUI() {
 
         // Choose authentication providers
@@ -86,15 +54,6 @@ public class Login extends AppCompatActivity {
                     }
                 });
         openSomeActivityForResult();
-
-
-        // Create and launch sign-in intent
-       /* startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);*/
 
     }
 

@@ -84,12 +84,12 @@ public class Invite_activity extends AppCompatActivity implements NavigationView
             startActivity(e);
         }
         if (id == R.id.nav_fam) {
-            Intent f = new Intent(Invite_activity.this, AddContacts.class);
+            Intent f = new Intent(Invite_activity.this, CloseContacts.class);
             startActivity(f);
         }
 
         if (id == R.id.nav_circle) {
-            Intent c = new Intent(Invite_activity.this, Circle.class);
+            Intent c = new Intent(Invite_activity.this, Family.class);
             startActivity(c);
         }
 
@@ -101,7 +101,7 @@ public class Invite_activity extends AppCompatActivity implements NavigationView
         }
 
         if (id == R.id.nav_setting) {
-            Intent i = new Intent(Invite_activity.this, MainSettings.class);
+            Intent i = new Intent(Invite_activity.this, Settings.class);
             startActivity(i);
         }
         if (id == R.id.nav_invite) {

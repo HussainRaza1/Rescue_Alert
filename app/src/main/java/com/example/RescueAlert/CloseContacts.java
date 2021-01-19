@@ -28,9 +28,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class AddContacts extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CloseContacts extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    final static String Tag = "AddContacts";
+    final static String Tag = "CloseContacts";
     TextView number_text, family_number;
     ListView family_view;
     FirebaseListAdapter adapter;
@@ -78,7 +78,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
-        toggle = new ActionBarDrawerToggle(AddContacts.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(CloseContacts.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -91,7 +91,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
     public void display() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
-        Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
+        Query query = FirebaseDatabase.getInstance().getReference("close_contacts").orderByChild("user_ref").equalTo(current_user);
         FirebaseListOptions<FamilyContact> options = new FirebaseListOptions.Builder<FamilyContact>().setQuery(query, FamilyContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<FamilyContact>(options) {
 
@@ -114,7 +114,6 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
         };
         family_view.setAdapter(adapter);
-
         Log.e(Tag, "Inside display comment method");
     }
 
@@ -151,7 +150,7 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
     public void sendCircle() {
 
-        Intent i = new Intent(this, Circle.class);
+        Intent i = new Intent(this, Family.class);
         startActivity(i);
 
     }
@@ -171,47 +170,47 @@ public class AddContacts extends AppCompatActivity implements NavigationView.OnN
 
         int id = menuItem.getItemId();
         if (id == R.id.nav_emergency) {
-            Intent e = new Intent(AddContacts.this, Dashboard1.class);
+            Intent e = new Intent(CloseContacts.this, Dashboard1.class);
             startActivity(e);
         }
         if (id == R.id.nav_fam) {
-            Intent f = new Intent(AddContacts.this, AddContacts.class);
+            Intent f = new Intent(CloseContacts.this, CloseContacts.class);
             startActivity(f);
         }
 
         if (id == R.id.nav_circle) {
-            Intent c = new Intent(AddContacts.this, Circle.class);
+            Intent c = new Intent(CloseContacts.this, Family.class);
             startActivity(c);
         }
 
         if (id == R.id.nav_track) {
             //do tracking
-            Intent t = new Intent(AddContacts.this, Tracking.class);
+            Intent t = new Intent(CloseContacts.this, Tracking.class);
 
             startActivity(t);
         }
 
         if (id == R.id.nav_setting) {
-            Intent i = new Intent(AddContacts.this, MainSettings.class);
+            Intent i = new Intent(CloseContacts.this, Settings.class);
             startActivity(i);
         }
 
         if (id == R.id.nav_invite) {
-            Intent n = new Intent(AddContacts.this, Invite_activity.class);
+            Intent n = new Intent(CloseContacts.this, Invite_activity.class);
             startActivity(n);
         }
 
 
         if (id == R.id.nav_contact) {
-            Intent o = new Intent(AddContacts.this, ContactUs.class);
+            Intent o = new Intent(CloseContacts.this, ContactUs.class);
             startActivity(o);
         }
 
 
         if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
-            Toast.makeText(AddContacts.this, " Sign out!", Toast.LENGTH_SHORT).show();
-            Intent l = new Intent(AddContacts.this, Signup.class);
+            Toast.makeText(CloseContacts.this, " Sign out!", Toast.LENGTH_SHORT).show();
+            Intent l = new Intent(CloseContacts.this, Signup.class);
             startActivity(l);
             finish();
         }

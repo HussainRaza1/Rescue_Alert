@@ -84,11 +84,12 @@ public class LiveLocationActivity extends FragmentActivity implements OnMapReady
         //locationManager.removeUpdates(this);
         if (mmap != null) {
 
-            mmap.clear();
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+            mmap.clear();
             mmap.addMarker(new
                     MarkerOptions().position(latlng).title("Current location"));
-            mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 17f));
+            mmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,17));
+
 
             String lat = String.valueOf(location.getLatitude());
             String lon = String.valueOf(location.getLongitude());

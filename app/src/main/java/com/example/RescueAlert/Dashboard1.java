@@ -50,7 +50,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    Button r_btn, e_btn;
+    Button r_btn, e_btn, locationON;
     LinearLayout emergency, fire, police, med;
     ActionBarDrawerToggle toggle;
     Dialog epicDialog;
@@ -58,6 +58,8 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
     Switch switchPref;
     boolean switchPref1;
     Boolean mLocationPermissionGranted = false;
+
+    boolean location;
     private SharedPreferences sharedPref;
 
     @Override
@@ -76,8 +78,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         final String MessagePref = sharedPref.getString
                 ("template_text", "null");
 
-
-
+        location = false;
 
         /*------------------------HOOKS---------------------*/
 
@@ -90,6 +91,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         fire = findViewById(R.id.fire_layout);
         police = findViewById(R.id.police_layout);
         med = findViewById(R.id.medical_layout);
+        locationON = findViewById(R.id.white_button);
 
         /*----------------- toolbar--------------*/
 
@@ -118,6 +120,25 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
                 return true;
             }
         });
+
+        locationON.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (location == false) {
+                    Toast.makeText(Dashboard1.this, "Location is turned on", Toast.LENGTH_SHORT).show();
+                    location = true;
+                    Intent intent = new Intent(Dashboard1.this, LiveLocationActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(Dashboard1.this, "Location is turned off", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Dashboard1.this, MyService.class);
+                    stopService(intent);
+                    location = false;
+                }
+                return true;
+            }
+        });
+
 
         emergency.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -439,12 +460,12 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
             startActivity(e);
         }
         if (id == R.id.nav_fam) {
-            Intent f = new Intent(Dashboard1.this, AddContacts.class);
+            Intent f = new Intent(Dashboard1.this, CloseContacts.class);
             startActivity(f);
         }
 
         if (id == R.id.nav_circle) {
-            Intent c = new Intent(Dashboard1.this, Circle.class);
+            Intent c = new Intent(Dashboard1.this, Family.class);
             startActivity(c);
         }
 

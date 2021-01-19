@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/arimo"
-            android:text="Your Circle"
+            android:text="Family"
             android:textColor="#fff"
             android:textSize="20sp"
             android:textStyle="italic"

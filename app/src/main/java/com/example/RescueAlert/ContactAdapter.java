@@ -51,13 +51,11 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 add_family(user.getNumber());
-                Intent i = new Intent(mContext, AddContacts.class);
+                Intent i = new Intent(mContext, CloseContacts.class);
                 //i.putExtra("user_phone", user.getNumber());
                 mContext.startActivity(i);
             }
         });
-
-
     }
 
 
@@ -70,7 +68,7 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
-        FirebaseDatabase.getInstance().getReference().child("family").child(num).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("close_contacts").child(num).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 FirebaseDatabase.getInstance().getReference("users").child(num).addValueEventListener(new ValueEventListener() {
@@ -79,10 +77,9 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         final String user = dataSnapshot.child(num).getRef().getKey();
                             contact = new FamilyContact(numbr, user);
-                            FirebaseDatabase.getInstance().getReference("family").push().setValue(contact);
+                            FirebaseDatabase.getInstance().getReference("close_contacts").push().setValue(contact);
                             Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
                         }
-
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

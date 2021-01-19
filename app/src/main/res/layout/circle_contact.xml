@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/bungee"
             android:paddingLeft="7dp"
-            android:text="Circle CONTACTS"
+            android:text="Family CONTACTS"
             android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
