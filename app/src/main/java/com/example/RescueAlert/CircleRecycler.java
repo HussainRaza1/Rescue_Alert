@@ -49,7 +49,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         holder.circle_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_circle(user.getMobileNumber());
+                add_circle(user.getMobileNumber(), user.getName());
                 Intent i = new Intent(mContext, Family.class);
                 // i.putExtra("user_phone", user.getNumber());
                 mContext.startActivity(i);
@@ -69,7 +69,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         return mUser.size();
     }
 
-    public void add_circle(final String numbr) {
+    public void add_circle(final String numbr, final String name) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
@@ -84,7 +84,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
 
                         final String user = dataSnapshot.child(num).getRef().getKey();
 
-                        circleContact = new CircleContact(numbr, user);
+                        circleContact = new CircleContact(numbr,name, user);
                         FirebaseDatabase.getInstance().getReference("family").push().setValue(circleContact);
                         Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
                     }

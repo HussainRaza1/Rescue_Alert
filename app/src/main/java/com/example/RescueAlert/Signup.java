@@ -54,13 +54,13 @@ public class Signup extends AppCompatActivity {
 
                 String mobileNumber = regNo.getEditText().getText().toString();
                 String name = regName.getEditText().getText().toString();
-                if(mobileNumber == ""){
+                if(mobileNumber.isEmpty()){
                     Toast.makeText(Signup.this,"Phone number empty", Toast.LENGTH_SHORT).show();
                 }
                 else if (mobileNumber.length() < 10) {
                     Toast.makeText(Signup.this, "Enter valid phone number", Toast.LENGTH_SHORT).show();
                 }
-                else if(name == ""){
+                else if(name.isEmpty()){
                     Toast.makeText(Signup.this,"Name empty", Toast.LENGTH_SHORT).show();
                 }
 
@@ -71,7 +71,7 @@ public class Signup extends AppCompatActivity {
                 Intent i = new Intent(Signup.this, Authenticate.class);
                 i.putExtra("mobileNumber", mobileNumber);
                 startActivity(i);
-                }
+               }
 
             }
 

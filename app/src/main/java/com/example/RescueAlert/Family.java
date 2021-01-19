@@ -38,7 +38,7 @@ public class Family extends AppCompatActivity implements NavigationView.OnNaviga
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    TextView circle_number, text2;
+    TextView circle_number, circle_username, text2;
     ActionBarDrawerToggle toggle;
     private Button save, circ;
     private Button add1;
@@ -111,7 +111,9 @@ public class Family extends AppCompatActivity implements NavigationView.OnNaviga
             @Override
             protected void populateView(@NonNull View v, @NonNull CircleContact model, int position) {
                 circle_number = (TextView) v.findViewById(R.id.circle_text);
+                circle_username = (TextView) v.findViewById(R.id.circle_contact_name);
                 circle_number.setText(model.getCircle_number());
+                circle_username.setText(model.getCircle_user_name());
                 Log.d(Tag, "circle number " + model.getCircle_number());
             }
         };
