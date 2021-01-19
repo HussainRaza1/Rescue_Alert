@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,13 +54,24 @@ public class Signup extends AppCompatActivity {
 
                 String mobileNumber = regNo.getEditText().getText().toString();
                 String name = regName.getEditText().getText().toString();
+                if(mobileNumber == ""){
+                    Toast.makeText(Signup.this,"Phone number empty", Toast.LENGTH_SHORT).show();
+                }
+                else if (mobileNumber.length() < 10) {
+                    Toast.makeText(Signup.this, "Enter valid phone number", Toast.LENGTH_SHORT).show();
+                }
+                else if(name == ""){
+                    Toast.makeText(Signup.this,"Name empty", Toast.LENGTH_SHORT).show();
+                }
 
+                else{
                 UserHelperClass helperClass = new UserHelperClass(mobileNumber, name,"0", "0");
                 reference.child(mobileNumber).setValue(helperClass);
 
                 Intent i = new Intent(Signup.this, Authenticate.class);
                 i.putExtra("mobileNumber", mobileNumber);
                 startActivity(i);
+                }
 
             }
 

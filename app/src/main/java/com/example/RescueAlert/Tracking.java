@@ -26,7 +26,7 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
     Toolbar toolbar;
     ActionBarDrawerToggle toggle;
     LinearLayout liv_loc, re_loc;
-    Button back, destroy;
+    Button back;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     FirebaseAuth mAuth;
@@ -43,7 +43,6 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
         liv_loc = findViewById(R.id.live_loc);
         re_loc = findViewById(R.id.req_loc);
         back = findViewById(R.id.track_back);
-        destroy = findViewById(R.id.destroy);
 
         /*----------------- toolbar--------------*/
 
@@ -82,15 +81,6 @@ public class Tracking extends AppCompatActivity implements NavigationView.OnNavi
             public void onClick(View v) {
                 Intent req = new Intent(Tracking.this, RequestedUser.class);
                 startActivity(req);
-            }
-        });
-
-        destroy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Tracking.this, MyService.class);
-                stopService(intent);
-                finish();
             }
         });
 
