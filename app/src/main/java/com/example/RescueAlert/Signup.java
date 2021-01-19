@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -53,7 +54,6 @@ public class Signup extends AppCompatActivity {
 
                 String mobileNumber = regNo.getEditText().getText().toString();
                 String name = regName.getEditText().getText().toString();
-
                 if(mobileNumber.isEmpty()){
                     Toast.makeText(Signup.this,"Phone number empty", Toast.LENGTH_SHORT).show();
                 }
@@ -71,7 +71,7 @@ public class Signup extends AppCompatActivity {
                 Intent i = new Intent(Signup.this, Authenticate.class);
                 i.putExtra("mobileNumber", mobileNumber);
                 startActivity(i);
-                }
+               }
 
             }
 
