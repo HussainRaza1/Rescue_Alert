@@ -73,7 +73,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
-        FirebaseDatabase.getInstance().getReference("family").child("circle_number").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("family").child("family_number").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -84,7 +84,7 @@ class CircleRecyler extends RecyclerView.Adapter<CircleRecyler.ViewHolder> {
 
                         final String user = dataSnapshot.child(num).getRef().getKey();
 
-                        circleContact = new CircleContact(numbr,name, user);
+                        circleContact = new CircleContact(numbr, name, user);
                         FirebaseDatabase.getInstance().getReference("family").push().setValue(circleContact);
                         Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
                     }

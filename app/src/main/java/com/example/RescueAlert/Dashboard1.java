@@ -92,6 +92,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         med = findViewById(R.id.medical_layout);
         locationON = findViewById(R.id.white_button);
         change = findViewById(R.id.location_change);
+        change.setText("Live Location");
 
         /*----------------- toolbar--------------*/
 
@@ -124,7 +125,7 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         locationON.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                change.setText("Live Location");
+
                 if (location == false) {
                     Toast.makeText(Dashboard1.this, "Location is turned on", Toast.LENGTH_SHORT).show();
                     location = true;
@@ -172,21 +173,6 @@ public class Dashboard1 extends AppCompatActivity implements NavigationView.OnNa
         });
 
         setupSharedPreferences();
-
-        /*sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if(key == "send_message"){
-                    if()
-                    //don't show popup
-                }
-                else {
-                    switchPref.toString();
-                }
-
-            }
-        });
-*/
 
     }
 

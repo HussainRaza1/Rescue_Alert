@@ -177,13 +177,13 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private void send_message(final double myLatitude, final double myLongitude) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
-        Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("user_ref").equalTo(current_user);
+        Query query = FirebaseDatabase.getInstance().getReference("close_contacts").orderByChild("user_ref").equalTo(current_user);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String num = snapshot.child("number").getValue().toString();
+                    String num = snapshot.child("close_number").getValue().toString();
                     if (!userExists(phoneNumber, num)) {
                         phoneNumber.add(num);
                     }

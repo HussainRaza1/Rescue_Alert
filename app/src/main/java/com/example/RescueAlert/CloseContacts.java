@@ -2,7 +2,6 @@ package com.example.RescueAlert;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,13 +24,17 @@ import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class CloseContacts extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     final static String Tag = "CloseContacts";
-    TextView number_text, family_number;
+    TextView number_text, close_num, close_nam;
     ListView family_view;
     FirebaseListAdapter adapter;
     Toolbar toolbar;
@@ -39,6 +42,8 @@ public class CloseContacts extends AppCompatActivity implements NavigationView.O
     NavigationView navigationView;
     Button l_btn, del;
     ActionBarDrawerToggle toggle;
+    DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,6 @@ public class CloseContacts extends AppCompatActivity implements NavigationView.O
         number_text = findViewById(R.id.user_family_number);
         family_view = findViewById(R.id.family_list);
         Button message = findViewById(R.id.add_custom);
-        del = findViewById(R.id.delete_button);
 
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -83,11 +87,11 @@ public class CloseContacts extends AppCompatActivity implements NavigationView.O
         toggle = new ActionBarDrawerToggle(CloseContacts.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_fam);
 
         display();
+
     }
 
     public void display() {
@@ -99,16 +103,21 @@ public class CloseContacts extends AppCompatActivity implements NavigationView.O
 
             @Override
             protected void populateView(@NotNull View v, @NotNull final FamilyContact model, int position) {
-                family_number = (TextView) v.findViewById(R.id.close_number);
-                family_number.setText(model.getNumber());
-                Log.d(Tag, "number " + model.getNumber());
+
+                close_num = (TextView) v.findViewById(R.id.close_number);
+                close_nam = (TextView) v.findViewById(R.id.close_name);
+                close_num.setText(model.getClose_number());
+                close_nam.setText(model.getClose_name());
+
+                del = (Button) v.findViewById(R.id.delete_button);
+                delete_number(model.getClose_number(), del);
+
             }
 
             @Override
             public View getView(int position, View view, ViewGroup viewGroup) {
                 View rowView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.family_contact_list, viewGroup, false);
                 FamilyContact model = (FamilyContact) getItem(position);
-
                 populateView(rowView, model, position);
 
                 return rowView;
@@ -116,7 +125,30 @@ public class CloseContacts extends AppCompatActivity implements NavigationView.O
 
         };
         family_view.setAdapter(adapter);
-        Log.e(Tag, "Inside display comment method");
+    }
+
+    public void delete_number(final String close_num, final Button del) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("close_contacts");
+        mDatabase.orderByChild("close_number").equalTo(close_num).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                del.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            snapshot.getRef().removeValue();
+                            Toast.makeText(CloseContacts.this, "Number deleted successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void openContacts() {

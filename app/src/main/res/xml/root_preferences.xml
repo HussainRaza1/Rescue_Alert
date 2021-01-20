@@ -5,17 +5,11 @@
 
         <SwitchPreference
             app:key="eme1"
-            app:summaryOff="Message will not be sent to close contacts"
-            app:summaryOn="Message will be sent to close contacts"
+            app:summaryOff="Messages will not be sent to close contacts"
+            app:summaryOn="Messages will be sent to close contacts"
             app:title="Send Message To Close Contacts When Calling Helpline" />
 
-        <SwitchPreference
-            app:defaultValue="false"
-            app:dependency="eme1"
-            app:key="eme2"
-            app:summaryOff="Dialogue will not show"
-            app:summaryOn="Dialogue will show"
-            app:title="Show Dialogue Before Calling Helplines" />
+
 
 
     </PreferenceCategory>

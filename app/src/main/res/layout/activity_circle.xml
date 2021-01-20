@@ -34,8 +34,8 @@
 
         <TextView
             android:id="@+id/add_family"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="71dp"
+            android:layout_height="33dp"
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/arimo"
             android:text="Family"

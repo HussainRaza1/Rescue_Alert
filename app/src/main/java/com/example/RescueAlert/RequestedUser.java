@@ -52,7 +52,7 @@ public class RequestedUser extends AppCompatActivity {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_user = firebaseUser.getPhoneNumber();
-        Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("circle_number").equalTo(current_user);
+        Query query = FirebaseDatabase.getInstance().getReference("family").orderByChild("family_number").equalTo(current_user);
         FirebaseListOptions<CircleContact> options = new FirebaseListOptions.Builder<CircleContact>().setQuery(query, CircleContact.class).setLayout(android.R.layout.list_content).build();
         adapter = new FirebaseListAdapter<CircleContact>(options) {
 
@@ -68,7 +68,7 @@ public class RequestedUser extends AppCompatActivity {
                     public void onClick(View v) {
                         try {
                             Intent intent = new Intent(getApplicationContext(), RequestedLocation.class);
-                            intent.putExtra("circle_number", circle_user_number);
+                            intent.putExtra("family_number", circle_user_number);
                             startActivity(intent);
                         } catch (Exception e) {
                             Toast.makeText(RequestedUser.this, "The location is not being shared", Toast.LENGTH_SHORT).show();

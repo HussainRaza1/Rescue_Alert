@@ -1,25 +1,25 @@
 package com.example.RescueAlert;
 
 
-class CircleContact {
-
-    public String user_number, circle_user_name, circle_number;
-
-    CircleContact(String circle_number, String circle_user_name, String user_number) {
-        this.circle_number = circle_number;
-        this.circle_user_name = circle_user_name;
-        this.user_number = user_number;
-    }
+public class CircleContact {
+    String user_number, family_name, family_number;
 
     public CircleContact() {
     }
 
-    public String getCircle_number() {
-        return circle_number;
+    CircleContact(String family_number, String family_name, String user_number) {
+        this.family_number = family_number;
+        this.family_name = family_name;
+        this.user_number = user_number;
     }
 
-    public String getCircle_user_name() {
-        return circle_user_name;
+
+    public String getFamily_number() {
+        return family_number;
+    }
+
+    public String getFamily_name() {
+        return family_name;
     }
 
     public String getUser_number() {

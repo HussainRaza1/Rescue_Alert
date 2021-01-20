@@ -50,7 +50,7 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
         holder.contact_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_family(user.getNumber());
+                add_family(user.getNumber(), user.getName());
                 Intent i = new Intent(mContext, CloseContacts.class);
                 //i.putExtra("user_phone", user.getNumber());
                 mContext.startActivity(i);
@@ -64,7 +64,7 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
         return mUser.size();
     }
 
-    public void add_family(final String numbr) {
+    public void add_family(final String numbr, final String name) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String num = firebaseUser.getPhoneNumber();
 
@@ -76,10 +76,10 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         final String user = dataSnapshot.child(num).getRef().getKey();
-                            contact = new FamilyContact(numbr, user);
-                            FirebaseDatabase.getInstance().getReference("close_contacts").push().setValue(contact);
-                            Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
-                        }
+                        contact = new FamilyContact(numbr, user, name);
+                        FirebaseDatabase.getInstance().getReference("close_contacts").push().setValue(contact);
+                        Toast.makeText(mContext, "Family Contact added!", Toast.LENGTH_LONG).show();
+                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

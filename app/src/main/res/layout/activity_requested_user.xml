@@ -96,7 +96,7 @@
                 android:id="@+id/adding"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@drawable/ic_add_contact_1" />
+                android:background="@drawable/ic_help" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

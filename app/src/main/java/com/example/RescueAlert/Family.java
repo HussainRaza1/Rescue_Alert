@@ -2,7 +2,6 @@ package com.example.RescueAlert;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,8 +23,12 @@ import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,8 +41,10 @@ public class Family extends AppCompatActivity implements NavigationView.OnNaviga
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    TextView circle_number, circle_username, text2;
+    TextView fam_number, fam_username, text2;
     ActionBarDrawerToggle toggle;
+    Button del;
+    DatabaseReference mDatabase;
     private Button save, circ;
     private Button add1;
 
@@ -110,16 +115,44 @@ public class Family extends AppCompatActivity implements NavigationView.OnNaviga
 
             @Override
             protected void populateView(@NonNull View v, @NonNull CircleContact model, int position) {
-                circle_number = (TextView) v.findViewById(R.id.circle_text);
-                circle_username = (TextView) v.findViewById(R.id.circle_contact_name);
-                circle_number.setText(model.getCircle_number());
-                circle_username.setText(model.getCircle_user_name());
-                Log.d(Tag, "circle number " + model.getCircle_number());
+
+                fam_number = (TextView) v.findViewById(R.id.family_number);
+                fam_username = (TextView) v.findViewById(R.id.family_name);
+                fam_username.setText(model.getFamily_name());
+                fam_number.setText(model.getFamily_number());
+
+                del= (Button) v.findViewById(R.id.delete_button1);
+                delete_number(model.getFamily_number(), del);
+
             }
         };
 
         circle_view.setAdapter(adapter);
-        Log.e(Tag, "Inside display circle method");
+
+    }
+
+    public void delete_number(final String family_num, final Button del) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("family");
+        mDatabase.orderByChild("family_number").equalTo(family_num).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                del.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            snapshot.getRef().removeValue();
+                            Toast.makeText(Family.this, "Number deleted successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void saveDashboard() {

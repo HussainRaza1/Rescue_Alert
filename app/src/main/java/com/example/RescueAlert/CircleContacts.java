@@ -124,7 +124,7 @@ public class CircleContacts extends AppCompatActivity {
 
     private boolean familyUserExists(ArrayList<FamilyContact> usersList, String phone) {
         for (FamilyContact user : usersList) {
-            if (user.getNumber().equals(phone)) {
+            if (user.getClose_number().equals(phone)) {
                 return true;
             }
         }

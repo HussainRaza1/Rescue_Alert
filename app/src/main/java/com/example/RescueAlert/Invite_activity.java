@@ -32,8 +32,8 @@ public class Invite_activity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_invite_activity);
 
         inv_send = findViewById(R.id.send_invite);
-        in_drawerLayout = findViewById(R.id.drawer_layoutInvite);
-        in_navigationView = findViewById(R.id.nav_viewInvite);
+        in_drawerLayout = findViewById(R.id.drawer_layout);
+        in_navigationView = findViewById(R.id.nav_view);
         in_toolbar = findViewById(R.id.toolbar2);
 
         setSupportActionBar(in_toolbar);

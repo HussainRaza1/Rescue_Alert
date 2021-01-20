@@ -23,7 +23,7 @@ import static com.example.RescueAlert.Family.Tag;
 
 public class RequestedLocation extends FragmentActivity implements OnMapReadyCallback {
 
-    String circle_number;
+    String fam_number;
     private GoogleMap mMap;
 
     @Override
@@ -32,7 +32,7 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
         setContentView(R.layout.activity_requested_location);
 
 
-        circle_number = getIntent().getStringExtra("circle_number");
+        fam_number = getIntent().getStringExtra("family_number");
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -57,13 +57,13 @@ public class RequestedLocation extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Query query = FirebaseDatabase.getInstance().getReference("users").orderByChild("mobileNumber").equalTo(circle_number);
-        Log.d(Tag, "number " + circle_number);
+        Query query = FirebaseDatabase.getInstance().getReference("users").orderByChild("mobileNumber").equalTo(fam_number);
+        Log.d(Tag, "number " + fam_number);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (snapshot.child("mobileNumber").getValue().equals(circle_number)) {
+                    if (snapshot.child("mobileNumber").getValue().equals(fam_number)) {
                         //Log.d(Tag, "Inside live location");
                         UserHelperClass user = snapshot.getValue(UserHelperClass.class);
                         //get crash long lang
